@@ -37,7 +37,7 @@ import math
 assert config
 
 
-def PrimMST(graph):
+def PrimMST(graph, origin=None):
     """
     Implementa el algoritmo de Prim
     Args:
@@ -51,6 +51,10 @@ def PrimMST(graph):
     try:
         search = initSearch(graph)
         vertices = g.vertices(graph)
+        if origin is not None:
+            pos = lt.isPresent(vertices, origin)
+            if pos != 0:
+                lt.exchange(vertices, 1, pos)
         for vert in lt.iterator(vertices):
             if not map.get(search['marked'], vert)['value']:
                 prim(graph, search, vert)
@@ -108,7 +112,7 @@ def scan(graph, search, vertex):
                                   map.get(search['distTo'], w)['value'])
         return search
     except Exception as exp:
-        error.reraise(exp, 'bellman:disto')
+        error.reraise(exp, 'prim:scan')
 
 
 def edgesMST(graph, search):
@@ -129,7 +133,7 @@ def edgesMST(graph, search):
                 q.enqueue(search['mst'], e['value'])
         return search
     except Exception as exp:
-        error.reraise(exp, 'bellman:pathto')
+        error.reraise(exp, 'prim:edgesMST')
 
 
 def weightMST(graph, search):
@@ -188,4 +192,4 @@ def initSearch(graph):
         return search
 
     except Exception as exp:
-        error.reraise(exp, 'bellman:init')
+        error.reraise(exp, 'prim:init')
