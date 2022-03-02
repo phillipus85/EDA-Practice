@@ -39,7 +39,7 @@ Este código está basado en las implementaciones propuestas en:
 """
 
 
-def newGraph(size, cmpfunction, directed):
+def newGraph(size, cmpfunction, directed, type, datastructure):
     """
     Crea un grafo vacio
 
@@ -55,10 +55,11 @@ def newGraph(size, cmpfunction, directed):
     try:
         graph = {'vertices': None,
                  'edges': 0,
-                 'type': 'ADJ_LIST',
+                 'type': type,
                  'comparefunction': cmpfunction,
                  'directed': directed,
-                 'indegree': None
+                 'indegree': None,
+                 'datastructure': datastructure
                  }
         graph['vertices'] = map.newMap(numelements=size,
                                        maptype='PROBING',

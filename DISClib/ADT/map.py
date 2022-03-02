@@ -26,7 +26,7 @@
  """
 
 import config
-from DISClib.DataStructures import mapstructure as ht
+import importlib
 assert config
 
 """
@@ -55,7 +55,12 @@ def newMap(numelements=17,
     Raises:
         Exception
     """
-    return ht.newMap(numelements, prime, maptype, loadfactor, comparefunction)
+    ht = mapSelector(maptype)
+    return ht.newMap(numelements,
+                     prime,
+                     loadfactor,
+                     comparefunction,
+                     ht)
 
 
 def put(map, key, value):
@@ -71,7 +76,7 @@ def put(map, key, value):
     Raises:
         Exception
     """
-    return ht.put(map, key, value)
+    return map['datastructure'].put(map, key, value)
 
 
 def get(map, key):
@@ -85,7 +90,7 @@ def get(map, key):
     Raises:
         Exception
     """
-    return ht.get(map, key)
+    return map['datastructure'].get(map, key)
 
 
 def remove(map, key):
@@ -99,7 +104,7 @@ def remove(map, key):
     Raises:
         Exception
     """
-    return ht.remove(map, key)
+    return map['datastructure'].remove(map, key)
 
 
 def contains(map, key):
@@ -114,7 +119,7 @@ def contains(map, key):
     Raises:
         Exception
     """
-    return ht.contains(map, key)
+    return map['datastructure'].contains(map, key)
 
 
 def size(map):
@@ -126,7 +131,7 @@ def size(map):
     Raises:
         Exception
     """
-    return ht.size(map)
+    return map['datastructure'].size(map)
 
 
 def isEmpty(map):
@@ -139,7 +144,7 @@ def isEmpty(map):
     Raises:
         Exception
     """
-    return ht.isEmpty(map)
+    return map['datastructure'].isEmpty(map)
 
 
 def keySet(map):
@@ -153,7 +158,7 @@ def keySet(map):
     Raises:
         Exception
     """
-    return ht.keySet(map)
+    return map['datastructure'].keySet(map)
 
 
 def valueSet(map):
@@ -167,4 +172,24 @@ def valueSet(map):
     Raises:
         Exception
     """
-    return ht.valueSet(map)
+    return map['datastructure'].valueSet(map)
+
+
+"""
+Selector dinamico de la estructua de datos solicitada
+"""
+
+switch_module = {
+    "CHAINING": ".chaininghashtable",
+    "PROBING": ".probehashtable",
+}
+
+
+def mapSelector(datastructure):
+    """
+    Carga dinamicamente el import de la estructura de datos
+    seleccionada
+    """
+    ds = switch_module.get(datastructure)
+    module = importlib.import_module(ds, package="DISClib.DataStructures")
+    return module

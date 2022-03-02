@@ -25,7 +25,7 @@
  """
 
 import config
-from DISClib.DataStructures import graphstructure as gr
+import importlib
 assert config
 
 """
@@ -51,7 +51,8 @@ def newGraph(datastructure="ADJ_LIST",
     Raises:
         Exception
     """
-    return gr.newGraph(datastructure, directed, size, comparefunction)
+    gr = graphSelector(datastructure)
+    return gr.newGraph(size, comparefunction,  directed, datastructure, gr)
 
 
 def insertVertex(graph, vertex):
@@ -66,7 +67,7 @@ def insertVertex(graph, vertex):
     Raises:
         Exception
     """
-    return gr.insertVertex(graph, vertex)
+    return graph['datastructure'].insertVertex(graph, vertex)
 
 
 def removeVertex(graph, vertex):
@@ -81,7 +82,7 @@ def removeVertex(graph, vertex):
     Raises:
         Exception
     """
-    return gr.removeVertex(graph, vertex)
+    return graph['datastructure'].removeVertex(graph, vertex)
 
 
 def numVertices(graph):
@@ -96,7 +97,7 @@ def numVertices(graph):
     Raises:
         Exception
     """
-    return gr.numVertices(graph)
+    return graph['datastructure'].numVertices(graph)
 
 
 def numEdges(graph):
@@ -111,7 +112,7 @@ def numEdges(graph):
     Raises:
         Exception
     """
-    return gr.numEdges(graph)
+    return graph['datastructure'].numEdges(graph)
 
 
 def vertices(graph):
@@ -125,7 +126,7 @@ def vertices(graph):
     Raises:
         Exception
     """
-    return gr.vertices(graph)
+    return graph['datastructure'].vertices(graph)
 
 
 def edges(graph):
@@ -140,7 +141,7 @@ def edges(graph):
     Raises:
         Exception
     """
-    return gr.edges(graph)
+    return graph['datastructure'].edges(graph)
 
 
 def degree(graph, vertex):
@@ -156,7 +157,7 @@ def degree(graph, vertex):
     Raises:
         Exception
     """
-    return gr.degree(graph, vertex)
+    return graph['datastructure'].degree(graph, vertex)
 
 
 def outdegree(graph, vertex):
@@ -172,7 +173,7 @@ def outdegree(graph, vertex):
     Raises:
         Exception
     """
-    return gr.outdegree(graph, vertex)
+    return graph['datastructure'].outdegree(graph, vertex)
 
 
 def indegree(graph, vertex):
@@ -188,7 +189,7 @@ def indegree(graph, vertex):
     Raises:
         Exception
     """
-    return gr.indegree(graph, vertex)
+    return graph['datastructure'].indegree(graph, vertex)
 
 
 def getEdge(graph, vertexa, vertexb):
@@ -205,7 +206,7 @@ def getEdge(graph, vertexa, vertexb):
     Raises:
         Exception
     """
-    return gr.getEdge(graph, vertexa, vertexb)
+    return graph['datastructure'].getEdge(graph, vertexa, vertexb)
 
 
 def addEdge(graph, vertexa, vertexb, weight=0):
@@ -226,7 +227,7 @@ def addEdge(graph, vertexa, vertexb, weight=0):
     Raises:
         Exception
     """
-    return gr.addEdge(graph, vertexa, vertexb, weight)
+    return graph['datastructure'].addEdge(graph, vertexa, vertexb, weight)
 
 
 def containsVertex(graph, vertex):
@@ -242,7 +243,7 @@ def containsVertex(graph, vertex):
     Raises:
         Exception
     """
-    return gr.containsVertex(graph, vertex)
+    return graph['datastructure'].containsVertex(graph, vertex)
 
 
 def adjacents(graph, vertex):
@@ -258,7 +259,7 @@ def adjacents(graph, vertex):
     Raises:
         Exception
     """
-    return gr.adjacents(graph, vertex)
+    return graph['datastructure'].adjacents(graph, vertex)
 
 
 def adjacentEdges(graph, vertex):
@@ -275,4 +276,24 @@ def adjacentEdges(graph, vertex):
     Raises:
         Exception
     """
-    return gr.adjacentEdges(graph, vertex)
+    return graph['datastructure'].adjacentEdges(graph, vertex)
+
+
+"""
+Selector dinamico de la estructua de datos solicitada
+"""
+
+switch_module = {
+    "ADJ_LIST": ".adjlist",
+    "ADJ_MTX": ".adjlist",
+}
+
+
+def graphSelector(datastructure):
+    """
+    Carga dinamicamente el import de la estructura de datos
+    seleccionada
+    """
+    ds = switch_module.get(datastructure)
+    module = importlib.import_module(ds, package="DISClib.DataStructures")
+    return module

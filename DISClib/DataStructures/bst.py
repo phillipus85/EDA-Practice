@@ -43,7 +43,7 @@ assert config
 #  ------------------------------------------------------------
 
 
-def newMap(cmpfunction):
+def newMap(omaptype, cmpfunction, datastructure):
     """
     Crea una tabla de simbolos ordenada.
     Args:
@@ -56,7 +56,8 @@ def newMap(cmpfunction):
     try:
         bst = {'root': None,
                'cmpfunction': cmpfunction,
-               'type': 'BST'}
+               'type': omaptype,
+               'datastructure': datastructure}
 
         if(cmpfunction is None):
             bst['cmpfunction'] = defaultfunction

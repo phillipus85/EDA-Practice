@@ -46,7 +46,7 @@ Este código está basado en las implementaciones propuestas en:
 """
 
 
-def newMap(numelements, prime, loadfactor, comparefunction):
+def newMap(numelements, prime, loadfactor, comparefunction, datastructure):
     """Crea una tabla de simbolos (map) sin orden
 
     Crea una tabla de hash con capacidad igual a nuelements
@@ -76,7 +76,8 @@ def newMap(numelements, prime, loadfactor, comparefunction):
                      'size': 0,
                      'limitfactor': loadfactor,
                      'currentfactor': 0,
-                     'type': 'CHAINING'}
+                     'type': 'CHAINING',
+                     'datastructure': datastructure}
         if(comparefunction is None):
             cmpfunc = defaultcompare
         else:

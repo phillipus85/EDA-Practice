@@ -27,7 +27,7 @@
 
 
 import config
-from DISClib.DataStructures import orderedmapstructure as om
+import importlib
 assert config
 
 
@@ -42,7 +42,8 @@ def newMap(omaptype='RBT', comparefunction=None):
     Raises:
         Exception
     """
-    return om.newMap(omaptype, comparefunction)
+    om = mapSelector(omaptype)
+    return om.newMap(omaptype, comparefunction, om)
 
 
 def put(map, key, value):
@@ -58,7 +59,7 @@ def put(map, key, value):
     Raises:
         Exception
     """
-    return om.put(map, key, value)
+    return map['datastructure'].put(map, key, value)
 
 
 def get(map, key):
@@ -72,7 +73,7 @@ def get(map, key):
     Raises:
         Exception
     """
-    return om.get(map, key)
+    return map['datastructure'].get(map, key)
 
 
 def remove(map, key):
@@ -86,7 +87,7 @@ def remove(map, key):
     Raises:
         Exception
     """
-    return om.remove(map, key)
+    return map['datastructure'].remove(map, key)
 
 
 def contains(map, key):
@@ -100,7 +101,7 @@ def contains(map, key):
     Raises:
         Exception
     """
-    return om.contains(map, key)
+    return map['datastructure'].contains(map, key)
 
 
 def size(map):
@@ -113,7 +114,7 @@ def size(map):
     Raises:
         Exception
     """
-    return om.size(map)
+    return map['datastructure'].size(map)
 
 
 def isEmpty(map):
@@ -126,7 +127,7 @@ def isEmpty(map):
     Raises:
         Exception
     """
-    return om.isEmpty(map)
+    return map['datastructure'].isEmpty(map)
 
 
 def keySet(map):
@@ -139,7 +140,7 @@ def keySet(map):
     Raises:
         Exception
     """
-    return om.keySet(map)
+    return map['datastructure'].keySet(map)
 
 
 def valueSet(map):
@@ -152,7 +153,7 @@ def valueSet(map):
     Raises:
         Exception
     """
-    return om.valueSet(map)
+    return map['datastructure'].valueSet(map)
 
 
 def minKey(map):
@@ -165,7 +166,7 @@ def minKey(map):
     Raises:
         Exception
     """
-    return om.minKey(map)
+    return map['datastructure'].minKey(map)
 
 
 def maxKey(map):
@@ -178,7 +179,7 @@ def maxKey(map):
     Raises:
         Exception
     """
-    return om.maxKey(map)
+    return map['datastructure'].maxKey(map)
 
 
 def deleteMin(map):
@@ -192,7 +193,7 @@ def deleteMin(map):
     Raises:
         Exception
     """
-    return om.deleteMin(map)
+    return map['datastructure'].deleteMin(map)
 
 
 def deleteMax(map):
@@ -206,7 +207,7 @@ def deleteMax(map):
     Raises:
         Exception
     """
-    return om.deleteMax(map)
+    return map['datastructure'].deleteMax(map)
 
 
 def floor(map, key):
@@ -221,7 +222,7 @@ def floor(map, key):
     Raises:
         Exception
     """
-    return om.floor(map, key)
+    return map['datastructure'].floor(map, key)
 
 
 def ceiling(map, key):
@@ -236,7 +237,7 @@ def ceiling(map, key):
     Raises:
         Exception
     """
-    return om.ceiling(map, key)
+    return map['datastructure'].ceiling(map, key)
 
 
 def select(map, k):
@@ -250,7 +251,7 @@ def select(map, k):
     Raises:
         Exception
     """
-    return om.select(map, k)
+    return map['datastructure'].select(map, k)
 
 
 def rank(map, key):
@@ -264,7 +265,7 @@ def rank(map, key):
     Raises:
         Exception
     """
-    return om.rank(map, key)
+    return map['datastructure'].rank(map, key)
 
 
 def height(map):
@@ -277,7 +278,7 @@ def height(map):
     Raises:
         Exception
     """
-    return om.height(map)
+    return map['datastructure'].height(map)
 
 
 def keys(map, keylo, keyhi):
@@ -294,7 +295,7 @@ def keys(map, keylo, keyhi):
     Raises:
         Exception
     """
-    return om.keys(map, keylo, keyhi)
+    return map['datastructure'].keys(map, keylo, keyhi)
 
 
 def values(map, keylo, keyhi):
@@ -311,4 +312,24 @@ def values(map, keylo, keyhi):
     Raises:
         Exception
     """
-    return om.values(map, keylo, keyhi)
+    return map['datastructure'].values(map, keylo, keyhi)
+
+
+"""
+Selector dinamico de la estructua de datos solicitada
+"""
+
+switch_module = {
+    "BST": ".bst",
+    "RBT": ".rbt",
+}
+
+
+def mapSelector(datastructure):
+    """
+    Carga dinamicamente el import de la estructura de datos
+    seleccionada
+    """
+    ds = switch_module.get(datastructure)
+    module = importlib.import_module(ds, package="DISClib.DataStructures")
+    return module

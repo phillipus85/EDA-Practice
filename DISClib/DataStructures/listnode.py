@@ -47,3 +47,15 @@ def getElement(node):
       La información almacenada en el nodo
     """
     return node['info']
+
+
+def newDoubleNode(element):
+    """
+    Estructura que contiene la información a guardar en una lista encadenada
+    doblemente
+    """
+    node = {'info': element,
+            'next': None,
+            'prev': None
+            }
+    return node

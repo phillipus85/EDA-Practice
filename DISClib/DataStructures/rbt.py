@@ -46,7 +46,7 @@ Algorithms, 4th Edition
 # ________________________________________________________________________
 
 
-def newMap(cmpfunction):
+def newMap(omaptype, cmpfunction, datastructure):
     """
     Crea una tabla de simbolos ordenada.
     Args:
@@ -59,7 +59,8 @@ def newMap(cmpfunction):
     try:
         rbt = {'root': None,
                'cmpfunction': None,
-               'type': 'RBT'}
+               'type': omaptype,
+               'datastructure': datastructure}
 
         if(cmpfunction is None):
             rbt['cmpfunction'] = defaultfunction
@@ -422,7 +423,7 @@ def keys(rbt, keylo, keyhi):
         Exception
     """
     try:
-        lstkeys = lt.newList('SINGLELINKED', rbt['cmpfunction'])
+        lstkeys = lt.newList('SINGLE_LINKED', rbt['cmpfunction'])
         lstkeys = keysRange(rbt['root'], keylo, keyhi, lstkeys,
                             rbt['cmpfunction'])
         return lstkeys
@@ -445,7 +446,7 @@ def values(rbt, keylo, keyhi):
         Exception
     """
     try:
-        lstvalues = lt.newList('SINGLELINKED', rbt['cmpfunction'])
+        lstvalues = lt.newList('SINGLE_LINKED', rbt['cmpfunction'])
         lstvalues = valuesRange(rbt['root'], keylo, keyhi, lstvalues,
                                 rbt['cmpfunction'])
         return lstvalues

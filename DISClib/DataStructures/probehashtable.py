@@ -43,7 +43,7 @@ Este código está basado en las implementaciones propuestas en:
 """
 
 
-def newMap(numelements, prime, loadfactor, comparefunction):
+def newMap(numelements, prime, loadfactor, comparefunction, datastructure):
     """Crea una tabla de simbolos (map) sin orden
 
     Crea una tabla de hash con capacidad igual a nuelements
@@ -56,6 +56,7 @@ def newMap(numelements, prime, loadfactor, comparefunction):
         prime: Número primo utilizado en la función MAD
         loadfactor: Factor de carga maximo de la tabla
         comparefunction: Funcion de comparación entre llaves
+        datastructure: estructura de datos seleccionada
     Returns:
         Un nuevo map
     Raises:
@@ -74,7 +75,8 @@ def newMap(numelements, prime, loadfactor, comparefunction):
                      'limitfactor': loadfactor,
                      'comparefunction': None,
                      'size': 0,
-                     'type': 'PROBING'}
+                     'type': 'PROBING',
+                     'datastructure': datastructure}
         if(comparefunction is None):
             cmpfunc = defaultcompare
         else:

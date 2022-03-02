@@ -36,7 +36,7 @@ assert config
 """
 
 
-def newStack(datastructure='SINGLE_LINKED'):
+def newStack(datastructure='DOUBLE_LINKED'):
     """ Crea una pila vacia.
 
     Args:
@@ -67,7 +67,7 @@ def push(stack, element):
         Exception
     """
     try:
-        lt.addFirst(stack, element)
+        lt.addLast(stack, element)
         return stack
     except Exception as exp:
         error.reraise(exp, 'TADStack->Push: ')
@@ -87,7 +87,7 @@ def pop(stack):
     """
     try:
         if stack is not None and not lt.isEmpty(stack):
-            return lt.removeFirst(stack)
+            return lt.removeLast(stack)
         else:
             raise Exception
     except Exception as exp:
@@ -125,7 +125,7 @@ def top(stack):
         Exception
     """
     try:
-        return lt.firstElement(stack)
+        return lt.lastElement(stack)
     except Exception as exp:
         error.reraise(exp, 'TADStack->top: ')
 

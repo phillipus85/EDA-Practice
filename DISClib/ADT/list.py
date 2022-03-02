@@ -25,8 +25,8 @@
  """
 
 import config
+import importlib
 from DISClib.Utils import error as error
-from DISClib.DataStructures import liststructure as lt
 assert config
 
 
@@ -46,7 +46,8 @@ def newList(datastructure='SINGLE_LINKED',
 
     Args:
         datastructure:  Tipo de estructura de datos a utilizar para implementar
-        la lista. Los tipos posibles pueden ser: ARRAY_LIST y SINGLE_LINKED.
+        la lista. Los tipos posibles pueden ser: ARRAY_LIST,
+        SINGLE_LINKED y DOUBLE_LINKED.
 
         cmpfunction: Función de comparación para los elementos de la lista.
         Si no se provee función de comparación se utiliza la función
@@ -69,7 +70,14 @@ def newList(datastructure='SINGLE_LINKED',
         Exception
     """
     try:
-        lst = lt.newList(datastructure, cmpfunction, key, filename, delimiter)
+        module = listSelector(datastructure)
+        lst = module.newList(
+            cmpfunction,
+            module,
+            key,
+            filename,
+            delimiter
+        )
         return lst
     except Exception as exp:
         error.reraise(exp, 'TADList->newList: ')
@@ -93,7 +101,7 @@ def addFirst(lst, element):
         Exception
     """
     try:
-        lt.addFirst(lst, element)
+        lst['datastructure'].addFirst(lst, element)
     except Exception as exp:
         error.reraise(exp, 'TADList->addFirst: ')
 
@@ -112,7 +120,7 @@ def addLast(lst, element):
         Exception
     """
     try:
-        lt.addLast(lst, element)
+        lst['datastructure'].addLast(lst, element)
     except Exception as exp:
         error.reraise(exp, 'TADList->addLast: ')
 
@@ -127,7 +135,7 @@ def isEmpty(lst):
         Exception
     """
     try:
-        return lt.isEmpty(lst)
+        return lst['datastructure'].isEmpty(lst)
     except Exception as exp:
         error.reraise(exp, 'TADList->isEmpty: ')
 
@@ -142,7 +150,7 @@ def size(lst):
         Exception
     """
     try:
-        return lt.size(lst)
+        return lst['datastructure'].size(lst)
     except Exception as exp:
         error.reraise(exp, 'TADList->size: ')
 
@@ -158,7 +166,7 @@ def firstElement(lst):
         Exception
     """
     try:
-        return lt.firstElement(lst)
+        return lst['datastructure'].firstElement(lst)
     except Exception as exp:
         error.reraise(exp, 'TADList->firstElement: ')
 
@@ -174,7 +182,7 @@ def lastElement(lst):
         Exception
     """
     try:
-        return lt.lastElement(lst)
+        return lst['datastructure'].lastElement(lst)
     except Exception as exp:
         error.reraise(exp, 'TADList->LastElement: ')
 
@@ -195,7 +203,7 @@ def getElement(lst, pos):
         Exception
     """
     try:
-        return lt.getElement(lst, pos)
+        return lst['datastructure'].getElement(lst, pos)
     except Exception as exp:
         error.reraise(exp, 'List->getElement: ')
 
@@ -216,7 +224,7 @@ def deleteElement(lst, pos):
         Exception
     """
     try:
-        lt.deleteElement(lst, pos)
+        lst['datastructure'].deleteElement(lst, pos)
     except Exception as exp:
         error.reraise(exp, 'TADList->deleteElement: ')
 
@@ -237,7 +245,7 @@ def removeFirst(lst):
         Exception
     """
     try:
-        return lt.removeFirst(lst)
+        return lst['datastructure'].removeFirst(lst)
     except Exception as exp:
         error.reraise(exp, 'TADList->removeFirst: ')
 
@@ -258,7 +266,7 @@ def removeLast(lst):
         Exception
     """
     try:
-        return lt.removeLast(lst)
+        return lst['datastructure'].removeLast(lst)
     except Exception as exp:
         error.reraise(exp, 'TADList->removeLast: ')
 
@@ -280,7 +288,7 @@ def insertElement(lst, element, pos):
         Exception
     """
     try:
-        lt.insertElement(lst, element, pos)
+        lst['datastructure'].insertElement(lst, element, pos)
     except Exception as exp:
         error.reraise(exp, 'TADList->insertElement: ')
 
@@ -302,7 +310,7 @@ def isPresent(lst, element):
         Exception
     """
     try:
-        return lt.isPresent(lst, element)
+        return lst['datastructure'].isPresent(lst, element)
     except Exception as exp:
         error.reraise(exp, 'TADList->isPresent: ')
 
@@ -319,7 +327,7 @@ def exchange(lst, pos1, pos2):
         Exception
     """
     try:
-        lt.exchange(lst, pos1, pos2)
+        lst['datastructure'].exchange(lst, pos1, pos2)
     except Exception as exp:
         error.reraise(exp, 'List->exchange: ')
 
@@ -338,7 +346,7 @@ def changeInfo(lst, pos, element):
         Exception
     """
     try:
-        lt.changeInfo(lst, pos, element)
+        lst['datastructure'].changeInfo(lst, pos, element)
     except Exception as exp:
         error.reraise(exp, 'List->changeInfo: ')
 
@@ -359,7 +367,7 @@ def subList(lst, pos, numelem):
         Exception
     """
     try:
-        return lt.subList(lst, pos, numelem)
+        return lst['datastructure'].subList(lst, pos, numelem)
     except Exception as exp:
         error.reraise(exp, 'List->subList: ')
 
@@ -373,6 +381,27 @@ def iterator(lst):
         Exception
     """
     try:
-        return lt.iterator(lst)
+        return lst['datastructure'].iterator(lst)
     except Exception as exp:
         error.reraise(exp, 'List->Iterator: ')
+
+
+"""
+Selector dinamico de la estructua de datos solicitada
+"""
+
+switch_module = {
+    "ARRAY_LIST": ".arraylist",
+    "SINGLE_LINKED": ".singlelinkedlist",
+    "DOUBLE_LINKED": ".doublelinkedlist"
+}
+
+
+def listSelector(datastructure):
+    """
+    Carga dinamicamente el import de la estructura de datos
+    seleccionada
+    """
+    ds = switch_module.get(datastructure)
+    module = importlib.import_module(ds, package="DISClib.DataStructures")
+    return module
