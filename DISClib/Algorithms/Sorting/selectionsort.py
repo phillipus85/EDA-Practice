@@ -36,14 +36,14 @@ assert cf
 """
 
 
-def sort(lst, cmpfunction):
+def sort(lst, sort_crit):
     size = lt.size(lst)
     pos1 = 1
     while pos1 < size:
         minimum = pos1    # minimun tiene el menor elemento
         pos2 = pos1 + 1
         while (pos2 <= size):
-            if (cmpfunction(lt.getElement(lst, pos2),
+            if (sort_crit(lt.getElement(lst, pos2),
                (lt.getElement(lst, minimum)))):
                 minimum = pos2  # minimum = posición elemento más pequeño
             pos2 += 1

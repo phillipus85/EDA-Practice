@@ -36,7 +36,7 @@ assert cf
 """
 
 
-def sort(lst, cmpfunction):
+def sort(lst, sort_crit):
     size = lt.size(lst)
     if size > 1:
         mid = (size // 2)
@@ -46,8 +46,8 @@ def sort(lst, cmpfunction):
         rightlist = lt.subList(lst, mid+1, size - mid)
 
         """se hace el llamado recursivo con la lista izquierda y derecha"""
-        sort(leftlist, cmpfunction)
-        sort(rightlist, cmpfunction)
+        sort(leftlist, sort_crit)
+        sort(rightlist, sort_crit)
 
         """i recorre la lista izquierda, j la derecha y k la lista original"""
         i = j = k = 1
@@ -59,7 +59,7 @@ def sort(lst, cmpfunction):
             elemi = lt.getElement(leftlist, i)
             elemj = lt.getElement(rightlist, j)
             """compara y ordena los elementos"""
-            if cmpfunction(elemj, elemi):   # caso estricto elemj < elemi
+            if sort_crit(elemj, elemi):   # caso estricto elemj < elemi
                 lt.changeInfo(lst, k, elemj)
                 j += 1
             else:                            # caso elemi <= elemj
