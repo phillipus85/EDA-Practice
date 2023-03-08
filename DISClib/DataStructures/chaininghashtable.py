@@ -46,7 +46,7 @@ Este código está basado en las implementaciones propuestas en:
 """
 
 
-def newMap(numelements, prime, loadfactor, comparefunction, datastructure):
+def newMap(numelements, prime, loadfactor, cmpfunction, datastructure):
     """Crea una tabla de simbolos (map) sin orden
 
     Crea una tabla de hash con capacidad igual a nuelements
@@ -78,16 +78,16 @@ def newMap(numelements, prime, loadfactor, comparefunction, datastructure):
                      'currentfactor': 0,
                      'type': 'CHAINING',
                      'datastructure': datastructure}
-        if(comparefunction is None):
+        if(cmpfunction is None):
             cmpfunc = defaultcompare
         else:
-            cmpfunc = comparefunction
-        hashtable['comparefunction'] = cmpfunc
+            cmpfunc = cmpfunction
+        hashtable['cmpfunction'] = cmpfunc
         hashtable['table'] = lt.newList(datastructure='ARRAY_LIST',
                                         cmpfunction=cmpfunc)
         for _ in range(capacity):
             bucket = lt.newList(datastructure='SINGLE_LINKED',
-                                cmpfunction=hashtable['comparefunction'])
+                                cmpfunction=hashtable['cmpfunction'])
             lt.addLast(hashtable['table'], bucket)
         return hashtable
     except Exception as exp:
@@ -245,7 +245,7 @@ def keySet(map):
         Exception
     """
     try:
-        ltset = lt.newList('SINGLE_LINKED', map['comparefunction'])
+        ltset = lt.newList('SINGLE_LINKED', map['cmpfunction'])
         for pos in range(lt.size(map['table'])):
             bucket = lt.getElement(map['table'], pos+1)
             if(not lt.isEmpty(bucket)):
@@ -269,7 +269,7 @@ def valueSet(map):
         Exception
     """
     try:
-        ltset = lt.newList('SINGLE_LINKED', map['comparefunction'])
+        ltset = lt.newList('SINGLE_LINKED', map['cmpfunction'])
         for pos in range(lt.size(map['table'])):
             bucket = lt.getElement(map['table'], pos+1)
             if (not lt.isEmpty(bucket)):
@@ -292,12 +292,12 @@ def rehash(map):
     rehash de todos los elementos de la tabla
     """
     try:
-        newtable = lt.newList('ARRAY_LIST', map['comparefunction'])
+        newtable = lt.newList('ARRAY_LIST', map['cmpfunction'])
         capacity = nextPrime(map['capacity']*2)
         oldtable = map['table']
         for _ in range(capacity):
             bucket = lt.newList(datastructure='SINGLE_LINKED',
-                                cmpfunction=map['comparefunction'])
+                                cmpfunction=map['cmpfunction'])
             lt.addLast(newtable, bucket)
         map['size'] = 0
         map['currentfactor'] = 0

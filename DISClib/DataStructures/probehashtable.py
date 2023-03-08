@@ -43,7 +43,7 @@ Este código está basado en las implementaciones propuestas en:
 """
 
 
-def newMap(numelements, prime, loadfactor, comparefunction, datastructure):
+def newMap(numelements, prime, loadfactor, cmpfunction, datastructure):
     """Crea una tabla de simbolos (map) sin orden
 
     Crea una tabla de hash con capacidad igual a nuelements
@@ -55,7 +55,7 @@ def newMap(numelements, prime, loadfactor, comparefunction, datastructure):
         numelements: Tamaño inicial de la tabla
         prime: Número primo utilizado en la función MAD
         loadfactor: Factor de carga maximo de la tabla
-        comparefunction: Funcion de comparación entre llaves
+        cmpfunction: Funcion de comparación entre llaves
         datastructure: estructura de datos seleccionada
     Returns:
         Un nuevo map
@@ -73,15 +73,15 @@ def newMap(numelements, prime, loadfactor, comparefunction, datastructure):
                      'table': None,
                      'currentfactor': 0,
                      'limitfactor': loadfactor,
-                     'comparefunction': None,
+                     'cmpfunction': None,
                      'size': 0,
                      'type': 'PROBING',
                      'datastructure': datastructure}
-        if(comparefunction is None):
+        if(cmpfunction is None):
             cmpfunc = defaultcompare
         else:
-            cmpfunc = comparefunction
-        hashtable['comparefunction'] = cmpfunc
+            cmpfunc = cmpfunction
+        hashtable['cmpfunction'] = cmpfunc
         hashtable['table'] = lt.newList(datastructure='ARRAY_LIST',
                                         cmpfunction=cmpfunc)
         for _ in range(capacity):
@@ -108,7 +108,7 @@ def put(map, key, value):
     try:
         hash = hashValue(map, key)      # Se obtiene el hashcode de la llave
         entry = me.newMapEntry(key, value)
-        pos = findSlot(map, key, hash, map['comparefunction'])
+        pos = findSlot(map, key, hash, map['cmpfunction'])
         lt.changeInfo(map['table'], abs(pos), entry)
         if (pos < 0):           # Se reemplaza el valor con el nuevo valor
             map['size'] += 1
@@ -135,7 +135,7 @@ def contains(map, key):
     """
     try:
         hash = hashValue(map, key)
-        pos = findSlot(map, key, hash, map['comparefunction'])
+        pos = findSlot(map, key, hash, map['cmpfunction'])
         if (pos > 0):
             return True
         else:
@@ -157,7 +157,7 @@ def get(map, key):
     """
     try:
         hash = hashValue(map, key)
-        pos = findSlot(map, key, hash, map['comparefunction'])
+        pos = findSlot(map, key, hash, map['cmpfunction'])
         if pos > 0:
             element = lt.getElement(map['table'], pos)
             return element
@@ -180,7 +180,7 @@ def remove(map, key):
     """
     try:
         hash = hashValue(map, key)
-        pos = findSlot(map, key, hash, map['comparefunction'])
+        pos = findSlot(map, key, hash, map['cmpfunction'])
         if pos > 0:
             entry = me.newMapEntry('__EMPTY__', '__EMPTY__')
             lt.changeInfo(map['table'], pos, entry)
@@ -297,13 +297,13 @@ def hashValue(table, key):
         error.reraise(exp, 'Probe:hashvalue')
 
 
-def findSlot(map, key, hashvalue, comparefunction):
+def findSlot(map, key, hashvalue, cmpfunction):
     """
     Encuentra una posición libre en la tabla de hash.
     map: la tabla de hash
     key: la llave
     hashvalue: La posición inicial de la llave
-    comparefunction: funcion de comparación para la búsqueda de la llave
+    cmpfunction: funcion de comparación para la búsqueda de la llave
     """
     try:
         avail = -1          # no se ha encontrado una posición aun
@@ -320,7 +320,7 @@ def findSlot(map, key, hashvalue, comparefunction):
                     break
             else:                    # la posicion no estaba disponible
                 element = lt.getElement(table, searchpos)
-                if comparefunction(key, element) == 0:  # Es la llave
+                if cmpfunction(key, element) == 0:  # Es la llave
                     return searchpos               # Se  retorna la posicion
             searchpos = (((searchpos) % map['capacity'])+1)
         return -(avail)    # numero negativo indica que el elemento no estaba
@@ -350,7 +350,7 @@ def rehash(map):
     todos los elementos de la tabla.
     """
     try:
-        newtable = lt.newList('ARRAY_LIST', map['comparefunction'])
+        newtable = lt.newList('ARRAY_LIST', map['cmpfunction'])
         capacity = nextPrime(map['capacity']*2)
         for _ in range(capacity):
             entry = me.newMapEntry(None, None)
@@ -364,7 +364,7 @@ def rehash(map):
             entry = lt.getElement(oldtable, pos+1)
             if (entry['key'] is not None and entry['key'] != '__EMPTY__'):
                 hash = hashValue(map, entry['key'])
-                loc = findSlot(map, entry['key'], hash, map['comparefunction'])
+                loc = findSlot(map, entry['key'], hash, map['cmpfunction'])
                 lt.changeInfo(map['table'], abs(loc), entry)
                 if (loc < 0):
                     map['size'] += 1
