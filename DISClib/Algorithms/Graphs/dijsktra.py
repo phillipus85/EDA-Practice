@@ -192,7 +192,7 @@ def initSearch(graph, source):
 
         search['visited'] = map.newMap(numelements=g.numVertices(graph),
                                        maptype='PROBING',
-                                       comparefunction=graph['comparefunction']
+                                       cmpfunction=graph['cmpfunction']
                                        )
         vertices = g.vertices(graph)
         for vert in lt.iterator(vertices):
@@ -205,7 +205,7 @@ def initSearch(graph, source):
                 {'marked': True, 'edgeTo': None, 'distTo': 0}
                 )
         pq = iminpq.newIndexMinPQ(
-                                  cmpfunction=graph['comparefunction']
+                                  cmpfunction=graph['cmpfunction']
                                   )
         search['iminpq'] = pq
         iminpq.insert(search['iminpq'], source, 0)

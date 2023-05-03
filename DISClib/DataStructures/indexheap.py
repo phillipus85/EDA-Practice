@@ -51,7 +51,7 @@ def newIndexHeap(cmpfunction):
                                            cmpfunction=cmpfunction)
         indexheap['qpMap'] = map.newMap(
                                         maptype='PROBING',
-                                        comparefunction=cmpfunction
+                                        cmpfunction=cmpfunction
                                         )
         return indexheap
     except Exception as exp:

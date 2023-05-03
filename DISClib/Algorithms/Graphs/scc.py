@@ -57,14 +57,14 @@ def KosarajuSCC(graph):
 
         scc['idscc'] = map.newMap(g.numVertices(graph),
                                   maptype='PROBING',
-                                  comparefunction=graph['comparefunction']
+                                  cmpfunction=graph['cmpfunction']
                                   )
 
         scc['marked'] = map.newMap(g.numVertices(graph), maptype='PROBING',
-                                   comparefunction=graph['comparefunction']
+                                   cmpfunction=graph['cmpfunction']
                                    )
         scc['grmarked'] = map.newMap(g.numVertices(graph), maptype='PROBING',
-                                     comparefunction=graph['comparefunction']
+                                     cmpfunction=graph['cmpfunction']
                                      )
 
         # Se calcula el grafo reverso de graph
@@ -138,7 +138,7 @@ def reverseGraph(graph):
     try:
         greverse = g.newGraph(size=g.numVertices(graph),
                               directed=True,
-                              comparefunction=graph['comparefunction']
+                              cmpfunction=graph['cmpfunction']
                               )
 
         lstvert = g.vertices(graph)

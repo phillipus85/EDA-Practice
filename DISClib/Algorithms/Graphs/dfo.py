@@ -47,7 +47,7 @@ def DepthFirstOrder(graph):
         search['reversepost'] = stack.newStack()
         search['marked'] = map.newMap(numelements=g.numVertices(graph),
                                       maptype='PROBING',
-                                      comparefunction=graph['comparefunction']
+                                      cmpfunction=graph['cmpfunction']
                                       )
         lstvert = g.vertices(graph)
         for vertex in lt.iterator(lstvert):

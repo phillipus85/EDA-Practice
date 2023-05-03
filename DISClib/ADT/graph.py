@@ -36,14 +36,14 @@ Este archivo contiene la implementación del TAD grafo no dirigido
 def newGraph(datastructure="ADJ_LIST",
              directed=False,
              size=10,
-             comparefunction=None
+             cmpfunction=None
              ):
     """
     Crea un grafo vacio
 
     Args:
         size: Tamaño inicial del grafo
-        comparefunction: Funcion de comparacion
+        cmpfunction: Funcion de comparacion
         directed: Indica si el grafo es dirigido o no
         datastructure: Estructura de datos utilizada
     Returns:
@@ -52,7 +52,7 @@ def newGraph(datastructure="ADJ_LIST",
         Exception
     """
     gr = graphSelector(datastructure)
-    return gr.newGraph(size, comparefunction,  directed, datastructure, gr)
+    return gr.newGraph(size, cmpfunction,  directed, datastructure, gr)
 
 
 def insertVertex(graph, vertex):
