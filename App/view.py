@@ -154,41 +154,37 @@ if __name__ == "__main__":
     while working:
         print_menu()
         inputs = input('Seleccione una opción para continuar\n')
-        try:
-            if int(inputs) == 1:
-                print("Cargando información de los archivos ....\n")
-                data = load_data(control)
-            elif int(inputs) == 2:
-                print_req_1(control)
+        if int(inputs) == 1:
+            print("Cargando información de los archivos ....\n")
+            data = load_data(control)
+        elif int(inputs) == 2:
+            print_req_1(control)
 
-            elif int(inputs) == 3:
-                print_req_2(control)
+        elif int(inputs) == 3:
+            print_req_2(control)
 
-            elif int(inputs) == 4:
-                print_req_3(control)
+        elif int(inputs) == 4:
+            print_req_3(control)
 
-            elif int(inputs) == 5:
-                print_req_4(control)
+        elif int(inputs) == 5:
+            print_req_4(control)
 
-            elif int(inputs) == 6:
-                print_req_5(control)
+        elif int(inputs) == 6:
+            print_req_5(control)
 
-            elif int(inputs) == 7:
-                print_req_6(control)
+        elif int(inputs) == 7:
+            print_req_6(control)
 
-            elif int(inputs) == 8:
-                print_req_7(control)
+        elif int(inputs) == 8:
+            print_req_7(control)
 
-            elif int(inputs) == 9:
-                print_req_8(control)
+        elif int(inputs) == 9:
+            print_req_8(control)
 
-            elif int(inputs) == 0:
-                working = False
-                print("\nGracias por utilizar el programa")
-                
-            else:
-                print("Opción errónea, vuelva a elegir.\n")
-        except Exception as exp:
-            print("ERR:", exp)
-            traceback.print_exc()
+        elif int(inputs) == 0:
+            working = False
+            print("\nGracias por utilizar el programa")
+            
+        else:
+            print("Opción errónea, vuelva a elegir.\n")
     sys.exit(0)
