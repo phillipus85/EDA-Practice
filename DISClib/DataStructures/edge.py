@@ -69,12 +69,20 @@ def other(edge, veither):
 
 def compareedges(edge1, edge2):
     """
-    Compara dos arcos y retorna True si son iguales
+    Funcion utilizada en lista de edges para comparar dos edges
+    Retorna 0 si los arcos son iguales, 1 si edge1 > edge2, -1 edge1 < edge2
     """
     e1v = either(edge1)
     e2v = either(edge2)
 
     if e1v == e2v:
         if other(edge1, e1v) == other(edge2, e2v):
-            return True
-    return False
+            return 0
+        elif other(edge1, e1v) > other(edge2, e2v):
+            return 1
+        else:
+            return -1
+    elif e1v > e2v:
+        return 1
+    else:
+        return -1

@@ -512,7 +512,7 @@ def compareElements(lst, element, info):
         element:  El elemento que se esta buscando en la lista
         info: El elemento de la lista que se está analizando
 
-    Returns:  0 si los elementos son iguales
+    Returns:  0 si los elementos son iguales, 1 si element > info, -1 si element < info
 
     Raises:
         Exception

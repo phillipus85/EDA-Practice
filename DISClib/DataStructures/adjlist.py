@@ -168,6 +168,7 @@ def vertices(graph):
 def edges(graph):
     """
     Retorna una lista con todos los arcos del grafo graph
+    Para un grafo No Dirigido, un arco que conecte 2 vertices solo debe aparecer una vez en la lista.
 
     Args:
         graph: El grafo sobre el que se ejecuta la operacion
@@ -184,8 +185,13 @@ def edges(graph):
             for edge in lt.iterator(lstedge):
                 if (graph['directed']):
                     lt.addLast(lstresp, edge)
-                elif (not lt.isPresent(lstresp, edge)):
-                    lt.addLast(lstresp, edge)
+                else: # caso Grafo No Dirigido
+                    vertexA = e.either(edge)
+                    vertexB = e.other(edge, vertexA)
+                    invertedEdge = e.newEdge(vertexB, vertexA, e.weight(edge))
+                    if (not lt.isPresent(lstresp, edge)) and (not lt.isPresent(lstresp, invertedEdge)):
+                        # Entre dos vertices que exista un arco, incluir unicamente un arco que los conecte 
+                        lt.addLast(lstresp, edge)
         return lstresp
     except Exception as exp:
         error.reraise(exp, 'ajlist:edges')
