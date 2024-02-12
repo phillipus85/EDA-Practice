@@ -75,7 +75,8 @@ def newGraph(size, cmpfunction, directed, type, datastructure):
 
 def insertVertex(graph, vertex):
     """
-    Inserta el vertice vertex en el grafo graph
+    Inserta el vertice vertex en el grafo graph SI no existe en el grafo
+    NO se acepta un vertice repetido.
 
     Args:
         graph: El grafo sobre el que se ejecuta la operacion
@@ -86,10 +87,12 @@ def insertVertex(graph, vertex):
         Exception
     """
     try:
-        edges = lt.newList()
-        map.put(graph['vertices'], vertex, edges)
-        if (graph['directed']):
-            map.put(graph['indegree'], vertex, 0)
+        # Validacion que el vertice NO existe
+        if not containsVertex(graph, vertex):
+            edges = lt.newList('SINGLE_LINKED', e.compareedges) # incluye funcion comparacion arcos
+            map.put(graph['vertices'], vertex, edges)
+            if (graph['directed']):
+                map.put(graph['indegree'], vertex, 0)
         return graph
     except Exception as exp:
         error.reraise(exp, 'ajlist:insertvertex')
@@ -266,6 +269,8 @@ def outdegree(graph, vertex):
 def getEdge(graph, vertexa, vertexb):
     """
     Retorna el arco asociado a los vertices vertexa ---- vertexb
+    El arco debe existir en la misma direccion vertexa -> vertexb
+    en caso de grafo dirigido o grafo No dirigido
 
     Args:
         graph: El grafo sobre el que se ejecuta la operacion
@@ -274,22 +279,19 @@ def getEdge(graph, vertexa, vertexb):
 
     Returns:
         El arco que une los verices vertexa y vertexb
+        None si No existe el arco.
     Raises:
         Exception
     """
     try:
         element = map.get(graph['vertices'], vertexa)
+        if element is None:  # NO existe vertexa
+            return None
         lst = element['value']
         for edge in lt.iterator(lst):
-            if (graph['directed']):
-                if (e.either(edge) == vertexa and
-                   (e.other(edge, e.either(edge)) == vertexb)):
-                    return edge
-            elif(e.either(edge) == vertexa or
-                 (e.other(edge, e.either(edge)) == vertexa)):
-                if (e.either(edge) == vertexb or
-                   (e.other(edge, e.either(edge)) == vertexb)):
-                    return edge
+            if (e.either(edge) == vertexa and
+                e.other(edge, e.either(edge)) == vertexb):
+                return edge
         return None
     except Exception as exp:
         error.reraise(exp, 'ajlist:getedge')
@@ -316,16 +318,20 @@ def containsVertex(graph, vertex):
 
 def addEdge(graph, vertexa, vertexb, weight=0):
     """
-    Agrega un arco entre los vertices vertexa ---- vertexb, con peso weight.
-    Si el grafo es no dirigido se adiciona dos veces el mismo arco,
-    en el mismo orden
-    Si el grafo es dirigido se adiciona solo el arco vertexa --> vertexb
+    Si alguno de los vertices NO existe(n):
+    1. NO se agrega el arco
+    Si los vertices existen y el arco YA existe:
+    1. Se reemplaza el peso del arco (NO se acepta arcos paralelos)
+    Si los vertices existen y si el arco NO existe:
+    1. Agrega el arco vertexa->vertexb, con peso weight, al vertice vertexa
+    2. Adicionalmente, si el grafo es NO Dirigido,
+    se agrega el arco vertexb->vertexa, con peso weight, al vertice vertexb.
 
     Args:
         graph: El grafo sobre el que se ejecuta la operacion
         vertexa: Vertice de inicio
         vertexb: Vertice de destino
-        wight: peso del arco
+        weight: peso del arco
 
     Returns:
        El grafo con el nuevo arco
@@ -333,20 +339,32 @@ def addEdge(graph, vertexa, vertexb, weight=0):
         Exception
     """
     try:
-        # Se crea el arco
-        edge = e.newEdge(vertexa, vertexb, weight)
-        # Se obtienen las listas de adyacencias de cada vertice
-        # Se anexa a cada lista el arco correspondiente
-        entrya = map.get(graph['vertices'], vertexa)
-        lt.addLast(entrya['value'], edge)
-        if (not graph['directed']):
-            entryb = map.get(graph['vertices'], vertexb)
-            edgeb = e.newEdge(vertexb, vertexa, weight)
-            lt.addLast(entryb['value'], edgeb)
-        else:
-            degree = map.get(graph['indegree'], vertexb)
-            map.put(graph['indegree'], vertexb, degree['value']+1)
-        graph['edges'] += 1
+        # Se consulta la informacion de cada vertice
+        entrya = map.get(graph['vertices'], vertexa)           
+        entryb = map.get(graph['vertices'], vertexb)
+        if entrya == None or entryb == None:
+            return graph
+        # Se agrega el caso de validacion cuando el arco YA existe
+        edge = getEdge(graph, vertexa, vertexb)
+        if edge is not None:  # caso arco YA existe
+            e.set_weight(edge, weight)
+            if ((not graph['directed']) and (vertexa != vertexb)):
+                inv_edge = getEdge(graph, vertexb, vertexa)
+                e.set_weight(inv_edge, weight)
+        else:  # caso arco NO existe
+            # Se crea el arco
+            edge = e.newEdge(vertexa, vertexb, weight)
+            # Se anexa a cada lista el arco correspondiente
+            lt.addLast(entrya['value'], edge)
+            if not graph['directed']:
+                if vertexa != vertexb:
+                    inv_edge = e.newEdge(vertexb, vertexa, weight)
+                    lt.addLast(entryb['value'], inv_edge)
+            else:
+                degree = map.get(graph['indegree'], vertexb)
+                map.put(graph['indegree'], vertexb, degree['value']+1)
+            graph['edges'] += 1
+
         return graph
     except Exception as exp:
         error.reraise(exp, 'ajlist:addedge')
@@ -355,6 +373,7 @@ def addEdge(graph, vertexa, vertexb, weight=0):
 def adjacents(graph, vertex):
     """
     Retorna una lista con todos los vertices adyacentes al vertice vertex
+    Si el vertice No existe se retorna una lista vacia.
 
     Args:
         graph: El grafo sobre el que se ejecuta la operacion
@@ -366,15 +385,13 @@ def adjacents(graph, vertex):
         Exception
     """
     try:
-        element = map.get(graph['vertices'], vertex)
-        lst = element['value']
         lstresp = lt.newList()
-        for edge in lt.iterator(lst):
-            v = e.either(edge)
-            if (v == vertex):
-                lt.addLast(lstresp, e.other(edge, v))
-            else:
-                lt.addLast(lstresp, v)
+        element = map.get(graph['vertices'], vertex)
+        if element is not None:
+            lst = element['value']
+            for edge in lt.iterator(lst):
+                lt.addLast(lstresp, e.other(edge, vertex))
+            
         return lstresp
     except Exception as exp:
         error.reraise(exp, 'ajlist:adjacents')
@@ -384,6 +401,7 @@ def adjacentEdges(graph, vertex):
     """
     Retorna una lista con todos los arcos asociados a los vértices
     adyacentes de vertex
+    Si el vertice No existe se retorna una lista vacia.
 
     Args:
         graph: El grafo sobre el que se ejecuta la operacion
@@ -396,7 +414,9 @@ def adjacentEdges(graph, vertex):
     """
     try:
         element = map.get(graph['vertices'], vertex)
-        lst = element['value']
+        lst = lt.newList()
+        if element is not None:
+            lst = element['value']
         return lst
     except Exception as exp:
         error.reraise(exp, 'ajlist:adjacentEdges')

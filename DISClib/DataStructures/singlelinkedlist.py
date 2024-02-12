@@ -3,7 +3,7 @@
  * Universidad de Los Andes
  *
  *
- * Desarrolado para el curso ISIS1225 - Estructuras de Datos y Algoritmos
+ * Desarrollado para el curso ISIS1225 - Estructuras de Datos y Algoritmos
  *
  *
  * This program is free software: you can redistribute it and/or modify
@@ -41,10 +41,10 @@ assert config
 
 
 def newList(cmpfunction, module, key, filename, delim):
-    """Crea una lista vacia.
+    """Crea una lista vacía.
 
-    Se inicializan los apuntadores a la primera y ultima posicion en None.
-    El tipo de la listase inicializa como SINGLE_LINKED
+    Se inicializan los apuntadores a la primera y última posición en None.
+    El tipo de la lista se inicializa como SINGLE_LINKED
     Args:
         cmpfunction: Función de comparación para los elementos de la lista.
         Si no se provee una función de comparación, se utilizará la función
@@ -54,14 +54,14 @@ def newList(cmpfunction, module, key, filename, delim):
         elementos de la lista
 
         filename: Si se provee este valor, se creará una lista a partir de
-        la informacion que se encuentra en el archivo CSV
+        la información que se encuentra en el archivo CSV
 
         delimiter: Si se provee un archivo para crear la lista, indica el
         delimitador a usar para separar los campos del archivo CSV
 
     Returns:
         Un diccionario que representa la estructura de datos de una lista
-        encadanada vacia.
+        encadenada vacía.
 
     Raises:
 
@@ -88,7 +88,7 @@ def newList(cmpfunction, module, key, filename, delim):
 
 
 def addFirst(lst, element):
-    """Agrega un elemento a la lista en la primera posicion.
+    """Agrega un elemento a la lista en la primera posición.
 
     Agrega un elemento en la primera posición de la lista, ajusta el apuntador
     al primer elemento e incrementa el tamaño de la lista.
@@ -120,7 +120,7 @@ def addLast(lst, element):
     """ Agrega un elemento en la última posición de la lista.
 
     Se adiciona un elemento en la última posición de la lista y se actualiza
-     el apuntador a la útima posición.
+     el apuntador a la última posición.
     Se incrementa el tamaño de la lista en 1
     Args:
         lst: La lista en la que se inserta el elemento
@@ -186,11 +186,11 @@ def firstElement(lst):
             return lst['first']['info']
         return None
     except Exception as exp:
-        error.reraise(exp, 'singlelinkedlist->fisrtElement: ')
+        error.reraise(exp, 'singlelinkedlist->firstElement: ')
 
 
 def lastElement(lst):
-    """ Retorna el último elemento de una  lista no vacia.
+    """ Retorna el último elemento de una  lista no vacía.
         No se elimina el elemento.
 
     Args:
@@ -212,8 +212,8 @@ def getElement(lst, pos):
 
     Se recorre la lista hasta el elemento pos, el cual  debe ser
     mayor que cero y menor o igual al tamaño de la lista.
-    Se retorna el elemento en dicha posición sin eleminarlo.
-    La lista no puede ser vacia.
+    Se retorna el elemento en dicha posición sin eliminarlo.
+    La lista no puede ser vacía.
 
     Args:
         lst: La lista a examinar
@@ -238,11 +238,11 @@ def deleteElement(lst, pos):
 
     Elimina el elemento que se encuentra en la posición pos de la lista.
     Pos debe ser mayor que cero y menor o igual al tamaño de la lista.
-    Se decrementa en un uno el tamñao de la lista.
-    La lista no puede estar vacia.
+    Se decrementa en un uno el tamaño de la lista.
+    La lista no puede estar vacía.
 
     Args:
-        lst: La lista a retoranr
+        lst: La lista a retornar
         pos: Posición del elemento a eliminar.
 
     Raises:
@@ -404,8 +404,8 @@ def isPresent(lst, element):
 
 
 def changeInfo(lst, pos, newinfo):
-    """ Cambia la informacion contenida en el nodo de la lista que se encuentra
-         en la posicion pos.
+    """ Cambia la información contenida en el nodo de la lista que se encuentra
+         en la posición pos.
 
     Args:
         lst: La lista a examinar
@@ -429,12 +429,12 @@ def changeInfo(lst, pos, newinfo):
 
 
 def exchange(lst, pos1, pos2):
-    """ Intercambia la informacion en las posiciones pos1 y pos2 de la lista.
+    """ Intercambia la información en las posiciones pos1 y pos2 de la lista.
 
     Args:
         lst: La lista a examinar
         pos1: Posición del primer elemento
-        pos2: Posiocion del segundo elemento
+        pos2: Posición del segundo elemento
 
     Raises:
         Exception
@@ -453,7 +453,7 @@ def subList(lst, pos, numelem):
     """ Retorna una sublista de la lista lst.
 
     Se retorna una lista que contiene los elementos a partir de la
-    posicion pos,con una longitud de numelem elementos.
+    posición pos,con una longitud de numelem elementos.
     Se crea una copia de dichos elementos y se retorna una lista nueva.
 
     Args:

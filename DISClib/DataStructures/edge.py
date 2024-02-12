@@ -66,6 +66,12 @@ def other(edge, veither):
     elif (veither == edge['vertexB']):
         return edge['vertexA']
 
+def set_weight(edge, weight):
+    """
+    NEW FUNCTION
+    actualizar el peso de un arco
+    """
+    edge['weight'] = weight
 
 def compareedges(edge1, edge2):
     """
