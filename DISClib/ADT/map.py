@@ -3,7 +3,7 @@
  * Universidad de Los Andes
  *
  *
- * Desarrolado para el curso ISIS1225 - Estructuras de Datos y Algoritmos
+ * Desarrollado para el curso ISIS1225 - Estructuras de Datos y Algoritmos
  *
  *
  * This program is free software: you can redistribute it and/or modify
@@ -42,14 +42,14 @@ def newMap(numelements=17,
            maptype='CHAINING',
            loadfactor=0.5,
            cmpfunction=None):
-    """Crea una tabla de simbolos (map) sin orden
+    """Crea una tabla de símbolos (map) sin orden
 
     Args:
         numelements: Tamaño inicial de la tabla
         prime: Número primo utilizado en la función MAD
         maptype: separate chaining ('CHAINING' ) o linear probing('PROBING')
         loadfactor: Factor de carga inicial de la tabla
-        cmpfunction: Funcion de comparación entre llaves
+        cmpfunction: Función de comparación entre llaves
     Returns:
         Un nuevo map
     Raises:
@@ -135,12 +135,12 @@ def size(map):
 
 
 def isEmpty(map):
-    """ Informa si la tabla de hash se encuentra vacia
+    """ Informa si la tabla de hash se encuentra vacía
     Args:
         map: El map
     Returns:
-        True: El map esta vacio
-        False: El map no esta vacio
+        True: El map esta vacío
+        False: El map no esta vacío
     Raises:
         Exception
     """
@@ -176,7 +176,7 @@ def valueSet(map):
 
 
 """
-Selector dinamico de la estructua de datos solicitada
+Selector dinámico de la estructura de datos solicitada
 """
 
 switch_module = {
@@ -187,9 +187,15 @@ switch_module = {
 
 def mapSelector(datastructure):
     """
-    Carga dinamicamente el import de la estructura de datos
+    Carga dinámicamente el import de la estructura de datos
     seleccionada
     """
     ds = switch_module.get(datastructure)
+
+    if ds is None:
+        raise Exception(
+            f"Tipo de estructura de datos no soportada. Solo se soportan: {', '.join(switch_module.keys())}"
+        )
+
     module = importlib.import_module(ds, package="DISClib.DataStructures")
     return module
