@@ -1,6 +1,6 @@
 <!-- SAMPLE CHALLENGE 4 -->
 
-# Examples and Work Template
+# Example Template
 
 <!-- PROJECT SHIELDS -->
 
@@ -10,9 +10,7 @@
 [Issues][challenge4-issues-url]
 [License][challenge4-license-url]
 
-The fourth and final project focuses on the use of the ADT Graph and integrates all previously used ADTs such as Lists, Stacks, Queue, Maps and Ordered Maps.
-
-This repository is part of the data structure and algorithms (#EDA) teaching framework at Universidad de los Andes. The repository was developed by faculty professors and staff in the Department of Systems and Computer Engineer (#DISC) and uses the Non-Object-Oriented Python library **DISCLib**.
+This is a template repository to practice data structures and algorithms.
 
 [DISClib][disclib-url] · [DISClib Demo and Examples][demo-url] · [Report Bug][challenge4-bugs-url] · [Request Feature][challenge4-issues-url]
 
@@ -36,9 +34,9 @@ This repository is part of the data structure and algorithms (#EDA) teaching fra
 
 ## About The Project
 
-This is a template repository to use in the project implementation for the data structures and algorithms (#EDA) course at Uniandes.
+This a repository to practice data structures and algorithms.
 
-**IMPORTANT** This is a work in progress and is part of a teaching framework for undergraduate college students at Universidad de los Andes. This project Is NOT intended as a full-functional source code project.
+**IMPORTANT** This is a work in progress and is used to teach undergraduate college students. This project Is NOT intended as a full-functional source code project.
 
 [Back to top](#challenge-template)
 
@@ -48,9 +46,9 @@ This is a template repository to use in the project implementation for the data 
 
 The challenge template has four main parts:
 
-1. [DISClib](./DISClib) Root folder with the official course library. For more on its implementation visit the [DISClib Repository][disclib-url].
-2. [App](./App) Folder with the model-view-controller (MVC) Python scripts. In here the students implement their code to complete the challenge.
-3. [Data](./Data) Folder with CSV data files to load into the application. In here the students add the data files provided by the course staff to complete the challenge.
+1. [OLD](./OLD) Root folder with the old version of the template. In here the students can find the old version of code.
+2. [App](./App) Folder with the Logic-View (LV) Python scripts. In here the students implement their code as see fit.
+3. [Data](./App/Data) Folder with CSV data files to load into the application. In here the students add the data files provided by the course staff to complete the challenge.
 4. [Docs](./Docs) Folder with the reports, data table and other documentation. In here the students add their project report, data tables and other documentation to complement their code implementation.
 
 [Back to top](#challenge-template)
@@ -124,10 +122,6 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 <!-- links for EDA examples repository -->
 
 <!-- links for EDA Sample-Reto4 challenge repository -->
-
-# EDA-Practice
-
-Practica para estudiantes de EDA
 
 [contributors-shield]: https://img.shields.io/github/contributors/ISIS1225DEVS/ISIS1225-Lib.svg?style=for-the-badge
 [contributors-url]: https://github.com/ISIS1225DEVS/ISIS1225-Lib/graphs/contributors
