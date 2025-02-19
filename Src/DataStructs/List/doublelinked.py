@@ -126,7 +126,7 @@ class Doublelinked(Generic[T]):
     def _handle_error(self, err: Exception) -> None:
         """*_handle_error()* función propia de la estructura que maneja los errores que se pueden presentar en el *Doublelinked*.
 
-        Si se presenta un error en *Doublelinked*, se formatea el error según el contexto (paquete/módulo/clase), la función (método) que lo generó y lo reenvia al componente superior en la jerarquía *DISCLib* para manejarlo segun se considere conveniente el usuario.
+        Si se presenta un error en *Doublelinked*, se formatea el error según el contexto (paquete/módulo/clase), la función (método) que lo generó y lo reenvia al componente superior en la jerarquía *DataStructs* para manejarlo segun se considere conveniente el usuario.
 
         Args:
             err (Exception): Excepción que se generó en el *Doublelinked*.

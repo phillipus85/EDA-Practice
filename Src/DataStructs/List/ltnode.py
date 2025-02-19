@@ -13,16 +13,12 @@ Este ADT representa un nodo **Node** de información de una estructura de datos 
 from dataclasses import dataclass
 # import modules for defining the Node type
 from typing import Generic, Optional
-# import inspect for getting the name of the current function
-import inspect
 
 # custom modules
 # generic error handling and type checking
-from Src.Utils.error import error_handler
 from Src.Utils.default import T
 
 # checking custom modules
-assert error_handler
 assert T
 
 
@@ -42,18 +38,6 @@ class Node(Generic[T]):
     """
     Es la información contenida en el nodo.
     """
-
-    def _handle_error(self, err: Exception) -> None:
-        """*_handle_error()* función propia de la estructura que maneja los errores que se pueden presentar en el *Node*.
-
-        Si se presenta un error en *SingleLinked*, se formatea el error según el contexto (paquete/módulo/clase), la función (método) que lo generó y lo reenvia al componente superior en la jerarquía *DataStructs* para manejarlo segun se considere conveniente el usuario.
-
-        Args:
-            err (Exception): Excepción que se generó en el *Node*.
-        """
-        cur_function = inspect.currentframe().f_code.co_name
-        cur_context = self.__class__.__name__
-        error_handler(cur_context, cur_function, err)
 
     def _check_type(self, element: T) -> bool:
         """*_check_type()* función propia de la estructura que verifica que la información de *Node* sea del tipo adecuado.
