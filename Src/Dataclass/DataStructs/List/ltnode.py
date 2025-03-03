@@ -16,7 +16,7 @@ from typing import Generic, Optional
 
 # custom modules
 # generic error handling and type checking
-from Src.Utils.default import T
+from Src.Dataclass.Utils.default import T
 
 # checking custom modules
 assert T

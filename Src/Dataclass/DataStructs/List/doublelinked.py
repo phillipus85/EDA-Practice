@@ -17,13 +17,13 @@ import inspect
 
 # custom modules
 # node class for the linked list
-from Src.DataStructs.List.ltnode import DoubleNode
+from Src.Dataclass.DataStructs.List.ltnode import DoubleNode
 # generic error handling and type checking
-from Src.Utils.error import error_handler
-from Src.Utils.default import lt_dflt_cmp_function
-from Src.Utils.default import T
-from Src.Utils.default import DFLT_DICT_KEY
-from Src.Utils.default import VALID_IO_TYPE
+from Src.Dataclass.Utils.error import error_handler
+from Src.Dataclass.Utils.default import lt_dflt_cmp_function
+from Src.Dataclass.Utils.default import T
+from Src.Dataclass.Utils.default import DFLT_DICT_KEY
+from Src.Dataclass.Utils.default import VALID_IO_TYPE
 
 # checking custom modules
 assert error_handler
