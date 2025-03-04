@@ -234,28 +234,27 @@ def is_available(table: dict, _slot: int) -> bool:
 
 def find_slot(mp: dict, key: Any, _idx: int) -> int:
     try:
-        _table = mp["table"]
-        _cmp = mp["cmp_function"]
         _slot = 0
+        hash_table = mp["table"]
+        _cmp = mp["cmp_function"]
         _available_slot = -1
         while _slot != _idx:
             if _slot == 0:
                 _slot = _idx
-            if is_available(_table, _slot):
-                entry = arlt.get_element(_table, _slot)
+            if is_available(mp, _slot):
+                elm=arlt.get_element(hash_table, _slot)
                 if _available_slot == -1:
                     _available_slot = _slot
-                if entry["key"] is None:
+                if elm["key"] is None:
                     break
             else:
-                entry = arlt.get_element(_table, _slot)
-                print(f"k: {key}, entry: {entry}, idx: {_idx}, slot: {_slot}")
-                if _cmp(key, entry) == 0:
+                elm = arlt.get_element(hash_table, _slot)
+                if _cmp(key,elm)==0:
                     return _slot
-            _slot = ((_slot % mp["capacity"]) + 1)
+            _slot = (_slot + 1)%mp["capacity"]
         return -(_available_slot)
     except Exception as exp:
-        err("probing", "new_find_slot()", exp)
+        err("probing", "find_slot()", exp)
 
 
 # def find_slot(mp: dict, key: Any, _idx: int, cmp_function: Any) -> int:
