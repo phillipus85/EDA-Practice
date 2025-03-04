@@ -1,4 +1,5 @@
 # import python libs
+from typing import Any
 # import csv
 # import project libs
 from Src.Func.DataStructs.List import ltnode as node
@@ -14,12 +15,12 @@ This code is based on the implementation proposed by the following authors/books
 """
 
 
-def default_lt_elm_cmp(id1, id2) -> int:
+def default_lt_elm_cmp(id1: Any, id2: Any) -> int:
     """default_lt_elm_cmp is the default comparison function for elements in the array list.
 
     Args:
-        id1 (ANY): first element to compare.
-        id2 (ANY): second element to compare.
+        id1 (Any): first element to compare.
+        id2 (Nay): second element to compare.
 
     Returns:
         int: returns 1 if id1 > id2, -1 if id1 < id2, 0 if id1 == id2
@@ -36,7 +37,7 @@ def new_single_lt(cmp_function=None, key: str = "id") -> dict:
         first=None,
         last=None,
         size=0,
-        type="SINGLE_LINKED",
+        type="SINGLELINKED",
         cmp_function=default_lt_elm_cmp,
         key=key,
     )
@@ -62,7 +63,7 @@ def size(lt: dict) -> int:
         err("singlelist", "size()", e)
 
 
-def add_first(lt: dict, element: dict) -> None:
+def add_first(lt: dict, element: Any) -> None:
     try:
         new_node = node.new_single_node(element)
         new_node["next"] = lt.get("first")
@@ -74,7 +75,7 @@ def add_first(lt: dict, element: dict) -> None:
         err("singlelist", "add_first()", e)
 
 
-def add_last(lt: dict, element: dict) -> None:
+def add_last(lt: dict, element: Any) -> None:
     try:
         new_node = node.new_single_node(element)
         if lt.get("size") == 0:
@@ -87,7 +88,7 @@ def add_last(lt: dict, element: dict) -> None:
         err("singlelist", "add_last()", e)
 
 
-def add_element(lt: dict, element: dict, pos: int) -> None:
+def add_element(lt: dict, pos: int, element: Any) -> None:
     try:
         new_node = node.new_single_node(element)
         if lt.get("size") == 0:
@@ -111,7 +112,7 @@ def add_element(lt: dict, element: dict, pos: int) -> None:
         err("singlelist", "add_element()", e)
 
 
-def get_first(lt: dict) -> dict:
+def get_first(lt: dict) -> Any:
     try:
         if lt.get("first") is not None:
             return lt.get("first")["data"]
@@ -120,7 +121,7 @@ def get_first(lt: dict) -> dict:
         err("singlelist", "get_first()", e)
 
 
-def get_last(lt: dict) -> dict:
+def get_last(lt: dict) -> Any:
     try:
         if lt.get("last") is not None:
             return lt.get("last")["data"]
@@ -129,7 +130,7 @@ def get_last(lt: dict) -> dict:
         err("singlelist", "get_last()", e)
 
 
-def get_element(lt: dict, pos: int) -> dict:
+def get_element(lt: dict, pos: int) -> Any:
     try:
         idx = 0
         cur = lt.get("first")
@@ -143,7 +144,7 @@ def get_element(lt: dict, pos: int) -> dict:
         err("singlelist", "get_element()", e)
 
 
-def remove_first(lt: dict) -> dict:
+def remove_first(lt: dict) -> Any:
     try:
         if lt.get("first") is not None:
             node = lt.get("first")
@@ -157,7 +158,7 @@ def remove_first(lt: dict) -> dict:
         err("singlelist", "remove_first()", e)
 
 
-def remove_last(lt: dict) -> dict:
+def remove_last(lt: dict) -> Any:
     try:
         if lt.get("last") is not None:
             if lt.get("first") == lt.get("last"):
@@ -178,7 +179,7 @@ def remove_last(lt: dict) -> dict:
         err("singlelist", "remove_last()", e)
 
 
-def remove_element(lt: dict, pos: int) -> dict:
+def remove_element(lt: dict, pos: int) -> Any:
     try:
         cur = lt.get("first")
         prev = lt.get("first")
@@ -201,7 +202,7 @@ def remove_element(lt: dict, pos: int) -> dict:
         err("singlelist", "remove_element()", e)
 
 
-def update(lt: dict, pos: int, element: dict) -> None:
+def update(lt: dict, pos: int, element: Any) -> None:
     try:
         node = lt.get("first")
         idx = 0
@@ -223,7 +224,7 @@ def exchange(lt: dict, pos1: int, pos2: int) -> None:
         err("singlelist", "exchange()", e)
 
 
-def cmp_elements(lt: dict, elm1: dict, elm2: dict) -> bool:
+def cmp_elements(lt: dict, elm1: Any, elm2: Any) -> bool:
     try:
         _cmp = lt.get("cmp_function")
         if lt.get("key") is not None:
@@ -235,7 +236,7 @@ def cmp_elements(lt: dict, elm1: dict, elm2: dict) -> bool:
         err("singlelist", "cmp_elements()", e)
 
 
-def is_present(lt: dict, element: dict) -> int:
+def is_present(lt: dict, element: Any) -> int:
     try:
         found = False
         idx = -1

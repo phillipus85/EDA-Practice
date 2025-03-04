@@ -33,6 +33,21 @@ def next_prime(n):
     return int(prime)
 
 
+def previous_prime(n: int) -> int:
+    # base case
+    if n < 2:
+        return 2
+    # working with the next odd number
+    prime = n
+    found = False
+    # Loop continuously until isPrime returns
+    while not found:
+        prime -= 1
+        # True for a prime number greater than n
+        if is_prime(prime) is True:
+            found = True
+
+
 def hash_compress(key,
                   scale: int,
                   shift: int,

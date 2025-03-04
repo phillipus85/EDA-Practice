@@ -1,5 +1,5 @@
 ﻿# import Src.Func.DataStructs.List.arlt as lt
-import Src.Func.DataStructs.List.sllt as lt
+from Src.Func.DataStructs.List import sllt as lt
 
 # a = lt.new_array_lt()
 a = lt.new_single_lt()

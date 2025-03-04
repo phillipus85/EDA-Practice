@@ -1,4 +1,5 @@
 # import python libs
+from typing import Any
 # import csv
 # import project libs
 # from Src.Func.DataStructs.List import arl
@@ -14,12 +15,12 @@ This code is based on the implementation proposed by the following authors/books
 """
 
 
-def default_lt_elm_cmp(id1, id2) -> int:
+def default_lt_elm_cmp(id1: Any, id2: Any) -> int:
     """default_lt_elm_cmp is the default comparison function for elements in the array list.
 
     Args:
-        id1 (ANY): first element to compare.
-        id2 (ANY): second element to compare.
+        id1 (Any): first element to compare.
+        id2 (Any): second element to compare.
 
     Returns:
         int: returns 1 if id1 > id2, -1 if id1 < id2, 0 if id1 == id2
@@ -44,7 +45,7 @@ def new_array_lt(cmp_function=None, key: str = "id") -> dict:
     new_lt = dict(
         elements=[],
         size=0,
-        type="ARRAY_LIST",
+        type="ARRAYLIST",
         cmp_function=cmp_function,
         key=key,
     )
@@ -85,12 +86,12 @@ def size(lt: dict) -> int:
         err("arraylist", "size()", exp)
 
 
-def add_first(lt: dict, element: dict) -> None:
+def add_first(lt: dict, element: Any) -> None:
     """add_first adds an element to the first position of the array list.
 
     Args:
         lt (dict): array list to add the element.
-        element (dict): element to add to the array list.
+        element (Any): element to add to the array list.
     """
     try:
         lt.get("elements").insert(0, element)
@@ -99,12 +100,12 @@ def add_first(lt: dict, element: dict) -> None:
         err("arraylist", "add_first()", exp)
 
 
-def add_last(lt: dict, element: dict) -> None:
+def add_last(lt: dict, element: Any) -> None:
     """add_last adds an element to the last position of the array list.
 
     Args:
         lt (dict): array list to add the element.
-        element (dict): element to add to the array list.
+        element (Any): element to add to the array list.
     """
     try:
         lt.get("elements").append(element)
@@ -113,13 +114,13 @@ def add_last(lt: dict, element: dict) -> None:
         err("arraylist", "add_last()", exp)
 
 
-def add_element(lt: dict, pos: int, element: dict) -> None:
+def add_element(lt: dict, pos: int, element: Any) -> None:
     """add_element adds an element to a specific position in the array list.
 
     Args:
         lt (dict): array list to add the element.
         pos (int): position to add the element.
-        element (dict): element to add to the array list.
+        element (Any): element to add to the array list.
     """
     try:
         lt.get("elements").insert(pos, element)
@@ -128,14 +129,15 @@ def add_element(lt: dict, pos: int, element: dict) -> None:
         err("arraylist", "add_element()", exp)
 
 
-def get_first(lt: dict) -> dict:
+def get_first(lt: dict) -> Any:
     """get_first returns the first element in the array list.
 
     Args:
         lt (dict): array list to get the first element.
 
     Returns:
-        dict: returns the first element in the array list.
+
+        Any: returns the first element in the array list.
     """
     try:
         if lt.get("size") > 0:
@@ -145,14 +147,14 @@ def get_first(lt: dict) -> dict:
         err("arraylist", "get_first()", exp)
 
 
-def get_last(lt: dict) -> dict:
+def get_last(lt: dict) -> Any:
     """get_last returns the last element in the array list.
 
     Args:
         lt (dict): array list to get the last element.
 
     Returns:
-        dict: returns the last element in the array list.
+        Any: returns the last element in the array list.
     """
     try:
         if lt.get("size") > 0:
@@ -162,7 +164,7 @@ def get_last(lt: dict) -> dict:
         err("arraylist", "get_last()", exp)
 
 
-def get_element(lt: dict, pos: int) -> dict:
+def get_element(lt: dict, pos: int) -> Any:
     """get_element returns the element in a specific position in the array list.
 
     Args:
@@ -170,7 +172,7 @@ def get_element(lt: dict, pos: int) -> dict:
         pos (int): position to get the element.
 
     Returns:
-        dict: returns the element in the specific position in the array list.
+        Any: returns the element in the specific position of the array list.
     """
     try:
         if pos < 0 or pos >= lt.get("size"):
@@ -180,14 +182,14 @@ def get_element(lt: dict, pos: int) -> dict:
         err("arraylist", "get_element()", exp)
 
 
-def remove_first(lt: dict) -> dict:
+def remove_first(lt: dict) -> Any:
     """remove_first removes the first element in the array list.
 
     Args:
         lt (dict): array list to remove the first element.
 
     Returns:
-        dict: returns the array list without the first element.
+        Any: returns the array list without the first element.
     """
     try:
         if lt.get("size") == 0:
@@ -199,14 +201,14 @@ def remove_first(lt: dict) -> dict:
         err("arraylist", "remove_first()", exp)
 
 
-def remove_last(lt: dict) -> dict:
+def remove_last(lt: dict) -> Any:
     """remove_last removes the last element in the array list.
 
     Args:
         lt (dict): array list to remove the last element.
 
     Returns:
-        dict: returns the array list without the last element.
+        Any: returns the array list without the last element.
     """
     try:
         if lt.get("size") == 0:
@@ -218,7 +220,7 @@ def remove_last(lt: dict) -> dict:
         err("arraylist", "remove_last()", exp)
 
 
-def remove_element(lt: dict, pos: int) -> dict:
+def remove_element(lt: dict, pos: int) -> Any:
     """remove_element removes an element in a specific position in the array list.
 
     Args:
@@ -226,7 +228,7 @@ def remove_element(lt: dict, pos: int) -> dict:
         pos (int): position to remove the element.
 
     Returns:
-        dict: returns the array list without the element in the specific position.
+        Any: returns the array list without the element in the specific position.
     """
     try:
         if pos < 0 or pos >= lt.get("size"):
@@ -238,13 +240,13 @@ def remove_element(lt: dict, pos: int) -> dict:
         err("arraylist", "remove_element()", exp)
 
 
-def update(lt: dict, pos: int, element: dict) -> None:
+def update(lt: dict, pos: int, element: Any) -> None:
     """update updates an element in a specific position in the array list.
 
     Args:
         lt (dict): array list to update the element.
         pos (int): position to update the element.
-        element (dict): element to update in the array list.
+        element (Any): element to update in the array list.
     """
     try:
         lt["elements"][pos] = element
@@ -270,13 +272,13 @@ def exchange(lt: dict, pos1: int, pos2: int) -> None:
         err("arraylist", "exchange()", exp)
 
 
-def cmp_elements(lt: dict, elm1: dict, elm2: dict) -> bool:
+def cmp_elements(lt: dict, elm1: Any, elm2: Any) -> bool:
     """cmp_elements compares two elements in the array list.
 
     Args:
         lt (dict): array list to compare the elements.
-        elm1 (dict): first element to compare.
-        elm2 (dict): second element to compare.
+        elm1 (Any): first element to compare.
+        elm2 (Any): second element to compare.
 
     Returns:
         bool: returns True if the elements are equal, False otherwise.
@@ -292,7 +294,7 @@ def cmp_elements(lt: dict, elm1: dict, elm2: dict) -> bool:
         err("arraylist", "cmp_elements()", exp)
 
 
-def is_present(lt: dict, element: dict) -> int:
+def is_present(lt: dict, element: Any) -> int:
     """is_present checks if an element is present in the array list.
 
     Args:
