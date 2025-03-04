@@ -24,24 +24,26 @@ def default_mp_entry_cmp(key: Any, entry: Any) -> int:
     return -1
 
 
-def new_chaining_mp(n_elements: int = 17,
+def new_chaining_mp(entries: int = 17,
                     prime: int = 109345121,
-                    load_factor: float = 4.0,
+                    alpha: float = 4.0,
                     cmp_function=None,
-                    key: str = "id") -> dict:
+                    key: str = None,
+                    rehashable: bool = True) -> dict:
     try:
-        capacity = num.next_prime(n_elements // load_factor)
+        capacity = num.next_prime(entries // alpha)
         scale = rd.randint(1, prime - 1)
         shift = rd.randint(0, prime - 1)
         new_table = dict(
-            n_elements=n_elements,
+            entries=entries,
             prime=prime,
-            limit_factor=load_factor,
-            cur_factor=0,
+            max_alpha=alpha,
+            cur_alpha=0,
             capacity=capacity,
             scale=scale,
             shift=shift,
             table=None,
+            rehashable=rehashable,
             size=0,
             type="SEPARATE_CHAINING",
             cmp_function=None,
@@ -64,26 +66,26 @@ def new_chaining_mp(n_elements: int = 17,
         err("chaining", "new_map()", exp)
 
 
-def put(mp: dict, key: Any, value: Any) -> dict:
+def put(mp: dict, key: Any, value: Any) -> None:
     try:
+        entry = me.new_map_entry(key, value)
         _hash = num.hash_compress(key,
                                   mp["scale"],
                                   mp["shift"],
                                   mp["prime"],
                                   mp["capacity"])
         bucket = arlt.get_element(mp["table"], _hash)
-        entry = me.new_map_entry(key, value)
         _idx = sllt.is_present(bucket, key)
         if _idx > -1:
             sllt.update(bucket, _idx, entry)
         else:
             sllt.add_last(bucket, entry)
             mp["size"] += 1
-            mp["cur_factor"] = mp["size"] / mp["capacity"]
+            mp["cur_alpha"] = mp["size"] / mp["capacity"]
 
-        if mp["cur_factor"] >= mp["limit_factor"]:
+        if mp["cur_alpha"] >= mp["max_alpha"]:
             rehash(mp)
-        return mp
+        # return mp
     except Exception as exp:
         err("chaining", "put()", exp)
 
@@ -117,7 +119,7 @@ def remove(mp: dict, key: Any) -> dict:
             if _idx > -1:
                 sllt.remove_element(bucket, _idx)
                 mp["size"] -= 1
-                mp["cur_factor"] = mp["size"] / mp["capacity"]
+                mp["cur_alpha"] = mp["size"] / mp["capacity"]
         return mp
     except Exception as exp:
         err("chaining", "remove()", exp)
@@ -205,28 +207,31 @@ def values(mp: dict) -> dict:
 
 def rehash(mp: dict) -> dict:
     try:
-        _new_table = arlt.new_array_lt(cmp_function=mp["cmp_function"],
-                                       key=mp["key"])
-        _capacity = num.next_prime(mp["capacity"] * 2)
-        _old_table = mp["table"]
-        _idx = 0
-        while _idx < _capacity:
-            bucket = sllt.new_single_lt(mp["cmp_function"], mp["key"])
-            arlt.add_last(_new_table, bucket)
-            _idx += 1
-        mp["size"] = 0
-        mp["cur_factor"] = 0
-        mp["table"] = _new_table
-        mp["capacity"] = _capacity
-        _idx = 0
-        while _idx < arlt.size(_old_table):
-            bucket = arlt.get_element(_old_table, _idx)
-            if not sllt.is_empty(bucket):
-                pos = 0
-                while pos < sllt.size(bucket):
-                    entry = sllt.get_element(bucket, pos)
-                    put(mp, entry["key"], entry["value"])
-                    pos += 1
+        if mp["rehashable"] is True:
+            _new_cap = num.next_prime(mp["capacity"] * 2)
+            mp["size"] = 0
+            mp["cur_alpha"] = 0
+            mp["capacity"] = _new_cap
+            _new_table = arlt.new_array_lt(mp["cmp_function"],
+                                           mp["key"])
+            _old_table = mp["table"]
+            _idx = 0
+            while _idx < _new_cap:
+                bucket = sllt.new_single_lt(mp["cmp_function"],
+                                            mp["key"])
+                arlt.add_last(_new_table, bucket)
+                _idx += 1
+            mp["table"] = _new_table
+            _idx = 0
+            while _idx < arlt.size(_old_table):
+                bucket = arlt.get_element(_old_table, _idx)
+                if not sllt.is_empty(bucket):
+                    pos = 0
+                    while pos < sllt.size(bucket):
+                        entry = sllt.get_element(bucket, pos)
+                        put(mp, entry["key"], entry["value"])
+                        pos += 1
+                _idx += 1
         return mp
     except Exception as exp:
         err("chaining", "rehash()", exp)
