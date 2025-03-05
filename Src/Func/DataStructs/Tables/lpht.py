@@ -231,7 +231,7 @@ def is_available(table: dict, _slot: int) -> bool:
     except Exception as exp:
         err("probing", "is_available()", exp)
 
-
+#Función bono resuelta
 def find_slot(mp: dict, key: Any, _idx: int) -> int:
     try:
         _slot = 0
@@ -255,6 +255,7 @@ def find_slot(mp: dict, key: Any, _idx: int) -> int:
         return -(_available_slot)
     except Exception as exp:
         err("probing", "find_slot()", exp)
+
 
 
 # def find_slot(mp: dict, key: Any, _idx: int, cmp_function: Any) -> int:
