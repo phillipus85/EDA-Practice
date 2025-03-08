@@ -92,9 +92,9 @@ def get(mp: dict, key: Any) -> dict:
     try:
         entry = None
         _idx = num.hash_compress(key,
+                                 mp["prime"],
                                  mp["scale"],
                                  mp["shift"],
-                                 mp["prime"],
                                  mp["capacity"])
         _slot = find_slot(mp, key, _idx)
         print(f"get-k: {key}, slot: {_slot}")
@@ -108,9 +108,9 @@ def get(mp: dict, key: Any) -> dict:
 def remove(mp: dict, key: Any) -> dict:
     try:
         _idx = num.hash_compress(key,
+                                 mp["prime"],
                                  mp["scale"],
                                  mp["shift"],
-                                 mp["prime"],
                                  mp["capacity"])
         _slot = find_slot(mp, key, _idx, mp["cmp_function"])
         if _slot > -1:
