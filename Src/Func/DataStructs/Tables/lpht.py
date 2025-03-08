@@ -1,6 +1,6 @@
 ﻿# import python modules
 import random as rd
-from typing import Any
+from typing import Any, Optional
 
 # import modules for data structures index + bucket
 from Src.Func.DataStructs.List import arlt     # as idx
@@ -75,13 +75,15 @@ def put(mp: dict, key: Any, value: Any) -> None:
                                  mp["capacity"])
         slot = find_slot(mp, key, _idx)
         print(f"put-k: {key}, slot: {slot}")
-        # arlt.update(mp["table"], slot, entry)
-        arlt.update(mp["table"], abs(slot), entry)
+        
         if slot < 0:
+            slot = abs(slot)
             mp["size"] += 1
             mp["cur_alpha"] = mp["size"] / mp["capacity"]
+        
+        arlt.update(mp["table"], slot, entry)
 
-        if mp["cur_alpha"] >= mp["max_alpha"]:
+        if mp["cur_alpha"] >= mp["max_alpha"] and mp["rehashable"]:
             rehash(mp)
         # return mp
     except Exception as exp:
@@ -92,9 +94,9 @@ def get(mp: dict, key: Any) -> dict:
     try:
         entry = None
         _idx = num.hash_compress(key,
+                                 mp["prime"],
                                  mp["scale"],
                                  mp["shift"],
-                                 mp["prime"],
                                  mp["capacity"])
         _slot = find_slot(mp, key, _idx)
         print(f"get-k: {key}, slot: {_slot}")
@@ -108,15 +110,16 @@ def get(mp: dict, key: Any) -> dict:
 def remove(mp: dict, key: Any) -> dict:
     try:
         _idx = num.hash_compress(key,
+                                 mp["prime"],
                                  mp["scale"],
                                  mp["shift"],
-                                 mp["prime"],
                                  mp["capacity"])
-        _slot = find_slot(mp, key, _idx, mp["cmp_function"])
-        if _slot > -1:
+        _slot = find_slot(mp, key, _idx)
+        if _slot >= 0:
             dummy = me.new_map_entry("__EMPTY__", "__EMPTY__")
             arlt.update(mp["table"], _slot, dummy)
             mp["size"] -= 1
+            mp["cur_alpha"] = mp["size"] / mp["capacity"]
         return mp
     except Exception as exp:
         err("probing", "remove()", exp)
@@ -125,14 +128,12 @@ def remove(mp: dict, key: Any) -> dict:
 def contains(mp: dict, key: Any) -> bool:
     try:
         _idx = num.hash_compress(key,
+                                  mp["prime"],
                                   mp["scale"],
                                   mp["shift"],
-                                  mp["prime"],
                                   mp["capacity"])
-        _slot = find_slot(mp, key, _idx, mp["cmp_function"])
-        if _slot > -1:
-            return True
-        return False
+        _slot = find_slot(mp, key, _idx)
+        return _slot >= 0
     except Exception as exp:
         err("probing", "contains()", exp)
 
@@ -142,18 +143,7 @@ def size(mp: dict) -> int:
 
 
 def is_empty(mp: dict) -> bool:
-    try:
-        empty = True
-        _idx = 0
-        while _idx < arlt.size(mp["table"]) and empty:
-            entry = arlt.get_element(mp["table"], _idx)
-            # if entry["key"] is not None and entry["key"] != "__EMPTY__":
-            if entry["key"] not in (None, "__EMPTY__"):
-                empty = False
-            _idx += 1
-        return empty
-    except Exception as exp:
-        err("chaining", "is_empty()", exp)
+    return mp["size"] == 0
 
 
 def keys(mp: dict) -> dict:
@@ -195,29 +185,21 @@ def values(mp: dict) -> dict:
 
 def rehash(mp: dict) -> None:
     try:
-        if mp["rehashable"] is True:
+        if mp["rehashable"]:
             _new_capacity = num.next_prime(mp["capacity"] * 2)
             _new_table = arlt.new_array_lt(mp["cmp_function"], mp["key"])
-            i = 0
-            while i < _new_capacity:
+            for _ in range(_new_capacity):
                 entry = me.new_map_entry(None, None)
                 arlt.add_last(_new_table, entry)
-                i += 1
             mp["capacity"] = _new_capacity
             mp["table"] = _new_table
-            _idx = 0
-            while _idx < arlt.size(mp["table"]):
-                entry = arlt.get_element(mp["table"], _idx)
+            mp["size"] = 0
+            mp["cur_alpha"] = 0
+            
+            for idx in range(mp["capacity"]):
+                entry = arlt.get_element(mp["table"], idx)
                 if entry["key"] not in (None, "__EMPTY__"):
-                    _idx = num.hash_compress(entry["key"],
-                                            mp["scale"],
-                                            mp["shift"],
-                                            mp["prime"],
-                                            _new_capacity)
-                    _slot = find_slot(mp, entry["key"], _idx, mp["cmp_function"])
-                    arlt.update(_new_table, abs(_slot), entry)
-                _idx += 1
-        return mp
+                    put(mp, entry["key"], entry["value"])
     except Exception as exp:
         err("probing", "rehash()", exp)
 
@@ -232,28 +214,31 @@ def is_available(table: dict, _slot: int) -> bool:
         err("probing", "is_available()", exp)
 
 
-def find_slot(mp: dict, key: Any, _idx: int) -> int:
+def find_slot(mp: dict, key: Any, idx: int) -> int:
     try:
-        _table = mp["table"]
-        _cmp = mp["cmp_function"]
-        _slot = 0
-        _available_slot = -1
-        while _slot != _idx:
-            if _slot == 0:
-                _slot = _idx
-            if is_available(_table, _slot):
-                entry = arlt.get_element(_table, _slot)
-                if _available_slot == -1:
-                    _available_slot = _slot
-                if entry["key"] is None:
-                    break
-            else:
-                entry = arlt.get_element(_table, _slot)
-                print(f"k: {key}, entry: {entry}, idx: {_idx}, slot: {_slot}")
-                if _cmp(key, entry) == 0:
-                    return _slot
-            _slot = ((_slot % mp["capacity"]) + 1)
-        return -(_available_slot)
+        table = mp["table"]
+        capacity = mp["capacity"]
+        cmp_function = mp["cmp_function"]
+        slot = idx % capacity
+        available_slot = -1
+        
+        count = 0
+        while count < capacity:
+            entry = arlt.get_element(table, slot)
+            if entry["key"] is None:
+                if available_slot == -1:
+                    available_slot = slot
+                return -(available_slot)
+            elif entry["key"] == "__EMPTY__":
+                if available_slot == -1:
+                    available_slot = slot
+            elif cmp_function(key,entry) == 0:
+                return slot
+            
+            slot = (slot + 1) % capacity
+            visited_count += 1
+        return -(available_slot) if available_slot != -1 else -1
+    
     except Exception as exp:
         err("probing", "new_find_slot()", exp)
 
