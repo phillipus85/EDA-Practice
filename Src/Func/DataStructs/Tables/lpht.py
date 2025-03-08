@@ -232,28 +232,31 @@ def is_available(table: dict, _slot: int) -> bool:
         err("probing", "is_available()", exp)
 
 
-def find_slot(mp: dict, key: Any, _idx: int) -> int:
+def find_slot(mp: dict, key: Any, idx: int) -> int:
     try:
-        _table = mp["table"]
-        _cmp = mp["cmp_function"]
-        _slot = 0
-        _available_slot = -1
-        while _slot != _idx:
-            if _slot == 0:
-                _slot = _idx
-            if is_available(_table, _slot):
-                entry = arlt.get_element(_table, _slot)
-                if _available_slot == -1:
-                    _available_slot = _slot
-                if entry["key"] is None:
-                    break
-            else:
-                entry = arlt.get_element(_table, _slot)
-                print(f"k: {key}, entry: {entry}, idx: {_idx}, slot: {_slot}")
-                if _cmp(key, entry) == 0:
-                    return _slot
-            _slot = ((_slot % mp["capacity"]) + 1)
-        return -(_available_slot)
+        table = mp["table"]
+        capacity = mp["capacity"]
+        cmp_function = mp["cmp_function"]
+        slot = idx % capacity
+        available_slot = -1
+        
+        count = 0
+        while count < capacity:
+            entry = arlt.get_element(table, slot)
+            if entry["key"] is None:
+                if available_slot == -1:
+                    available_slot = slot
+                return -(available_slot)
+            elif entry["key"] == "__EMPTY__":
+                if available_slot == -1:
+                    available_slot = slot
+            elif cmp_function(key,entry) == 0:
+                return slot
+            
+            slot = (slot + 1) % capacity
+            count += 1
+        return -(available_slot) if available_slot != -1 else -1
+    
     except Exception as exp:
         err("probing", "new_find_slot()", exp)
 
