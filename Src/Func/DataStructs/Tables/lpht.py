@@ -69,9 +69,9 @@ def put(mp: dict, key: Any, value: Any) -> None:
     try:
         entry = me.new_map_entry(key, value)
         _idx = num.hash_compress(key,
-                                 mp["prime"],
-                                 mp["scale"],
+                                 mp["scale"], #Fix the order of the parameters (Changed "prime" and "capacity" orders)
                                  mp["shift"],
+                                 mp["prime"],
                                  mp["capacity"])
         slot = find_slot(mp, key, _idx)
         print(f"put-k: {key}, slot: {slot}")
@@ -231,30 +231,70 @@ def is_available(table: dict, _slot: int) -> bool:
     except Exception as exp:
         err("probing", "is_available()", exp)
 
-#Función bono resuelta
-def find_slot(mp: dict, key: Any, _idx: int) -> int:
+def find_slot(mp: dict, key: Any, idx: int) -> int:
+    """
+    Finds the appropriate slot for a key using linear probing.
+    """
     try:
-        _slot = 0
-        hash_table = mp["table"]
-        _cmp = mp["cmp_function"]
+        table = mp["table"]
+        capacity = mp["capacity"]
+        cmp_function = mp["cmp_function"]
+        _slot = idx % capacity  # Start at the calculated index
         _available_slot = -1
-        while _slot != _idx:
-            if _slot == 0:
-                _slot = _idx
-            if is_available(mp, _slot):
-                elm=arlt.get_element(hash_table, _slot)
+
+        # Track visited slots preventing infinite loops
+        visited_count = 0
+
+        while visited_count < capacity:
+            entry = arlt.get_element(table, _slot)
+
+            # If slot is empty
+            if entry["key"] is None:
                 if _available_slot == -1:
                     _available_slot = _slot
-                if elm["key"] is None:
-                    break
-            else:
-                elm = arlt.get_element(hash_table, _slot)
-                if _cmp(key,elm)==0:
-                    return _slot
-            _slot = (_slot + 1)%mp["capacity"]
-        return -(_available_slot)
+                return -(_available_slot)  # Negative indicates new insertion
+
+            # If slot has a deleted entry
+            elif entry["key"] == "__EMPTY__":
+                if _available_slot == -1:
+                    _available_slot = _slot  #We keep on looking because the key may be later on, due to collisions.
+
+            # If slot has the key we're looking for
+            elif cmp_function(key, entry) == 0:
+                return _slot  # Positive indicates existing key
+
+            # Move to the next slot according to linear probing
+            _slot = (_slot + 1) % capacity
+            visited_count += 1
+
+        return -(_available_slot) if _available_slot != -1 else -1
     except Exception as exp:
         err("probing", "find_slot()", exp)
+
+#def find_slot(mp: dict, key: Any, _idx: int) -> int:
+    #try:
+        #_table = mp["table"]
+        #_cmp = mp["cmp_function"]
+        #_slot = 0
+        #_available_slot = -1
+        #while _slot != _idx:
+            #if _slot == 0:
+                #_slot = _idx
+            #if is_available(_table, _slot):
+                #entry = arlt.get_element(_table, _slot)
+                #if _available_slot == -1:
+                    #_available_slot = _slot
+                #if entry["key"] is None:
+                    #break
+            #else:
+                #entry = arlt.get_element(_table, _slot)
+                #print(f"k: {key}, entry: {entry}, idx: {_idx}, slot: {_slot}")
+                #if _cmp(key, entry) == 0:
+                    #return _slot
+            #_slot = ((_slot % mp["capacity"]) + 1)
+        #return -(_available_slot)
+    #except Exception as exp:
+        #err("probing", "new_find_slot()", exp)
 
 
 
