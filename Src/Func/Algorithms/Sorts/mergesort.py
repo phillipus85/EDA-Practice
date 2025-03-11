@@ -9,7 +9,7 @@ def sort(lt: dict, sort_crit: Callable) -> dict:
     elif lt["type"] == "LINKEDLIST":
         lst = sllt
     size = lst.size(lt)
-    if size > 1:
+    if size > 0:
         mid = (size // 2)
         _left_lt = lst.sub_list(lt, 0, mid)
         _right_lt = lst.sub_list(lt, mid + 1, size - 1)
