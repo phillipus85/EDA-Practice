@@ -69,7 +69,7 @@ Variable nativa de Python para definir una estructura de datos genérica en los 
 
 
 def lt_dflt_cmp_function(key: str, elm1, elm2) -> int:
-    """*lt_dflt_cmp_function()* función de comparación por defecto para los elementos del ADT List (ArrayList, SingleLinked, DoubleLinked). pueden ser de tipo nativo o definido por el usuario.
+    """*lt_dflt_cmp_function()* función de comparación por defecto para los elementos del ADT List (ArrayList, Singlelinked, DoubleLinked). pueden ser de tipo nativo o definido por el usuario.
 
     Args:
         key (str): llave para comparar los elementos de tipo diccionario que entrega el ADT List.

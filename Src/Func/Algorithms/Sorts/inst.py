@@ -6,7 +6,7 @@ from typing import Callable
 def sort(lt: dict, sort_crit: Callable) -> dict:
     if lt["type"] == "ARRAYLIST":
         lst = arlt
-    elif lt["type"] == "LINKEDLIST":
+    elif lt["type"] == "SINGLELINKED":
         lst = sllt
 
     size = lst.size(lt)

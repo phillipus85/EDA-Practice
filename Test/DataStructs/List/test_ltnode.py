@@ -1,5 +1,5 @@
 ﻿"""
-*test_struct_nodes* es el módulo que prueba las estructuras de datos **Node** (en TestNode), **SingleNode** (en TestSingleNode) y **DoubleNode** (en TestDoubleNode) para el ADT dinámico y configurable **List**.
+*test_struct_nodes* es el módulo que prueba las estructuras de datos **Node** (en TestNode), **SLLTNode** (en TestSingleNode) y **DLLTNode** (en TestDoubleNode) para el ADT dinámico y configurable **List**.
 """
 
 # import testing package
@@ -7,17 +7,17 @@ import unittest
 import pytest
 
 # importing the modules to test
-from Src.DataStructs.List.ltnode import Node
-from Src.DataStructs.List.ltnode import SingleNode
-from Src.DataStructs.List.ltnode import DoubleNode
+from Src.Dataclass.DataStructs.Lists.ltnode import Node
+from Src.Dataclass.DataStructs.Lists.ltnode import SLLTNode
+from Src.Dataclass.DataStructs.Lists.ltnode import DLLTNode
 
 # importing the data to test
 from Test.Data.test_data import get_nodelist_test_data
 
 # asserting module imports
 assert Node
-assert SingleNode
-assert DoubleNode
+assert SLLTNode
+assert DLLTNode
 assert get_nodelist_test_data
 
 
@@ -137,7 +137,7 @@ class TestNode(unittest.TestCase):
 
 
 class TestSingleNode(unittest.TestCase):
-    """**TestSingleNode** son las pruebas tipo *unittest* que validan el funcionamiento de la estructura **SingleNode**.
+    """**TestSingleNode** son las pruebas tipo *unittest* que validan el funcionamiento de la estructura **SLLTNode**.
 
     Args:
         unittest (TestCase): clase *unittest.TestCase* para pruebas unitarias.
@@ -145,22 +145,22 @@ class TestSingleNode(unittest.TestCase):
 
     @pytest.fixture(autouse=True)
     def inject_fixtures(self):
-        """*inject_fixtures()* inyecta los parámetros globales de prueba para *SingleNode* como un *fixture*.
+        """*inject_fixtures()* inyecta los parámetros globales de prueba para *SLLTNode* como un *fixture*.
         """
         self.global_params = get_nodelist_test_data()
 
     def test_default_sln(self):
-        """*test_default_sln()* prueba para crear un nodo vacío de una lista sencillamente encadenada *SingleNode*.
+        """*test_default_sln()* prueba para crear un nodo vacío de una lista sencillamente encadenada *SLLTNode*.
         """
         # create an empty single linked list node
-        node = SingleNode()
+        node = SLLTNode()
         # assert for node information is None
         assert node._data is None
         # assert for node _next and next() are None
         assert (node.next() is None) and (node._next is None)
 
     def test_custom_sln(self):
-        """*test_custom_sln()* prueba para crear un nodo *SingleNode* de una lista sencillamente encadenada con datos personalizados.
+        """*test_custom_sln()* prueba para crear un nodo *SLLTNode* de una lista sencillamente encadenada con datos personalizados.
         """
         # getting the global variables
         dtype_lt = self.global_params.get("CHECK_TYPE_LT")
@@ -171,7 +171,7 @@ class TestSingleNode(unittest.TestCase):
             if key not in ("CHECK_ERR_LT", "CHECK_TYPE_LT"):
                 test_data = self.global_params.get(key)
                 # create a single linked list node with test_data
-                node = SingleNode(test_data)
+                node = SLLTNode(test_data)
                 # assert for node info is not None
                 assert node._data == test_data
                 # assert for node info is the same type as test_data
@@ -180,7 +180,7 @@ class TestSingleNode(unittest.TestCase):
                 assert (node.next() is None) and (node._next is None)
 
     def test_sln_next(self):
-        """*test_sln_next()* prueba el manejo de referencias del siguiente nodo *SingleNode* de la lista sencillamente encadenada.
+        """*test_sln_next()* prueba el manejo de referencias del siguiente nodo *SLLTNode* de la lista sencillamente encadenada.
         """
         # iterate over the global params list and create a node for each type
         for key in self.global_params.keys():
@@ -188,8 +188,8 @@ class TestSingleNode(unittest.TestCase):
             if key not in ("CHECK_ERR_LT", "CHECK_TYPE_LT"):
                 test_data = self.global_params.get(key)
                 # create 2 single linked list node
-                node1 = SingleNode(test_data)
-                node2 = SingleNode(test_data)
+                node1 = SLLTNode(test_data)
+                node2 = SLLTNode(test_data)
                 # assert the node _next and next() are None in both nodes
                 assert (node1.next() is None) and (node1._next is None)
                 assert (node2.next() is None) and (node2._next is None)
@@ -204,7 +204,7 @@ class TestSingleNode(unittest.TestCase):
 
 
 class TestDoubleNode(unittest.TestCase):
-    """*TestDoubleNode* son las pruebas tipo *unittest* que validan el funcionamiento de la estructura **DoubleNode**.
+    """*TestDoubleNode* son las pruebas tipo *unittest* que validan el funcionamiento de la estructura **DLLTNode**.
 
     Args:
         unittest (TestCase): clase *unittest.TestCase* para pruebas unitarias.
@@ -212,15 +212,15 @@ class TestDoubleNode(unittest.TestCase):
 
     @pytest.fixture(autouse=True)
     def inject_fixtures(self):
-        """*inject_fixtures()* inyecta los parámetros globales de prueba para *DoubleNode* como un *fixture*.
+        """*inject_fixtures()* inyecta los parámetros globales de prueba para *DLLTNode* como un *fixture*.
         """
         self.global_params = get_nodelist_test_data()
 
     def test_default_dln(self):
-        """*test_default_dln()* prueba para crear un nodo vacío de una lista doblemente encadenada *DoubleNode*.
+        """*test_default_dln()* prueba para crear un nodo vacío de una lista doblemente encadenada *DLLTNode*.
         """
         # create an empty single linked list node
-        node = DoubleNode()
+        node = DLLTNode()
         # assert for node information is None
         assert node._data is None
         # assert for node _next and next() are None
@@ -229,7 +229,7 @@ class TestDoubleNode(unittest.TestCase):
         assert (node.prev() is None) and (node._prev is None)
 
     def test_custom_dln(self):
-        """*test_custom_dln()* prueba para crear un nodo *DoubleNode* de una lista doblemente encadenada con datos personalizados.
+        """*test_custom_dln()* prueba para crear un nodo *DLLTNode* de una lista doblemente encadenada con datos personalizados.
         """
         # getting the global variables
         dtype_lt = self.global_params.get("CHECK_TYPE_LT")
@@ -240,7 +240,7 @@ class TestDoubleNode(unittest.TestCase):
             if key not in ("CHECK_ERR_LT", "CHECK_TYPE_LT"):
                 test_data = self.global_params.get(key)
                 # create a double linked list node with test_data
-                node = DoubleNode(test_data)
+                node = DLLTNode(test_data)
                 # assert for node info is the test_data
                 assert node._data == test_data
                 # assert for node info is the same type as test_data
@@ -251,7 +251,7 @@ class TestDoubleNode(unittest.TestCase):
                 assert (node.prev() is None) and (node._prev is None)
 
     def test_dln_refs(self):
-        """*test_dln_refs()* prueba el manejo de referencias al siguiente y anterior nodo *DoubleNode* de la lista doblemente encadenada.
+        """*test_dln_refs()* prueba el manejo de referencias al siguiente y anterior nodo *DLLTNode* de la lista doblemente encadenada.
         """
         # getting the global variables
         # iterate over the global params and create a node for each type
@@ -260,8 +260,8 @@ class TestDoubleNode(unittest.TestCase):
             if key not in ("CHECK_ERR_LT", "CHECK_TYPE_LT"):
                 test_data = self.global_params.get(key)
                 # create 2 double linked list nodes
-                node1 = DoubleNode(test_data)
-                node2 = DoubleNode(test_data)
+                node1 = DLLTNode(test_data)
+                node2 = DLLTNode(test_data)
                 # DEFAULT REFERENCES
                 # assert the node _next and next() are None in both nodes
                 assert (node1.next() is None) and (node1._next is None)

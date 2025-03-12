@@ -511,18 +511,18 @@ def get_lists_test_data():
         _type_: _description_
     """
     parameters = dict(
-        TEST_ROOT_PGK_PATH="Src.DISClib.DataStructs",
+        TEST_ROOT_PGK_PATH="Src.Dataclass.DataStructs",
         TEST_STRUCT_DICT={
             "ArrayList": "ArrayList",
-            "SingleLinked": "singlelinkedlist",
+            "Singlelinked": "singlelinkedlist",
             "DoubleLinked": "doublelinkedlist",
         },
         TEST_TGT_STRUCT_DICT={
             "DoubleLinked": "doublelinkedlist",
             "ArrayList": "ArrayList",
-            "SingleLinked": "singlelinkedlist",
+            "Singlelinked": "singlelinkedlist",
         },
-        ERR_ROOT_PGK_PATH="Src.DISClib.ErrDataStructures",
+        ERR_ROOT_PGK_PATH="Src.Dataclass.ErrDataStructures",
         ERR_STRUCT_DICT={
             "FakeListA": "fakelista",
             "FakeListB": "fakelistb",

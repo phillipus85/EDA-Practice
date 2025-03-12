@@ -17,7 +17,7 @@ import inspect
 
 # custom modules
 # node class for the linked list
-from Src.Dataclass.DataStructs.List.ltnode import DoubleNode
+from Src.Dataclass.DataStructs.Lists.ltnode import DLLTNode
 # generic error handling and type checking
 from Src.Dataclass.Utils.error import error_handler
 from Src.Dataclass.Utils.default import lt_dflt_cmp_function
@@ -57,19 +57,19 @@ class Doublelinked(Generic[T]):
     Función de comparación personalizable por el usuario para reconocer los elementos dentro del *Doublelinked*. Por defecto es la función *lt_dflt_cmp_function()* propia de *DataStructs*, puede ser un parametro al crear la estructura.
     """
 
-    # reference to the header node of the list, DoubleNode by default
+    # reference to the header node of the list, DLLTNode by default
     # :attr: _header
-    _header: Optional[DoubleNode[T]] = field(
-        default_factory=lambda: DoubleNode())
+    _header: Optional[DLLTNode[T]] = field(
+        default_factory=lambda: DLLTNode())
     """
-    Representa el nodo sentinela de la cabecera de la estructura (header), por defecto es un *DoubleNode* vacío.
+    Representa el nodo sentinela de la cabecera de la estructura (header), por defecto es un *DLLTNode* vacío.
     """
-    # reference to the trailer node of the list, DoubleNode by default
+    # reference to the trailer node of the list, DLLTNode by default
     # :attr: _trailer
-    _trailer: Optional[DoubleNode[T]] = field(
-        default_factory=lambda: DoubleNode())
+    _trailer: Optional[DLLTNode[T]] = field(
+        default_factory=lambda: DLLTNode())
     """
-    Representa el nodo sentinela del colero de la estructura (trailer), por defecto es un *DoubleNode* vacío.
+    Representa el nodo sentinela del colero de la estructura (trailer), por defecto es un *DLLTNode* vacío.
     """
 
     # the key is used to compare elements, not defined by default

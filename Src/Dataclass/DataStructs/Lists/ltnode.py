@@ -77,54 +77,54 @@ class Node(Generic[T]):
 
 
 @dataclass
-class SingleNode(Node, Generic[T]):
-    """**SingleNode** representa un nodo de una lista sencillamente encadenada. Basada en el ADT *Node* que contiene la información del nodo.
+class SLLTNode(Node, Generic[T]):
+    """**SLLTNode** representa un nodo de una lista sencillamente encadenada. Basada en el ADT *Node* que contiene la información del nodo.
 
     Args:
         Node (dataclass): ADT base para implementar un nodo con información genérica.
         Generic (T): TAD (Tipo Abstracto de Datos) o ADT (Abstract Data Type) para una estructura de datos genéricas en python.
 
     Returns:
-        SingleNode: ADT para un *SingleNode* o nodo para una lista sencillamente encadenada.
+        SLLTNode: ADT para un *SLLTNode* o nodo para una lista sencillamente encadenada.
     """
     # optional reference to the next node of the same type
     # :attr: _next
-    _next: Optional["SingleNode[T]"] = None
+    _next: Optional["SLLTNode[T]"] = None
     """
     Referencia al siguiente nodo de la lista.
     """
 
-    def next(self) -> Optional["SingleNode[T]"]:
+    def next(self) -> Optional["SLLTNode[T]"]:
         """*next()* recupera la referencia el siguiente nodo de la lista. Si no existe retorna *None*.
 
         Returns:
-            Optional[SingleNode[T]]: referencia al siguiente *Node* de la lista si existe.
+            Optional[SLLTNode[T]]: referencia al siguiente *Node* de la lista si existe.
         """
         return self._next
 
 
 @dataclass
-class DoubleNode(SingleNode, Generic[T]):
-    """**DoubleNode** representa un nodo de una lista doblemente encadenada. Basada en el ADT *SingleNode* que contiene la información del nodo.
+class DLLTNode(SLLTNode, Generic[T]):
+    """**DLLTNode** representa un nodo de una lista doblemente encadenada. Basada en el ADT *SLLTNode* que contiene la información del nodo.
 
     Args:
-        SingleNode (Dataclass): ADT base para implementar un nodo con información genérica.
+        SLLTNode (Dataclass): ADT base para implementar un nodo con información genérica.
         Generic (T): TAD (Tipo Abstracto de Datos) o ADT (Abstract Data Type) para una estructura de datos genéricas en python.
 
     Returns:
-        DoubleNode: ADT para un *DoubleNode* o nodo para una lista doblemente encadenada.
+        DLLTNode: ADT para un *DLLTNode* o nodo para una lista doblemente encadenada.
     """
     # optional reference to the previous node of the same type
     # :attr: _prev
-    _prev: Optional["DoubleNode[T]"] = None
+    _prev: Optional["DLLTNode[T]"] = None
     """
     Referencia al anterior nodo anterior de la lista.
     """
 
-    def prev(self) -> Optional["DoubleNode[T]"]:
-        """*prev()* recupera la referencia al anterior *DoubleNode* de la lista. Si no existe retorna *None*.
+    def prev(self) -> Optional["DLLTNode[T]"]:
+        """*prev()* recupera la referencia al anterior *DLLTNode* de la lista. Si no existe retorna *None*.
 
         Returns:
-            Optional[DoubleNode[T]]: referencia al anterior *DoubleNode* si existe.
+            Optional[DLLTNode[T]]: referencia al anterior *DLLTNode* si existe.
         """
         return self._prev
