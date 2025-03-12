@@ -1,8 +1,10 @@
 ﻿from Src.Func.DataStructs.List import arlt
 # from Src.Func.DataStructs.List import sllt
-from Src.Func.Algorithms.Sorts.mergesort import sort as mst
-from Src.Func.Algorithms.Sorts.insertionsort import sort as ist
-from Src.Func.Algorithms.Sorts.quicksort import sort as qst
+from Src.Func.Algorithms.Sorts.mgst import sort as mst
+from Src.Func.Algorithms.Sorts.inst import sort as ist
+from Src.Func.Algorithms.Sorts.qkst import sort as qst
+# from Src.Func.Algorithms.Sorts.shst import sort as sst
+# from Src.Func.Algorithms.Sorts.sest import sort as sst
 # from typing import Callable
 import random
 
