@@ -43,7 +43,7 @@ def sort(lst, sort_crit):
         """se divide la lista original, en dos partes, izquierda y derecha,
         desde el punto mid."""
         leftlist = lt.subList(lst, 1, mid)
-        rightlist = lt.subList(lst, mid+1, size - mid)
+        rightlist = lt.subList(lst, mid + 1, size - mid)
 
         """se hace el llamado recursivo con la lista izquierda y derecha"""
         sort(leftlist, sort_crit)
