@@ -12,6 +12,8 @@ from Src.Dataclass.DataStructs.Lists.sllt import Singlelinked
 # import functional programing sorting algorithms
 from Src.Func.Algorithms.Sorts.mgst import sort as mst
 from Src.Func.Algorithms.Sorts.inst import sort as ist
+from Src.Func.Algorithms.Sorts.sest import sort as sest
+from Src.Func.Algorithms.Sorts.shst import sort as shst
 # TODO add other sorting algorithms imports as needed
 # from Src.Func.Algorithms.Sorts.qkst import sort as qst
 
@@ -53,8 +55,8 @@ print("dataclass implementation")
 for ta, tb in zip(adc, bdc):
     print(ta, tb)
 
-a = mst(a, sort_crit_by_idx)
-b = ist(b, sort_crit_by_idx)
+a = sest(a, sort_crit_by_idx)
+b = shst(b, sort_crit_by_idx)
 asc = dcsest(adc, sort_crit_by_idx)
 bsc = dcmgst(bdc, sort_crit_by_idx)
 
