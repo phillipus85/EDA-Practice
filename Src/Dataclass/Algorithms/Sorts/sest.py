@@ -53,3 +53,5 @@ def sort(lt: List, sort_crit: Callable[[T, T], bool]) -> List:
         _func = inspect.currentframe().f_code.co_name
         # handle the error
         err(_context, _func, e)
+        
+
