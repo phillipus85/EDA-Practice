@@ -12,8 +12,9 @@ from Src.Dataclass.DataStructs.Lists.sllt import Singlelinked
 # import functional programing sorting algorithms
 from Src.Func.Algorithms.Sorts.mgst import sort as mst
 from Src.Func.Algorithms.Sorts.inst import sort as ist
-# TODO add other sorting algorithms imports as needed
-# from Src.Func.Algorithms.Sorts.qkst import sort as qst
+from Src.Func.Algorithms.Sorts.sest import selection_sort as sest
+from Src.Func.Algorithms.Sorts.shst import shell_sort as shst
+
 
 # import dataclass programing sorting algorithms
 from Src.Dataclass.Algorithms.Sorts.sest import sort as dcsest
@@ -55,6 +56,9 @@ for ta, tb in zip(adc, bdc):
 
 a = mst(a, sort_crit_by_idx)
 b = ist(b, sort_crit_by_idx)
+c= sest(c, sort_crit_by_idx)
+d= shst(d, sort_crit_by_idx)
+
 asc = dcsest(adc, sort_crit_by_idx)
 bsc = dcmgst(bdc, sort_crit_by_idx)
 
