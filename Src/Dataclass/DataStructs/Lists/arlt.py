@@ -53,7 +53,7 @@ class Arraylist(Generic[T]):
     # :attr: cmp_function
     cmp_function: Optional[Callable[[T, T], int]] = None
     """
-    Función de comparación personalizable por el usuario para reconocer los elementos dentro del *Arraylist*. Por defecto es la función *lt_dflt_cmp_function()* propia de *DISClib*, puede ser un parametro al crear la estructura.
+    Función de comparación personalizable por el usuario para reconocer los elementos dentro del *Arraylist*. Por defecto es la función *lt_dflt_cmp_function()* propia de *DataStructs*, puede ser un parametro al crear la estructura.
     """
 
     # using default_factory to generate an empty list
@@ -67,7 +67,7 @@ class Arraylist(Generic[T]):
     # :attr: key
     key: Optional[str] = None
     """
-    Nombre de la llave personalizable por el usuario utilizada para reconocer los elementos dentro del *Arraylist*. Por defecto es la llave de diccionario (*dict*) *DFLT_DICT_KEY = 'id'* propia de *DISClib*, puede ser un parametro al crear la estructura.
+    Nombre de la llave personalizable por el usuario utilizada para reconocer los elementos dentro del *Arraylist*. Por defecto es la llave de diccionario (*dict*) *DFLT_DICT_KEY = 'id'* propia de *DataStructs*, puede ser un parametro al crear la estructura.
     """
 
     # by default, the list is empty

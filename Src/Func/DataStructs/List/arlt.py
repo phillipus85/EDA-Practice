@@ -175,7 +175,7 @@ def get_element(lt: dict, pos: int) -> Any:
         Any: returns the element in the specific position of the array list.
     """
     try:
-        if pos < 0 or pos >= lt.get("size"):
+        if pos < 0 or pos > lt.get("size") - 1:
             return None
         return lt.get("elements")[pos]
     except Exception as exp:
@@ -331,13 +331,19 @@ def sub_list(lt: dict, start: int, end: int) -> dict:
         dict: returns a new sub list from start to end
     """
     try:
-        sub_lt = new_array_lt(lt.get("cmp_function"), lt.get("key"))
-        i = 0
-        while i < lt.get("size") - 1:
-            if i >= start and i < end + 1:
-                add_last(sub_lt, get_element(lt, i))
+        sub_lt = new_array_lt(lt.get("cmp_function"),
+                              lt.get("key"))
+        i = start
+        while i < end:
+            add_last(sub_lt, get_element(lt, i))
             i += 1
         return sub_lt
+        # i = 0
+        # while i < lt.get("size") - 1:
+        #     if i >= start and i < end + 1:
+        #         add_last(sub_lt, get_element(lt, i))
+        #     i += 1
+        # return sub_lt
     except Exception as exp:
         err("arraylist", "sub_list()", exp)
 

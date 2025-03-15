@@ -125,10 +125,10 @@ def remove(mp: dict, key: Any) -> dict:
 def contains(mp: dict, key: Any) -> bool:
     try:
         _idx = num.hash_compress(key,
-                                  mp["scale"],
-                                  mp["shift"],
-                                  mp["prime"],
-                                  mp["capacity"])
+                                 mp["scale"],
+                                 mp["shift"],
+                                 mp["prime"],
+                                 mp["capacity"])
         _slot = find_slot(mp, key, _idx, mp["cmp_function"])
         if _slot > -1:
             return True
@@ -210,10 +210,10 @@ def rehash(mp: dict) -> None:
                 entry = arlt.get_element(mp["table"], _idx)
                 if entry["key"] not in (None, "__EMPTY__"):
                     _idx = num.hash_compress(entry["key"],
-                                            mp["scale"],
-                                            mp["shift"],
-                                            mp["prime"],
-                                            _new_capacity)
+                                             mp["scale"],
+                                             mp["shift"],
+                                             mp["prime"],
+                                             _new_capacity)
                     _slot = find_slot(mp, entry["key"], _idx, mp["cmp_function"])
                     arlt.update(_new_table, abs(_slot), entry)
                 _idx += 1
@@ -264,100 +264,3 @@ def find_slot(mp: dict, key: Any, _idx: int) -> int:
         return -(_available_slot)
     except Exception as exp:
         err("probing", "new_find_slot()", exp)
-
-
-# def find_slot(mp: dict, key: Any, _idx: int, cmp_function: Any) -> int:
-#     try:
-#         _slot = 0
-#         _available_slot = -1
-#         hash_table = mp["table"]
-
-#         while _slot != _idx:
-#             if _slot == 0:
-#                 _slot = _idx
-#             if is_available(hash_table, _slot):
-#                 entry = arlt.get_element(hash_table, _slot)
-#                 if _available_slot == -1:
-#                     _available_slot = _slot
-#                 if entry["key"] is None:
-#                     # _available_slot = _slot
-#                     break
-#             else:
-#                 entry = arlt.get_element(hash_table, _slot)
-#                 # print(cmp_function(key, entry))
-#                 if cmp_function(key, entry) == 0:
-#                     return _slot
-#             # print("round probing!!!", _slot)
-#             _slot = _slot % mp["capacity"] + 1
-
-#         return -(_available_slot)
-
-        # avail = -1          # no se ha encontrado una posición aun
-        # _slot = 0
-        # table = mp["table"]
-        # while (_slot != _idx):  # Se busca una posición
-        #     if (_slot == 0):
-        #         _slot = _idx
-        #     if is_available(table, _slot):  # La posición esta disponible
-        #         element = arlt.get_element(table, _slot)
-        #         if avail == -1:
-        #             avail = _slot            # primera posición disponible
-        #         if element["key"] is None:       # nunca ha sido utilizada
-        #             break
-        #     else:                    # la posicion no estaba disponible
-        #         element = arlt.get_element(table, _slot)
-        #         if cmp_function(key, element) == 0:  # Es la llave
-        #             print("find_slot", _slot)
-        #             return _slot               # Se  retorna la posicion
-        #     _slot = (((_slot) % mp["capacity"]) + 1)
-        # return -(avail)    # numero negativo indica que el elemento no estaba
-        
-        # _max_probes = mp["capacity"]
-        # found = False
-        # available = False
-        # pc = 0
-        # j = -1
-        # idx = -1
-        # i = _idx
-        # while not (found or available) and pc < _max_probes:
-        #     entry = arlt.get_element(mp["table"], i)
-        #     if is_available(mp["table"], i):
-        #         if idx == -1:
-        #             idx = i
-        #         if entry["key"] is None:
-        #             available = True
-        #     else:
-        #         if cmp_function(key, entry) == 0:
-        #             j = i
-        #             found = True
-        #     i = int(i % mp["capacity"]) + 1
-        #     if i >= mp["capacity"]:
-        #         i = 0
-        #     pc += 1
-        # if found:
-        #     return j
-        # elif available:
-        #     return idx
-        # else:
-        #     return _max_probes + 1
-
-        # available = -1
-        # _pos = 0
-        # hash_table = mp["table"]
-        # while _pos != _idx:
-        #     if _pos == 0:
-        #         _pos = _idx
-        #     if is_available(hash_table, _pos):
-        #         elm = arlt.get_element(hash_table, _pos)
-        #         if available == -1:
-        #             available = _pos
-        #         if elm["key"] is None:
-        #             break
-        #     else:
-        #         elm = arlt.get_element(hash_table, _pos)
-        #         if cmp_function(key, elm) == 0:
-        #             return _pos
-        #     _pos = (((_pos) % mp["capacity"]) + 1)
-        # return -(available)
-    # except Exception as exp:
-    #     err("probing", "find_slot()", exp)

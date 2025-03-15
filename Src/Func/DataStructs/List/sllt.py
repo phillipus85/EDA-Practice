@@ -134,7 +134,7 @@ def get_element(lt: dict, pos: int) -> Any:
     try:
         idx = 0
         cur = lt.get("first")
-        if pos < 0 or pos >= lt.get("size"):
+        if pos < 0 or pos > lt.get("size") - 1:
             return None
         while idx < pos:
             cur = cur.get("next")
@@ -254,13 +254,19 @@ def is_present(lt: dict, element: Any) -> int:
 
 def sub_list(lt: dict, start: int, end: int) -> dict:
     try:
-        sub = new_single_lt(lt.get("cmp_function"), lt.get("key"))
-        i = 0
-        while i < lt.get("size"):
-            if i >= start and i < end + 1:
-                add_last(sub, get_element(lt, i))
+        sub = new_single_lt(lt.get("cmp_function"),
+                            lt.get("key"))
+        i = start
+        while i < end:
+            add_last(sub, get_element(lt, i))
             i += 1
         return sub
+        # i = 0
+        # while i < lt.get("size"):
+        #     if i >= start and i < end:
+        #         add_last(sub, get_element(lt, i))
+        #     i += 1
+        # return sub
     except Exception as e:
         err("singlelist", "sub_list()", e)
 

@@ -1,10 +1,10 @@
 ﻿# import python modules
 import csv
-import sys
+# import sys
 import os
 
 # import the modules for data structures
-from Src.DataStructs.List.arraylist import Arraylist
+from Src.Dataclass.DataStructs.Lists.arlt import Arraylist
 
 # assert the data structures modules
 assert Arraylist
