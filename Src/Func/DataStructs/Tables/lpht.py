@@ -69,9 +69,9 @@ def put(mp: dict, key: Any, value: Any) -> None:
     try:
         entry = me.new_map_entry(key, value)
         _idx = num.hash_compress(key,
-                                 mp["prime"],
                                  mp["scale"],
                                  mp["shift"],
+                                 mp["prime"],
                                  mp["capacity"])
         slot = find_slot(mp, key, _idx)
         print(f"put-k: {key}, slot: {slot}")
@@ -241,6 +241,8 @@ def find_slot(mp: dict, key: Any, _idx: int) -> int:
         while _slot != _idx:
             if _slot == 0:
                 _slot = _idx
+            if _slot == -1:
+                _slot = 0
             if is_available(_table, _slot):
                 entry = arlt.get_element(_table, _slot)
                 if _available_slot == -1:
@@ -252,7 +254,13 @@ def find_slot(mp: dict, key: Any, _idx: int) -> int:
                 print(f"k: {key}, entry: {entry}, idx: {_idx}, slot: {_slot}")
                 if _cmp(key, entry) == 0:
                     return _slot
-            _slot = ((_slot % mp["capacity"]) + 1)
+            
+            if _slot == (mp["capacity"] - 1):
+                _slot = -1
+            else:
+                _slot = ((_slot% mp["capacity"]) + 1)
+        
+                
         return -(_available_slot)
     except Exception as exp:
         err("probing", "new_find_slot()", exp)
