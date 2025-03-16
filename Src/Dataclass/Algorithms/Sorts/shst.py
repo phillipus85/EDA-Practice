@@ -27,8 +27,22 @@ assert T
 
 def sort(lt: List, sort_crit: Callable[[T, T], bool]) -> List:
     try:
+        
+        n = lt.size()
+        h = 1
+        while h < n/3:
+            h = 3*h + 1
+        while (h >= 1):
+            for i in range(h, n):
+                j = i
+                while (j >= h) and sort_crit(lt.get_element(j),
+                                            lt.get_element(j-h)):
+                    lt.exchange(j, j-h)
+                    j -= h
+            h //= 3
+        return lt 
+    
         # TODO complete the function
-        return lt
     except Exception as e:
         # get current module and function name
         _context = __name__.split(".")[-1]

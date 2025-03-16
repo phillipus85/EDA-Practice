@@ -27,6 +27,7 @@ assert T
 def sort(lt: List, sort_crit: Callable[[T, T], bool]) -> List:
     try:
         # TODO complete the function
+        quicksort(lt, 0, lt.size()-1, sort_crit)
         return lt
     except Exception as e:
         # get current module and function name
@@ -34,3 +35,22 @@ def sort(lt: List, sort_crit: Callable[[T, T], bool]) -> List:
         _func = inspect.currentframe().f_code.co_name
         # handle the error
         err(_context, _func, e)
+
+
+def quicksort(lt, lo, hi, sort_crit):
+    if (lo >= hi):
+        return
+    pivot = partition(lt, lo, hi, sort_crit)
+    quicksort(lt, lo, pivot-1, sort_crit)
+    quicksort(lt, pivot + 1, hi, sort_crit)
+
+def partition(lt, lo, hi, sort_crit):
+    follower = leader = lo
+    while leader < hi:
+        if sort_crit(lt.get_element(leader),
+                     lt.get_element(hi)):
+            lt.exchange(follower, leader)
+            follower += 1
+        leader += 1
+    lt.exchange(follower, hi)
+    return follower
