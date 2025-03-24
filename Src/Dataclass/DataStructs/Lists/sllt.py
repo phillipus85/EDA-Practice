@@ -540,8 +540,8 @@ class Singlelinked(Generic[T]):
                 raise IndexError("Index", pos2, "is out of range")
             info_pos1 = self.get_element(pos1)
             info_pos2 = self.get_element(pos2)
-            self.change_info(info_pos2, pos1)
-            self.change_info(info_pos1, pos2)
+            self.update(info_pos2, pos1)
+            self.update(info_pos1, pos2)
         except Exception as err:
             self._handle_error(err)
 

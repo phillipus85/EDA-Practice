@@ -295,3 +295,22 @@ def concat(lt1: dict, lt2: dict) -> dict:
         return new_lt
     except Exception as e:
         err("singlelist", "concat()", e)
+
+
+def clone(lt: dict) -> dict:
+    """clone clones a single linked list. We don't name the function as copy to avoid confusion with the python copy module.
+
+    Args:
+        lt (dict): single linked list to clone.
+
+    Returns:
+        dict: cloned single linked list.
+    """
+    try:
+        new_lt = new_single_lt(lt.get("cmp_function"),
+                               lt.get("key"))
+        for elm in iterator(lt):
+            add_last(new_lt, elm)
+        return new_lt
+    except Exception as exp:
+        err("arraylist", "clone()", exp)

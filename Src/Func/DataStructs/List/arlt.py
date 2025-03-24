@@ -382,3 +382,22 @@ def concat(lt1: dict, lt2: dict) -> dict:
         return new_lt
     except Exception as exp:
         err("arraylist", "concat()", exp)
+
+
+def clone(lt: dict) -> dict:
+    """clone clones an array list. We don't name the function as copy to avoid confusion with the python copy module.
+
+    Args:
+        lt (dict): array list to clone.
+
+    Returns:
+        dict: returns a new array list with the same elements as lt.
+    """
+    try:
+        new_lt = new_array_lt(lt.get("cmp_function"),
+                              lt.get("key"))
+        for elm in iterator(lt):
+            add_last(new_lt, elm)
+        return new_lt
+    except Exception as exp:
+        err("arraylist", "clone()", exp)

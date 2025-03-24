@@ -36,15 +36,17 @@ def sort(lt: List, sort_crit: Callable[[T, T], bool]) -> List:
     """
     try:
         _size = lt.size()    # tamaño de la lista
-        i = 0                # indice del elemento actual
+        i = 0
+        # indice del elemento actual
         for elm in lt:
-            _min_idx = i
+            _min = i
             j = i + 1
             while j < _size:
-                if sort_crit(lt.get_element(j), lt.get_element(_min_idx)):
-                    _min_idx = j
+                if sort_crit(lt.get_element(j),
+                             lt.get_element(_min)):
+                    _min = j
                 j += 1
-            lt.exchange(i, _min_idx)
+            lt.exchange(i, _min)
             i += 1
         return lt
     except Exception as e:

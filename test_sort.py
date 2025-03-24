@@ -10,21 +10,34 @@ from Src.Dataclass.DataStructs.Lists.arlt import Arraylist
 from Src.Dataclass.DataStructs.Lists.sllt import Singlelinked
 
 # import functional programing sorting algorithms
-from Src.Func.Algorithms.Sorts.mgst import sort as mst
-from Src.Func.Algorithms.Sorts.inst import sort as ist
+from Src.Func.Algorithms.Sorts.mgst import sort as mgst
+from Src.Func.Algorithms.Sorts.inst import sort2 as inst
 # TODO add other sorting algorithms imports as needed
-# from Src.Func.Algorithms.Sorts.qkst import sort as qst
+from Src.Func.Algorithms.Sorts.qkst import sort as qkst
+from Src.Func.Algorithms.Sorts.sest import sort as sest
+from Src.Func.Algorithms.Sorts.shst import sort as shst
+
 
 # import dataclass programing sorting algorithms
 from Src.Dataclass.Algorithms.Sorts.sest import sort as dcsest
 from Src.Dataclass.Algorithms.Sorts.mgst import sort as dcmgst
 # TODO also add other sorting algorithms imports as needed
-# from Src.Dataclass.Algorithms.Sorts.inst import sort as dcinst
+from Src.Dataclass.Algorithms.Sorts.inst import sort as dcinst
+from Src.Dataclass.Algorithms.Sorts.shst import sort as dcshst
 
 
 def sort_crit_by_idx(a: dict, b: dict) -> bool:
     # print(a, b)
     if a["idx"] < b["idx"]:
+        return True
+    else:
+        return False
+
+
+def sort_crit_by_rating(book1: dict, book2: dict) -> bool:
+    r1 = float(book1["average_rating"])
+    r2 = float(book2["average_rating"])
+    if r1 < r2:
         return True
     else:
         return False
@@ -45,24 +58,46 @@ for i in range(1, 27):
     sllt.add_last(b, temp)
     bdc.add_last(temp)
 
+c = arlt.clone(a)
+d = sllt.clone(b)
+e = arlt.clone(a)
+cdc = adc.clone()
+ddc = bdc.clone()
+
 print("before sorting")
 print("functional implementation")
-for ta, tb in zip(arlt.iterator(a), sllt.iterator(b)):
-    print(ta, tb)
-print("dataclass implementation")
-for ta, tb in zip(adc, bdc):
-    print(ta, tb)
 
-a = mst(a, sort_crit_by_idx)
-b = ist(b, sort_crit_by_idx)
-asc = dcsest(adc, sort_crit_by_idx)
-bsc = dcmgst(bdc, sort_crit_by_idx)
+zipped = zip(arlt.iterator(a),
+             sllt.iterator(b),
+             arlt.iterator(c),
+             sllt.iterator(d))
+for ta, tb, tc, td in zipped:
+    print(f"'a': {ta}, \t'b': {tb}, \t'c': {tc}, \t'd': {td}")
+
+print("dataclass implementation")
+zipped = zip(adc, bdc, cdc, ddc)
+for ta, tb, tc, td in zipped:
+    print(f"'a': {ta}, \t'b': {tb}, \t'c': {tc}, \t'd': {td}")
+
+# a = mgst(a, sort_crit_by_idx)
+b = inst(b, sort_crit_by_idx)
+c = qkst(c, sort_crit_by_idx)
+d = shst(d, sort_crit_by_idx)
+# asc = dcmgst(adc, sort_crit_by_idx)
+# bsc = dcinst(bdc, sort_crit_by_idx)
+csc = dcsest(cdc, sort_crit_by_idx)
+dsc = dcshst(ddc, sort_crit_by_idx)
 
 print("after sorting")
 print("functional implementation")
-for ta, tb in zip(arlt.iterator(a), sllt.iterator(b)):
-    print(ta, tb)
+zipped = zip(arlt.iterator(a),
+             sllt.iterator(b),
+             arlt.iterator(c),
+             sllt.iterator(d))
+for ta, tb, tc, td in zipped:
+    print(f"'a': {ta}, \t'b': {tb}, \t'c': {tc}, \t'd': {td}")
 
 print("dataclass implementation")
-for ta, tb in zip(asc, bsc):
-    print(ta, tb)
+zipped = zip(adc, bdc, cdc, ddc)
+for ta, tb, tc, td in zipped:
+    print(f"'a': {ta}, \t'b': {tb}, \t'c': {tc}, \t'd': {td}")

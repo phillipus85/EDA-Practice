@@ -4,6 +4,7 @@ from typing import Callable
 
 
 def sort(lt: dict, sort_crit: Callable) -> dict:
+    # recursuve mask for the _sort function (quick sort)
     if lt["type"] == "ARRAYLIST":
         lst = arlt
     elif lt["type"] == "LINKEDLIST":
@@ -17,12 +18,13 @@ def _sort(lt: dict,
           high: int,
           sort_crit: Callable,
           _mod: Callable) -> dict:
+    # real recursive function for quick sort
     if low >= high:
-        return
+        return None
     pivot = _partition(lt, low, high, sort_crit, _mod)
     _sort(lt, low, pivot - 1, sort_crit, _mod)
     _sort(lt, pivot + 1, high, sort_crit, _mod)
-    # return lt
+    return lt
 
 
 def _partition(lt: dict,
@@ -30,6 +32,7 @@ def _partition(lt: dict,
                high: int,
                sort_crit: Callable,
                _mod: Callable) -> int:
+    # partition function for quick sort
     follower = leader = low
     while leader < high:
         if sort_crit(_mod.get_element(lt, leader),
