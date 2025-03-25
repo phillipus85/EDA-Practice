@@ -32,15 +32,15 @@ def default_lt_elm_cmp(id1: Any, id2: Any) -> int:
     return 0
 
 
-def new_array_lt(cmp_function=None, key: str = "id") -> dict:
-    """new_array_lt _summary_
+def new_list(cmp_function=None, key: str = "id") -> dict:
+    """new_list creates a new array list.
 
     Args:
         cmp_function (func, optional): function to compare elements. Defaults to None, uses default_lt_elm_cmp.
         key (str, optional): key to compare elements in structure. Defaults to "id".
 
     Returns:
-        dict: _description_
+        dict: returns a new array list.
     """
     new_lt = dict(
         elements=[],
@@ -86,45 +86,57 @@ def size(lt: dict) -> int:
         err("arraylist", "size()", exp)
 
 
-def add_first(lt: dict, element: Any) -> None:
+def add_first(lt: dict, element: Any) -> dict:
     """add_first adds an element to the first position of the array list.
 
     Args:
         lt (dict): array list to add the element.
         element (Any): element to add to the array list.
+
+    Returns:
+        dict: returns the array list with a new first element.
     """
     try:
         lt.get("elements").insert(0, element)
         lt["size"] += 1
+        return lt
     except Exception as exp:
         err("arraylist", "add_first()", exp)
 
 
-def add_last(lt: dict, element: Any) -> None:
+def add_last(lt: dict, element: Any) -> dict:
     """add_last adds an element to the last position of the array list.
 
     Args:
         lt (dict): array list to add the element.
         element (Any): element to add to the array list.
+
+    Returns:
+        dict: returns the array list with a new last element.
     """
     try:
         lt.get("elements").append(element)
         lt["size"] += 1
+        return lt
     except Exception as exp:
         err("arraylist", "add_last()", exp)
 
 
-def add_element(lt: dict, pos: int, element: Any) -> None:
+def add_element(lt: dict, pos: int, element: Any) -> dict:
     """add_element adds an element to a specific position in the array list.
 
     Args:
         lt (dict): array list to add the element.
         pos (int): position to add the element.
         element (Any): element to add to the array list.
+
+    Returns:
+        dict: returns the array list with a new element in a specific position
     """
     try:
         lt.get("elements").insert(pos, element)
         lt["size"] += 1
+        return lt
     except Exception as exp:
         err("arraylist", "add_element()", exp)
 
@@ -189,14 +201,14 @@ def remove_first(lt: dict) -> Any:
         lt (dict): array list to remove the first element.
 
     Returns:
-        Any: returns the array list without the first element.
+        Any: returns the array list without the first element. None if the array list is empty.
     """
     try:
         if lt.get("size") == 0:
             return None
-        elm = lt.get("elements").pop(0)
+        lt.get("elements").pop(0)
         lt["size"] -= 1
-        return elm
+        return lt
     except Exception as exp:
         err("arraylist", "remove_first()", exp)
 
@@ -208,14 +220,14 @@ def remove_last(lt: dict) -> Any:
         lt (dict): array list to remove the last element.
 
     Returns:
-        Any: returns the array list without the last element.
+        Any: returns the array list without the last element. None if the array list is empty.
     """
     try:
         if lt.get("size") == 0:
             return None
-        elm = lt.get("elements").pop(lt.get("size") - 1)
+        lt.get("elements").pop(lt.get("size") - 1)
         lt["size"] -= 1
-        return elm
+        return lt
     except Exception as exp:
         err("arraylist", "remove_last()", exp)
 
@@ -228,14 +240,14 @@ def remove_element(lt: dict, pos: int) -> Any:
         pos (int): position to remove the element.
 
     Returns:
-        Any: returns the array list without the element in the specific position.
+        Any: returns the array list without the element in the specific position. None if the position is invalid.
     """
     try:
         if pos < 0 or pos >= lt.get("size"):
             return None
-        elm = lt.get("elements").pop(pos)
+        lt.get("elements").pop(pos)
         lt["size"] -= 1
-        return elm
+        return lt
     except Exception as exp:
         err("arraylist", "remove_element()", exp)
 
@@ -328,22 +340,16 @@ def sub_list(lt: dict, start: int, end: int) -> dict:
         end (int): end position of the sub list, exclusive, less than the size of the array list.
 
     Returns:
-        dict: returns a new sub list from start to end
+        dict: returns a new sub list of the array list from start to end.
     """
     try:
-        sub_lt = new_array_lt(lt.get("cmp_function"),
-                              lt.get("key"))
+        sub_lt = new_list(lt.get("cmp_function"),
+                          lt.get("key"))
         i = start
         while i < end:
             add_last(sub_lt, get_element(lt, i))
             i += 1
         return sub_lt
-        # i = 0
-        # while i < lt.get("size") - 1:
-        #     if i >= start and i < end + 1:
-        #         add_last(sub_lt, get_element(lt, i))
-        #     i += 1
-        # return sub_lt
     except Exception as exp:
         err("arraylist", "sub_list()", exp)
 
@@ -354,8 +360,11 @@ def iterator(lt: dict) -> object:
     Args:
         lt (dict): array list to iterate.
 
+    Returns:
+        object: returns an iterator for the array list.
+
     Yields:
-        arraylist: returns the elements in the array list.
+        Iterator[object]: returns an iterator for the array list.
     """
     try:
         for pos in range(0, lt.get("size")):
@@ -375,7 +384,7 @@ def concat(lt1: dict, lt2: dict) -> dict:
         dict: returns a new array list with the elements of lt1 and lt2.
     """
     try:
-        new_lt = new_array_lt(lt1.get("cmp_function"), lt1.get("key"))
+        new_lt = new_list(lt1.get("cmp_function"), lt1.get("key"))
         _elements = lt1.get("elements") + lt2.get("elements")
         new_lt.update({"elements": _elements})
         new_lt.update({"size": len(_elements)})
@@ -394,8 +403,8 @@ def clone(lt: dict) -> dict:
         dict: returns a new array list with the same elements as lt.
     """
     try:
-        new_lt = new_array_lt(lt.get("cmp_function"),
-                              lt.get("key"))
+        new_lt = new_list(lt.get("cmp_function"),
+                          lt.get("key"))
         for elm in iterator(lt):
             add_last(new_lt, elm)
         return new_lt

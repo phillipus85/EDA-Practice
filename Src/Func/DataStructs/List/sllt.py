@@ -184,7 +184,6 @@ def remove_element(lt: dict, pos: int) -> Any:
         cur = lt.get("first")
         prev = lt.get("first")
         idx = 0
-        node = None
         if pos < 0 or pos >= lt.get("size"):
             if pos == 0:
                 lt["first"] = cur.get("next")
@@ -192,11 +191,11 @@ def remove_element(lt: dict, pos: int) -> Any:
             elif pos > 0:
                 while idx < pos:
                     idx += 1
-                    prev = node
-                    node = node.get("next")
-                prev["next"] = node.get("next")
+                    prev = cur
+                    cur = cur.get("next")
+                prev["next"] = cur.get("next")
                 lt["size"] -= 1
-            return node.get("data")
+            return cur.get("data")
         return None
     except Exception as e:
         err("singlelist", "remove_element()", e)
