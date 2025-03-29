@@ -43,8 +43,8 @@ def sort_crit_by_rating(book1: dict, book2: dict) -> bool:
         return False
 
 
-a = arlt.new_array_lt()
-b = sllt.new_single_lt()
+a = arlt.new_list()
+b = sllt.new_list()
 adc = Arraylist()
 bdc = Singlelinked()
 

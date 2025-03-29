@@ -53,8 +53,8 @@ def new_probing_mp(entries: int = 17,
             new_table["cmp_function"] = default_mp_entry_cmp
         else:
             new_table["cmp_function"] = cmp_function
-        new_table["table"] = arlt.new_array_lt(new_table["cmp_function"],
-                                               new_table["key"])
+        new_table["table"] = arlt.new_list(new_table["cmp_function"],
+                                           new_table["key"])
         i = 0
         while i < capacity:
             entry = me.new_map_entry(None, None)
@@ -69,9 +69,9 @@ def put(mp: dict, key: Any, value: Any) -> None:
     try:
         entry = me.new_map_entry(key, value)
         _idx = num.hash_compress(key,
-                                 mp["prime"],
                                  mp["scale"],
                                  mp["shift"],
+                                 mp["prime"],
                                  mp["capacity"])
         slot = find_slot(mp, key, _idx)
         print(f"put-k: {key}, slot: {slot}")
@@ -158,8 +158,8 @@ def is_empty(mp: dict) -> bool:
 
 def keys(mp: dict) -> dict:
     try:
-        keys_lt = sllt.new_single_lt(cmp_function=mp["cmp_function"],
-                                     key=mp["key"])
+        keys_lt = sllt.new_list(cmp_function=mp["cmp_function"],
+                                key=mp["key"])
         _idx = 0
         while _idx < arlt.size(mp["table"]):
             entry = arlt.get_element(mp["table"], _idx)
@@ -174,8 +174,8 @@ def keys(mp: dict) -> dict:
 
 def values(mp: dict) -> dict:
     try:
-        values_lt = sllt.new_single_lt(cmp_function=mp["cmp_function"],
-                                       key=mp["key"])
+        values_lt = sllt.new_list(cmp_function=mp["cmp_function"],
+                                  key=mp["key"])
         _idx = 0
         while _idx < arlt.size(mp["table"]):
             entry = arlt.get_element(mp["table"], _idx)
@@ -197,7 +197,7 @@ def rehash(mp: dict) -> None:
     try:
         if mp["rehashable"] is True:
             _new_capacity = num.next_prime(mp["capacity"] * 2)
-            _new_table = arlt.new_array_lt(mp["cmp_function"], mp["key"])
+            _new_table = arlt.new_list(mp["cmp_function"], mp["key"])
             i = 0
             while i < _new_capacity:
                 entry = me.new_map_entry(None, None)

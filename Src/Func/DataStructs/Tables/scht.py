@@ -53,12 +53,12 @@ def new_chaining_mp(entries: int = 17,
             new_table["cmp_function"] = default_mp_entry_cmp
         else:
             new_table["cmp_function"] = cmp_function
-        new_table["table"] = arlt.new_array_lt(new_table["cmp_function"],
-                                               new_table["key"])
+        new_table["table"] = arlt.new_list(new_table["cmp_function"],
+                                           new_table["key"])
         i = 0
         while i < capacity:
-            bucket = sllt.new_single_lt(new_table["cmp_function"],
-                                        new_table["key"])
+            bucket = sllt.new_list(new_table["cmp_function"],
+                                   new_table["key"])
             arlt.add_last(new_table["table"], bucket)
             i += 1
         return new_table
@@ -162,8 +162,8 @@ def is_empty(mp: dict) -> bool:
 
 def keys(mp: dict) -> dict:
     try:
-        keys_lt = sllt.new_single_lt(cmp_function=mp["cmp_function"],
-                                     key=mp["key"])
+        keys_lt = sllt.new_list(cmp_function=mp["cmp_function"],
+                                key=mp["key"])
         bucket = None
         _idx = 0
         while _idx < arlt.size(mp["table"]):
@@ -182,8 +182,8 @@ def keys(mp: dict) -> dict:
 
 def values(mp: dict) -> dict:
     try:
-        values_lt = sllt.new_single_lt(cmp_function=mp["cmp_function"],
-                                       key=mp["key"])
+        values_lt = sllt.new_list(cmp_function=mp["cmp_function"],
+                                  key=mp["key"])
         bucket = None
         _idx = 0
         while _idx < arlt.size(mp["table"]):
@@ -212,13 +212,13 @@ def rehash(mp: dict) -> dict:
             mp["size"] = 0
             mp["cur_alpha"] = 0
             mp["capacity"] = _new_cap
-            _new_table = arlt.new_array_lt(mp["cmp_function"],
-                                           mp["key"])
+            _new_table = arlt.new_list(mp["cmp_function"],
+                                       mp["key"])
             _old_table = mp["table"]
             _idx = 0
             while _idx < _new_cap:
-                bucket = sllt.new_single_lt(mp["cmp_function"],
-                                            mp["key"])
+                bucket = sllt.new_list(mp["cmp_function"],
+                                       mp["key"])
                 arlt.add_last(_new_table, bucket)
                 _idx += 1
             mp["table"] = _new_table
