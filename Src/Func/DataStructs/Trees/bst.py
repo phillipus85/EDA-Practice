@@ -7,7 +7,7 @@ This code is based on the implementation proposed by the following authors/books
 """
 
 # import python modules
-from typing import Any
+from typing import Any, Callable
 
 # import modules for data structures ranges in tree
 from Src.Func.DataStructs.List import sllt
@@ -19,15 +19,15 @@ from Src.Func.Utils.error import error_handler as err
 from Src.Func.DataStructs.Trees import trnode as trn
 
 
-def dflt_tree_node_cmp(key1, key2):
-    """dflt_tree_node_cmp 
+def dflt_tree_node_cmp(key1: Any, key2: Any) -> int:
+    """dflt_tree_node_cmp funcion de comparacion por defecto para los nodos de un árbol binario de búsqueda (BST).
 
     Args:
-        key1 (_type_): _description_
-        key2 (_type_): _description_
+        key1 (Any): primera llave a comparar
+        key2 (Any): segunda llave a comparar
 
     Returns:
-        _type_: _description_
+        int: -1 si key1 < key2, 0 si key1 == key2, 1 si key1 > key2
     """
     if key1 == key2:
         return 0
@@ -41,44 +41,67 @@ def new_tree(cmp_func=dflt_tree_node_cmp) -> dict:
     """new_tree _crea un nuevo árbol binario de búsqueda (BST) y lo retorna.
 
     Args:
-        cmp_func (function, optional): _description_. Defaults to dflt_tree_node_cmp.
+        cmp_func (function, optional): funcion de comparacion para los elementos del árbol. Por defecto es dflt_tree_node_cmp
 
     Returns:
-        dict: _description_
+        dict: diccionario que representa el árbol binario de búsqueda (BST)
     """
     try:
+        # definir el árbol binario de búsqueda (BST)
+        # y sus propiedades
+        # root: nodo raiz del árbol
+        # size: tamaño del árbol
+        # cmp_func: funcion de comparacion para los elementos del árbol
+        # _type: tipo de árbol (BST o RBT)
         _new_bst = dict(
             root=None,
             size=0,
             cmp_func=cmp_func,
             _type="BST"
         )
+        if _new_bst["cmp_func"] is None:
+            _new_bst["cmp_func"] = dflt_tree_node_cmp
+        # retorna el árbol binario de búsqueda (BST)
         return _new_bst
     except Exception as exp:
         err("bst", "new_tree()", exp)
 
 
 def insert(tree: dict, k: Any, v: Any) -> dict:
-    """insert _summary_
+    """insert aggrega un nuevo nodo al árbol binario de búsqueda (BST) y lo retorna.
 
     Args:
-        tree (dict): _description_
-        k (Any): _description_
-        v (Any): _description_
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
+        k (Any): llave del nodo a agregar
+        v (Any): valor del nodo a agregar
 
     Returns:
-        dict: _description_
+        dict: diccionario que representa el árbol binario de búsqueda (BST) actualizado
     """
     try:
+        # configurando los parametros para la funcion recursiva
         _root = tree["root"]
         _cmp = tree["cmp_func"]
+        # invocando la funcion recursiva para agregar el nodo al árbol
         _root = _insert(_root, k, v, _cmp)
+        # actualizando la raiz del árbol
         tree["root"] = _root
     except Exception as exp:
         err("bst", "insert()", exp)
 
 
-def _insert(node: dict, k: Any, v: Any, cmp_func) -> dict:
+def _insert(node: dict, k: Any, v: Any, cmp_func: Callable) -> dict:
+    """_insert funcion recursiva que agrega un nuevo nodo al árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        node (dict): nodo actual del árbol
+        k (Any): llave del nodo a agregar
+        v (Any): valor del nodo a agregar
+        cmp_func (Callable): funcion de comparacion para los elementos del árbol
+
+    Returns:
+        dict: diccionario que representa el árbol binario de búsqueda (BST) actualizado
+    """
     try:
         # caso base, el arbol esta vacio
         if node is None:
@@ -111,14 +134,14 @@ def _insert(node: dict, k: Any, v: Any, cmp_func) -> dict:
 
 
 def get(tree: dict, k: Any) -> dict:
-    """get _summary_
+    """get recupera un nodo del árbol binario de búsqueda (BST) y lo retorna.
 
     Args:
-        tree (dict): _description_
-        k (Any): _description_
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
+        k (Any): llave del nodo a recuperar
 
     Returns:
-        dict: _description_
+        dict: diccionario con el nodo recuperado
     """
     try:
         _root = tree["root"]
@@ -128,16 +151,16 @@ def get(tree: dict, k: Any) -> dict:
         err("bst", "get()", exp)
 
 
-def _get(node: dict, k: Any, cmp_func) -> dict:
-    """_get _summary_
+def _get(node: dict, k: Any, cmp_func: Callable) -> dict:
+    """_get funcion recursiva que recupera un nodo del árbol binario de búsqueda (BST) y lo retorna.
 
     Args:
-        node (dict): _description_
-        k (Any): _description_
-        cmp_func (_type_): _description_
+        node (dict): nodo actual del árbol
+        k (Any): llave del nodo a recuperar
+        cmp_func (Callable): funcion de comparacion para los elementos del árbol
 
     Returns:
-        dict: _description_
+        dict: diccionario con el nodo recuperado
     """
     try:
         # caso base, el arbol esta vacio
@@ -177,7 +200,7 @@ def remove(tree: dict, k: Any) -> dict:
         err("bst", "remove()", exp)
 
 
-def _remove(node: dict, k: Any, cmp_func) -> dict:
+def _remove(node: dict, k: Any, cmp_func: Callable) -> dict:
     try:
         # caso base, el arbol esta vacio\
         if node is None:
@@ -234,7 +257,7 @@ def contains(tree: dict, k: Any) -> bool:
         err("bst", "contains()", exp)
 
 
-def _contains(node: dict, k: Any, cmp_func) -> bool:
+def _contains(node: dict, k: Any, cmp_func: Callable) -> bool:
     pass
 
 
@@ -393,9 +416,7 @@ def keys(tree: dict) -> dict:
         dict: _description_
     """
     try:
-        keys_lt = sllt.new_list(cmp_function=tree["cmp_func"],
-                                key=tree["key"])
-        _keys(tree["root"], keys_lt)
+        keys_lt = sllt.new_list(cmp_function=tree["cmp_func"])
         return keys_lt
     except Exception as exp:
         err("bst", "keys()", exp)
@@ -415,9 +436,7 @@ def values(tree: dict) -> dict:
         dict: _description_
     """
     try:
-        values_lt = sllt.new_list(cmp_function=tree["cmp_func"],
-                                  key=tree["key"])
-        _values(tree["root"], values_lt)
+        values_lt = sllt.new_list(cmp_function=tree["cmp_func"])
         return values_lt
     except Exception as exp:
         err("bst", "values()", exp)
