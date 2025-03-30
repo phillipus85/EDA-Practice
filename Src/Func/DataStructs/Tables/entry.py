@@ -5,6 +5,7 @@ This code is based on the implementation proposed by the following authors/books
     #. Data Structure and Algorithms in Python, M.T. Goodrich, R. Tamassia, M.H. Goldwasser.
 """
 
+
 def new_map_entry(key: object, value: object) -> dict:
     """new_map_entry crea un nuevo diccionario con una pareja llave-valor. Llamados 'key' y 'value' respectivamente.
 
