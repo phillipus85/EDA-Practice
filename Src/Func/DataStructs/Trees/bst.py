@@ -183,14 +183,14 @@ def _get(node: dict, k: Any, cmp_func: Callable) -> dict:
 
 
 def remove(tree: dict, k: Any) -> dict:
-    """remove _summary_
+    """remove elimina un nodo del árbol binario de búsqueda (BST) y retorna el nodo a eliminar.
 
     Args:
-        tree (dict): _description_
-        k (Any): _description_
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
+        k (Any): llave del nodo a eliminar
 
     Returns:
-        dict: _description_
+        dict: diccionario que representa el árbol binario de búsqueda (BST) actualizado
     """
     try:
         _root = tree["root"]
@@ -201,6 +201,16 @@ def remove(tree: dict, k: Any) -> dict:
 
 
 def _remove(node: dict, k: Any, cmp_func: Callable) -> dict:
+    """_remove funcion recursiva que elimina un nodo del árbol binario de búsqueda (BST) y retorna el nodo a eliminar.
+
+    Args:
+        node (dict): nodo actual del árbol
+        k (Any): llave del nodo a eliminar
+        cmp_func (Callable): funcion de comparacion para los elementos del árbol
+
+    Returns:
+        dict: diccionario que representa el árbol binario de búsqueda (BST) actualizado
+    """
     try:
         # caso base, el arbol esta vacio\
         if node is None:
@@ -240,50 +250,80 @@ def _remove(node: dict, k: Any, cmp_func: Callable) -> dict:
 
 
 def contains(tree: dict, k: Any) -> bool:
-    """contains _summary_
+    """contains revisa si un nodo existe en el árbol binario de búsqueda (BST) y retorna True o False.
 
     Args:
-        tree (dict): _description_
-        k (Any): _description_
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
+        k (Any): llave del nodo a buscar
 
     Returns:
-        bool: _description_
+        bool: True si el nodo existe, False si no existe
     """
     try:
         _root = tree["root"]
         _cmp = tree["cmp_func"]
-        return _contains(_root, k, _cmp)
+        _found = False
+        return _contains(_root, k, _cmp, _found)
     except Exception as exp:
         err("bst", "contains()", exp)
 
 
-def _contains(node: dict, k: Any, cmp_func: Callable) -> bool:
-    pass
+def _contains(node: dict, k: Any, cmp_func: Callable, found: bool) -> bool:
+    """_contains funcion recursiva que revisa si un nodo existe en el árbol binario de búsqueda (BST) y retorna True o False.
+
+    Args:
+        node (dict): nodo actual del árbol
+        k (Any): llave del nodo a buscar
+        cmp_func (Callable): funcion de comparacion para los elementos del árbol
+        found (bool): bandera que indica si el nodo fue encontrado. False por defecto
+
+    Returns:
+        bool: True si el nodo existe, False si no existe
+    """
+    try:
+        # caso base, el arbol esta vacio
+        if node is None:
+            return found
+        # caso base, el arbol no esta vacio
+        if node is not None:
+            _cmp = cmp_func(k, node["key"])
+            # si la llave es igual, retornar True
+            if _cmp == 0:
+                found = True
+            # si la llave es menor, buscar en el subarbol izquierdo
+            elif _cmp < 0:
+                found = _contains(node["left"], k, cmp_func, found)
+            # si la llave es mayor, buscar en el subarbol derecho
+            elif _cmp > 0:
+                found = _contains(node["right"], k, cmp_func, found)
+        return found
+    except Exception as exp:
+        err("bst", "_contains()", exp)
 
 
 def size(tree: dict) -> int:
-    """size _summary_
+    """size contador de nodos del árbol binario de búsqueda (BST) y retorna el tamaño del árbol.
 
     Args:
-        tree (dict): _description_
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
 
     Returns:
-        int: _description_
+        int: tamaño del árbol binario de búsqueda (BST)
     """
     try:
-        return tree["size"]
+        return _size(tree["root"])
     except Exception as exp:
         err("bst", "size()", exp)
 
 
 def _size(node: dict) -> int:
-    """_size _summary_
+    """_size funcion recursiva que cuenta los nodos del árbol binario de búsqueda (BST) y retorna el tamaño del árbol.
 
     Args:
-        node (dict): _description_
+        node (dict): diccionario que representa el nodo actual del árbol
 
     Returns:
-        int: _description_
+        int: tamaño del árbol binario de búsqueda (BST), por defecto 0. Ademas, recordar que el nodo BST por defecto es de tamaño 1
     """
     if node is None:
         return 0
@@ -291,47 +331,67 @@ def _size(node: dict) -> int:
 
 
 def is_empty(tree: dict) -> bool:
-    """is_empty _summary_
+    """is_empty revisa si el árbol binario de búsqueda (BST) está vacío y retorna True o False.
 
     Args:
-        tree (dict): _description_
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
 
     Returns:
-        bool: _description_
+        bool: True si el árbol está vacío, False si no está vacío
     """
     try:
-        return tree["size"] == 0
+        return tree["root"] is None
     except Exception as exp:
         err("bst", "is_empty()", exp)
 
 
 def min(tree: dict) -> dict:
-    """min _summary_
+    """min recupera el nodo con la llave mínima del árbol binario de búsqueda (BST) y lo retorna.
 
     Args:
-        tree (dict): _description_
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
 
     Returns:
-        dict: _description_
+        dict: diccionario con el nodo minimo
     """
     try:
-        return _min(tree["root"])
+        _min_node = _min(tree["root"])
+        if _min_node is not None:
+            return _min_node["key"]
+        return None
     except Exception as exp:
         err("bst", "min()", exp)
 
 
 def _min(node: dict) -> dict:
-    pass
+    """_min funcion recursiva que recupera el nodo con la llave mínima del árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+
+    Returns:
+        dict: diccionario con el nodo minimo
+    """
+    try:
+        __min__ = node
+        if node is not None:
+            if node["left"] is not None:
+                __min__ = node
+            else:
+                __min__ = _min(node["left"])
+        return __min__
+    except Exception as exp:
+        err("bst", "_min()", exp)
 
 
 def delete_min(tree: dict) -> dict:
-    """delete_min _summary_
+    """delete_min elimina el nodo con la llave mínima del árbol binario de búsqueda (BST) y retorna el nodo a eliminar.
 
     Args:
-        tree (dict): _description_
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
 
     Returns:
-        dict: _description_
+        dict: diccionario que representa el árbol binario de búsqueda (BST) actualizado
     """
     try:
         return _delete_min(tree["root"])
@@ -340,39 +400,73 @@ def delete_min(tree: dict) -> dict:
 
 
 def _delete_min(node: dict) -> dict:
+    """_delete_min funcion recursiva que elimina el nodo con la llave mínima del árbol binario de búsqueda (BST) y retorna el nodo a eliminar.
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+
+    Returns:
+        dict: diccionario que representa el árbol binario de búsqueda (BST) actualizado
+    """
     try:
-        pass
+        if node is not None:
+            if node["left"] is None:
+                return node["right"]
+            else:
+                node["left"] = _delete_min(node["left"])
+            node["size"] = _size(node["left"]) + _size(node["right"]) + 1
+        return node
     except Exception as exp:
         err("bst", "_delete_min()", exp)
 
 
 def max(tree: dict) -> dict:
-    """max _summary_
+    """max recupera el nodo con la llave máxima del árbol binario de búsqueda (BST) y lo retorna.
 
     Args:
-        tree (dict): _description_
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
 
     Returns:
-        dict: _description_
+        dict: diccionario con el nodo maximo
     """
     try:
-        return _max(tree["root"])
+        _max_node = _max(tree["root"])
+        if _max_node is not None:
+            return _max_node["key"]
+        return None
     except Exception as exp:
         err("bst", "max()", exp)
 
 
 def _max(node: dict) -> dict:
-    pass
+    """_max funcion recursiva que recupera el nodo con la llave máxima del árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+
+    Returns:
+        dict: diccionario con el nodo maximo
+    """
+    try:
+        __max__ = None
+        if node is not None:
+            if node["right"] is not None:
+                __max__ = node
+            else:
+                __max__ = _max(node["right"])
+        return __max__
+    except Exception as exp:
+        err("bst", "_max()", exp)
 
 
 def delete_max(tree: dict) -> dict:
-    """delete_max _summary_
+    """delete_max elimina el nodo con la llave máxima del árbol binario de búsqueda (BST) y retorna el nodo a eliminar.
 
     Args:
-        tree (dict): _description_
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
 
     Returns:
-        dict: _description_
+        dict: diccionario que representa el árbol binario de búsqueda (BST) actualizado
     """
     try:
         return _delete_max(tree["root"])
@@ -381,6 +475,14 @@ def delete_max(tree: dict) -> dict:
 
 
 def _delete_max(node: dict) -> dict:
+    """_delete_max funcion recursiva que elimina el nodo con la llave máxima del árbol binario de búsqueda (BST) y retorna el nodo a eliminar.
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+
+    Returns:
+        dict: diccionario que representa el árbol binario de búsqueda (BST) actualizado
+    """
     try:
         pass
     except Exception as exp:
@@ -388,13 +490,13 @@ def _delete_max(node: dict) -> dict:
 
 
 def height(tree: dict) -> int:
-    """height _summary_
+    """height retorna la altura del árbol binario de búsqueda (BST).
 
     Args:
-        tree (dict): _description_
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
 
     Returns:
-        int: _description_
+        int: altura del árbol binario de búsqueda (BST)
     """
     try:
         return _height(tree["root"])
@@ -403,7 +505,15 @@ def height(tree: dict) -> int:
 
 
 def _height(node: dict) -> int:
-    pass
+    try:
+        if node is None:
+            return -1
+        else:
+            left_h = _height(node["left"])
+            right_h = _height(node["right"])
+            return max(left_h, right_h) + 1
+    except Exception as exp:
+        err("bst", "_height()", exp)
 
 
 def keys(tree: dict) -> dict:
