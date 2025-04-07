@@ -981,13 +981,10 @@ def _entries(node: dict,
 
 
 def _flip_colors_node(node: dict) -> None:
-    """_flip_colors_node _summary_
+    """_flip_colors_node intercambia el color de un nodo y sus hijos en el árbol binario balanceado hacia la izquierda (LLRBT).
 
     Args:
-        node (dict): _description_
-
-    Returns:
-        _type_: _description_
+        node (dict): diccionario que representa el nodo actual del árbol
     """
     try:
         __flip_colors_node(node)
@@ -998,6 +995,11 @@ def _flip_colors_node(node: dict) -> None:
 
 
 def __flip_colors_node(node: dict) -> None:
+    """__flip_colors_node funcion que intercambia el color de un nodo en el árbol binario balanceado hacia la izquierda (LLRBT).
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+    """
     try:
         if node is not None:
             if node["color"] == trn.RED:
@@ -1009,13 +1011,13 @@ def __flip_colors_node(node: dict) -> None:
 
 
 def _rotate_left(node: dict) -> dict:
-    """_rotate_left _summary_
+    """_rotate_left rotacion a la izquierda del árbol binario balanceado hacia la izquierda (LLRBT) y retorna el nodo izquierdo.
 
     Args:
-        node (dict): _description_
+        node (dict): diccionario que representa el nodo actual del árbol
 
     Returns:
-        _type_: _description_
+        dict: diccionario del nodo LLRBT rotado a la izquierda
     """
     try:
         # actualizar el nodo izquierdo
@@ -1027,7 +1029,9 @@ def _rotate_left(node: dict) -> dict:
         node["color"] = trn.RED
         # actualizar el tamaño de los nodos
         temp["size"] = node["size"]
-        node["size"] = _size(node["left"]) + _size(node["right"]) + 1
+        _n_left = _size(node["left"])
+        _n_right = _size(node["right"])
+        node["size"] = _n_left + _n_right + 1
         # retornar el nodo izquierdo
         return temp
     except Exception as exp:
@@ -1035,6 +1039,14 @@ def _rotate_left(node: dict) -> dict:
 
 
 def _rotate_right(node: dict) -> dict:
+    """_rotate_right rotacion a la derecha del árbol binario balanceado hacia la izquierda (LLRBT) y retorna el nodo derecho.
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+
+    Returns:
+        dict: diccionario del nodo LLRBT rotado a la derecha
+    """
     try:
         # actualizar el nodo derecho
         # caso base, el arbol esta vacio
@@ -1045,7 +1057,9 @@ def _rotate_right(node: dict) -> dict:
         node["color"] = trn.RED
         # actualizar el tamaño de los nodos
         temp["size"] = node["size"]
-        node["size"] = _size(node["left"]) + _size(node["right"]) + 1
+        _n_left = _size(node["left"])
+        _n_right = _size(node["right"])
+        node["size"] = _n_left + _n_right + 1
         # retornar el nodo derecho
         return temp
     except Exception as exp:
@@ -1053,13 +1067,13 @@ def _rotate_right(node: dict) -> dict:
 
 
 def _is_red(node: dict) -> bool:
-    """_is_red _summary_
+    """_is_red verifica si el nodo es rojo o no y retorna True o False.
 
     Args:
-        node (dict): _description_
+        node (dict): diccionario que representa el nodo actual del árbol
 
     Returns:
-        bool: _description_
+        bool: True si el nodo es rojo, False si no lo es
     """
     try:
         if node is None:
@@ -1069,36 +1083,14 @@ def _is_red(node: dict) -> bool:
         err("llrbt", "_is_red()", exp)
 
 
-def _move_red_right(node: dict) -> dict:
-    """_move_red_right _summary_
-
-    Args:
-        node (dict): _description_
-
-    Returns:
-        _type_: _description_
-    """
-    try:
-        # cambiar el color del nodo
-        _flip_colors_node(node)
-        # si el hijo izquierdo es rojo, rotar a la derecha
-        if _is_red(node["left"]["left"]):
-            node = _rotate_right(node)
-            # cambiar el color del nodo
-            _flip_colors_node(node)
-        return node
-    except Exception as exp:
-        err("llrbt", "_move_red_right()", exp)
-
-
 def _move_red_left(node: dict) -> dict:
-    """_move_red_left _summary_
+    """_move_red_left _mueve el color rojo hacia la izquierda en el árbol binario balanceado hacia la izquierda (LLRBT) y retorna el nodo.
 
     Args:
-        node (dict): _description_
+        node (dict): diccionario que representa el nodo actual del árbol
 
     Returns:
-        dict: _description_
+        dict: diccionario que representa el árbol binario balanceado hacia la izquierda (LLRBT) actualizado
     """
     try:
         # cambiar el color del nodo
@@ -1112,6 +1104,28 @@ def _move_red_left(node: dict) -> dict:
         return node
     except Exception as exp:
         err("llrbt", "_move_red_left()", exp)
+
+
+def _move_red_right(node: dict) -> dict:
+    """_move_red_right _mueve el color rojo hacia la derecha en el árbol binario balanceado hacia la izquierda (LLRBT) y retorna el nodo.
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+
+    Returns:
+        dict: diccionario que representa el árbol binario balanceado hacia la izquierda (LLRBT) actualizado
+    """
+    try:
+        # cambiar el color del nodo
+        _flip_colors_node(node)
+        # si el hijo izquierdo es rojo, rotar a la derecha
+        if _is_red(node["left"]["left"]):
+            node = _rotate_right(node)
+            # cambiar el color del nodo
+            _flip_colors_node(node)
+        return node
+    except Exception as exp:
+        err("llrbt", "_move_red_right()", exp)
 
 
 def _balance(node: dict) -> dict:
