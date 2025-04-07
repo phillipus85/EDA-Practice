@@ -5,8 +5,8 @@ This code is based on the implementation proposed by the following authors/books
     #. Data Structure and Algorithms in Python, M.T. Goodrich, R. Tamassia, M.H. Goldwasser.
 """
 
-_RED = "red"
-_BLACK = "black"
+RED = "red"
+BLACK = "black"
 
 
 def new_bst_node(k: object, v: object, n: int = 1) -> dict:
@@ -68,7 +68,7 @@ def is_red(node: dict) -> bool:
     Returns:
         bool: _description_
     """
-    return node.get("color") == _RED
+    return node.get("color") == RED
 
 
 def get_value(node: dict) -> object:

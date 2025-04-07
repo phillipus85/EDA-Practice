@@ -195,7 +195,8 @@ def remove(tree: dict, k: Any) -> dict:
     try:
         _root = tree["root"]
         _cmp = tree["cmp_func"]
-        return _remove(_root, k, _cmp)
+        tree["root"] = _remove(_root, k, _cmp)
+        return tree
     except Exception as exp:
         err("bst", "remove()", exp)
 
@@ -484,9 +485,210 @@ def _delete_max(node: dict) -> dict:
         dict: diccionario que representa el árbol binario de búsqueda (BST) actualizado
     """
     try:
-        pass
+        if node is not None:
+            if node["right"] is None:
+                return node["left"]
+            else:
+                node["right"] = _delete_max(node["right"])
+            node["size"] = _size(node["left"]) + _size(node["right"]) + 1
+        return node
     except Exception as exp:
         err("bst", "_delete_max()", exp)
+
+
+def floor(tree: dict, k: Any) -> dict:
+    """floor recupera el nodo con la llave máxima menor o igual a k del árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
+        k (Any): llave a buscar
+
+    Returns:
+        dict: diccionario con el nodo maximo menor o igual a k
+    """
+    try:
+        _root = tree["root"]
+        _cmp = tree["cmp_func"]
+        return _floor(_root, k, _cmp)
+    except Exception as exp:
+        err("bst", "floor()", exp)
+
+
+def _floor(node: dict, k: Any, cmp_func: Callable) -> dict:
+    """_floor funcion recursiva que recupera el nodo con la llave máxima menor o igual a k del árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+        k (Any): llave a buscar
+        cmp_func (Callable): funcion de comparacion para los elementos del árbol
+
+    Returns:
+        dict: diccionario con el nodo maximo menor o igual a k
+    """
+    try:
+        if node is not None:
+            _cmp = cmp_func(k, node["key"])
+            # si la llave es igual, retornar el nodo
+            if _cmp == 0:
+                return node
+            # si la llave es menor, buscar en el subarbol izquierdo
+            elif _cmp < 0:
+                return _floor(node["left"], k, cmp_func)
+            # si la llave es mayor, buscar en el subarbol derecho
+            else:
+                _node = _floor(node["right"], k, cmp_func)
+                if _node is not None:
+                    return _node
+                else:
+                    return node
+        # caso base, el arbol esta vacio
+        # TODO retornar node es viable?
+        return None
+    except Exception as exp:
+        err("bst", "_floor()", exp)
+
+
+def ceiling(tree: dict, k: Any) -> dict:
+    """ceiling recupera el nodo con la llave mínima mayor o igual a k del árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
+        k (Any): llave a buscar
+
+    Returns:
+        dict: diccionario con el nodo minimo mayor o igual a k
+    """
+    try:
+        _root = tree["root"]
+        _cmp = tree["cmp_func"]
+        return _ceiling(_root, k, _cmp)
+    except Exception as exp:
+        err("bst", "ceiling()", exp)
+
+
+def _ceiling(node: dict, k: Any, cmp_func: Callable) -> dict:
+    """_ceiling funcion recursiva que recupera el nodo con la llave mínima mayor o igual a k del árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+        k (Any): llave a buscar
+        cmp_func (Callable): funcion de comparacion para los elementos del árbol
+
+    Returns:
+        dict: diccionario con el nodo minimo mayor o igual a k
+    """
+    try:
+        if node is not None:
+            _cmp = cmp_func(k, node["key"])
+            # si la llave es igual, retornar el nodo
+            if _cmp == 0:
+                return node
+            # si la llave es menor, buscar en el subarbol izquierdo
+            elif _cmp < 0:
+                _node = _ceiling(node["left"], k, cmp_func)
+                if _node is not None:
+                    return _node
+                else:
+                    return node
+            # si la llave es mayor, buscar en el subarbol derecho
+            else:
+                return _ceiling(node["right"], k, cmp_func)
+        # caso base, el arbol esta vacio
+        # TODO retornar node es viable?
+        return None
+    except Exception as exp:
+        err("bst", "_ceiling()", exp)
+
+
+def select(tree: dict, k: int) -> dict:
+    """select recupera el nodo con la k-esima llave del árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
+        k (int): k-esima llave a buscar
+
+    Returns:
+        dict: diccionario con el nodo k-esimo
+    """
+    try:
+        _root = tree["root"]
+        return _select(_root, k)
+        # node = selectKey(bst['root'], pos)
+        # if (node is not None):
+        #     return node['key']
+    except Exception as exp:
+        err("bst", "select()", exp)
+
+
+def _select(node: dict, k: int) -> dict:
+    try:
+        if node is not None:
+            _left_n = _size(node["left"])
+            # si la k-esima llave es menor que el tamaño del subarbol izquierdo
+            if k < _left_n:
+                return _select(node["left"], k)
+            # si la k-esima llave es mayor que el tamaño del subarbol izquierdo
+            elif k > _left_n:
+                return _select(node["right"], k - _left_n - 1)
+            # si la k-esima llave es igual al tamaño del subarbol izquierdo
+            elif k == _left_n:
+                return node
+        # caso base, el arbol esta vacio
+        # TODO retornar node es viable?
+        return None
+    except Exception as exp:
+        err("bst", "_select()", exp)
+
+
+def rank(tree: dict, k: Any) -> int:
+    """rank recupera el tamaño del subarbol izquierdo del nodo con la llave k del árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
+        k (Any): llave a buscar
+
+    Returns:
+        int: tamaño del subarbol izquierdo del nodo con la llave k
+    """
+    try:
+        _root = tree["root"]
+        _cmp = tree["cmp_func"]
+        return _rank(_root, k, _cmp)
+    except Exception as exp:
+        err("bst", "rank()", exp)
+
+
+def _rank(node: dict, k: Any, cmp_func: Callable) -> int:
+    """_rank funcion recursiva que recupera el tamaño del subarbol izquierdo del nodo con la llave k del árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+        k (Any): llave a buscar
+        cmp_func (Callable): funcion de comparacion para los elementos del árbol
+
+    Returns:
+        int: tamaño del subarbol izquierdo del nodo con la llave k
+    """
+    try:
+        if node is not None:
+            _cmp = cmp_func(k, node["key"])
+            # si la llave es menor, buscar en el subarbol izquierdo
+            if _cmp < 0:
+                return _rank(node["left"], k, cmp_func)
+            # si la llave es mayor, buscar en el subarbol derecho
+            elif _cmp > 0:
+                _n_left = _size(node["left"])
+                # retornar el tamaño del subarbol izquierdo + 1 + el tamaño del subarbol derecho
+                _n_right = _rank(node["right"], k, cmp_func)
+                # retornar el tamaño del subarbol izquierdo + 1 + el tamaño del subarbol derecho
+                return _n_left + 1 + _n_right
+            # si la llave es igual, retornar el tamaño del subarbol izquierdo
+            else:
+                return _size(node["left"])
+        # caso base, el arbol esta vacio
+        return 0
+    except Exception as exp:
+        err("bst", "_rank()", exp)
 
 
 def height(tree: dict) -> int:
@@ -505,6 +707,14 @@ def height(tree: dict) -> int:
 
 
 def _height(node: dict) -> int:
+    """_height funcion recursiva que retorna la altura del árbol binario de búsqueda (BST).
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+
+    Returns:
+        int: altura del árbol binario de búsqueda (BST)
+    """
     try:
         if node is None:
             return -1
@@ -516,41 +726,237 @@ def _height(node: dict) -> int:
         err("bst", "_height()", exp)
 
 
-def keys(tree: dict) -> dict:
-    """keys _summary_
+def range(tree: dict, low: Any, high: Any) -> dict:
+    """range retorna una lista con los nodos del árbol binario de búsqueda (BST) que están dentro del rango [low, high].
 
     Args:
-        tree (dict): _description_
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
+        low (Any): llave mínima del rango
+        high (Any): llave máxima del rango
+
+    Returns:
+        dict: lista con los nodos del árbol binario de búsqueda (BST) que están dentro del rango [low, high]
+    """
+    try:
+        _root = tree["root"]
+        _cmp = tree["cmp_func"]
+        _lt_range = sllt.new_list(cmp_function=_cmp)
+        _lt_range = _range(_root, low, high, _cmp, _lt_range)
+        return _lt_range
+    except Exception as exp:
+        err("bst", "range()", exp)
+
+
+def _range(node: dict,
+           low: Any,
+           high: Any,
+           cmp_func: Callable,
+           lt_range: dict) -> dict:
+    """_range funcion recursiva que retorna una lista con los nodos del árbol binario de búsqueda (BST) que están dentro del rango [low, high].
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+        low (Any): llave mínima del rango
+        high (Any): llave máxima del rango
+        cmp_func (Callable): funcion de comparacion para los elementos del árbol
+        lt_range (dict): lista con los nodos del árbol binario de búsqueda (BST) que están dentro del rango [low, high]
 
     Returns:
         dict: _description_
     """
+    # TODO check the if statement for infinite loops
     try:
-        keys_lt = sllt.new_list(cmp_function=tree["cmp_func"])
-        return keys_lt
+        if node is not None:
+            _cmp_low = cmp_func(low, node["key"])
+            _cmp_high = cmp_func(high, node["key"])
+            # si la llave es menor que low, buscar en el subarbol derecho
+            if _cmp_low < 0:
+                _range(node["right"], low, high, cmp_func, lt_range)
+            # si la llave es mayor que high, buscar en el subarbol izquierdo
+            elif _cmp_high > 0:
+                _range(node["left"], low, high, cmp_func, lt_range)
+            # si la llave esta dentro del rango, agregarla a la lista
+            else:
+                sllt.add_last(lt_range, node["key"])
+                _range(node["left"], low, high, cmp_func, lt_range)
+                _range(node["right"], low, high, cmp_func, lt_range)
+        return lt_range
+    except Exception as exp:
+        err("bst", "_range()", exp)
+
+
+def keys(tree: dict, low: Any, high: Any) -> dict:
+    """keys retorna una lista con las llaves del árbol binario de búsqueda (BST) que están dentro del rango [low, high].
+
+    Args:
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
+        low (Any): llave mínima del rango
+        high (Any): llave máxima del rango
+
+    Returns:
+        dict: lista con las llaves del árbol binario de búsqueda (BST) que están dentro del rango [low, high]
+    """
+    try:
+        _keys_lt = sllt.new_list(cmp_function=tree["cmp_func"])
+        _cmp = tree["cmp_func"]
+        _keys_lt = _keys(tree["root"], low, high, _cmp, _keys_lt)
+        return _keys_lt
     except Exception as exp:
         err("bst", "keys()", exp)
 
 
-def _keys(node: dict, keys_lt: dict) -> None:
-    pass
-
-
-def values(tree: dict) -> dict:
-    """values _summary_
+def _keys(node: dict,
+          low: Any,
+          high: Any,
+          cmp_func: Callable,
+          keys_lt: dict) -> dict:
+    """_keys funcion recursiva que retorna una lista con las llaves del árbol binario de búsqueda (BST) que están dentro del rango [low, high].
 
     Args:
-        tree (dict): _description_
+        node (dict): diccionario que representa el nodo actual del árbol
+        low (Any): llave mínima del rango
+        high (Any): llave máxima del rango
+        cmp_func (Callable): funcion de comparacion para los elementos del árbol
+        keys_lt (dict): lista con las llaves del árbol binario de búsqueda (BST) que están dentro del rango [low, high]
 
     Returns:
-        dict: _description_
+        dict: lista con las llaves del árbol binario de búsqueda (BST) que están dentro del rango [low, high]
+    """
+    # TODO check if i generate an in-order traversal of the tree
+    try:
+        if node is not None:
+            _cmp_low = cmp_func(low, node["key"])
+            _cmp_high = cmp_func(high, node["key"])
+            # si la llave es menor que low, buscar en el subarbol derecho
+            if _cmp_low < 0:
+                _keys(node["right"], low, high, cmp_func, keys_lt)
+            # si la llave es mayor que high, buscar en el subarbol izquierdo
+            elif _cmp_high > 0:
+                _keys(node["left"], low, high, cmp_func, keys_lt)
+            # si la llave esta dentro del rango, agregarla a la lista
+            else:
+                _keys(node["left"], low, high, cmp_func, keys_lt)
+                sllt.add_last(keys_lt, node["key"])
+                _keys(node["right"], low, high, cmp_func, keys_lt)
+        return keys_lt
+    except Exception as exp:
+        err("bst", "_keys()", exp)
+
+
+def values(tree: dict, low: Any, high: Any) -> dict:
+    """values retorna una lista con los valores del árbol binario de búsqueda (BST) que están dentro del rango [low, high].
+
+    Args:
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
+        low (Any): llave mínima del rango
+        high (Any): llave máxima del rango
+
+    Returns:
+        dict: lista con los valores del árbol binario de búsqueda (BST) que están dentro del rango [low, high]
     """
     try:
-        values_lt = sllt.new_list(cmp_function=tree["cmp_func"])
-        return values_lt
+        _values_lt = sllt.new_list(cmp_function=tree["cmp_func"])
+        _cmp = tree["cmp_func"]
+        _values_lt = _values(tree["root"], low, high, _cmp, _values_lt)
+        return _values_lt
     except Exception as exp:
         err("bst", "values()", exp)
 
 
-def _values(node: dict, values_lt: dict) -> None:
-    pass
+def _values(node: dict,
+            low: Any,
+            high: Any,
+            cmp_func: Callable,
+            values_lt: dict) -> dict:
+    """_values funcion recursiva que retorna una lista con los valores del árbol binario de búsqueda (BST) que están dentro del rango [low, high].
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+        low (Any): llave mínima del rango
+        high (Any): llave máxima del rango
+        cmp_func (Callable): funcion de comparacion para los elementos del árbol
+        values_lt (dict): lista con los valores del árbol binario de búsqueda (BST) que están dentro del rango [low, high]
+
+    Returns:
+        dict: lista con los valores del árbol binario de búsqueda (BST) que están dentro del rango [low, high]
+    """
+    # TODO check if i generate an in-order traversal of the tree
+    try:
+        if node is not None:
+            _cmp_low = cmp_func(low, node["key"])
+            _cmp_high = cmp_func(high, node["key"])
+            # si la llave es menor que low, buscar en el subarbol derecho
+            if _cmp_low < 0:
+                _values(node["right"], low, high, cmp_func, values_lt)
+            # si la llave es mayor que high, buscar en el subarbol izquierdo
+            elif _cmp_high > 0:
+                _values(node["left"], low, high, cmp_func, values_lt)
+            # si la llave esta dentro del rango, agregarla a la lista
+            else:
+                _values(node["left"], low, high, cmp_func, values_lt)
+                sllt.add_last(values_lt, node["value"])
+                _values(node["right"], low, high, cmp_func, values_lt)
+        return values_lt
+    except Exception as exp:
+        err("bst", "_values()", exp)
+
+
+def entries(tree: dict, low: Any, high: Any) -> dict:
+    """entries retorna una lista con los nodos del árbol binario de búsqueda (BST) que están dentro del rango [low, high].
+
+    Args:
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
+        low (Any): llave mínima del rango
+        high (Any): llave máxima del rango
+
+    Returns:
+        dict: lista con los nodos del árbol binario de búsqueda (BST) que están dentro del rango [low, high]
+    """
+    try:
+        _entries_lt = sllt.new_list(cmp_function=tree["cmp_func"])
+        _cmp = tree["cmp_func"]
+        _entries_lt = _entries(tree["root"], low, high, _cmp, _entries_lt)
+        return _entries_lt
+    except Exception as exp:
+        err("bst", "entries()", exp)
+
+
+def _entries(node: dict,
+             low: Any,
+             high: Any,
+             cmp_func: Callable,
+             entries_lt: dict) -> dict:
+    """_entries _summary_
+
+    Args:
+        node (dict): diccionario que representa el nodo actual del árbol
+        low (Any): llave mínima del rango
+        high (Any): llave máxima del rango
+        cmp_func (Callable): funcion de comparacion para los elementos del árbol
+        entries_lt (dict): lista con los nodos del árbol binario de búsqueda (BST) que están dentro del rango [low, high]
+
+    Returns:
+        dict: lista con los nodos del árbol binario de búsqueda (BST) que están dentro del rango [low, high]
+    """
+    # TODO check if i generate an in-order traversal of the tree
+    try:
+        if node is not None:
+            _cmp_low = cmp_func(low, node["key"])
+            _cmp_high = cmp_func(high, node["key"])
+            # si la llave es menor que low, buscar en el subarbol derecho
+            if _cmp_low < 0:
+                _entries(node["right"], low, high, cmp_func, entries_lt)
+            # si la llave es mayor que high, buscar en el subarbol izquierdo
+            elif _cmp_high > 0:
+                _entries(node["left"], low, high, cmp_func, entries_lt)
+            # si la llave esta dentro del rango, agregarla a la lista
+            else:
+                _entries(node["left"], low, high, cmp_func, entries_lt)
+                # _entry = (node["key"], node["value"])
+                _entry = {"key": node["key"], "value": node["value"]}
+                sllt.add_last(entries_lt, _entry)
+                # sllt.add_last(entries_lt, node)
+                _entries(node["right"], low, high, cmp_func, entries_lt)
+        return entries_lt
+    except Exception as exp:
+        err("bst", "_entries()", exp)

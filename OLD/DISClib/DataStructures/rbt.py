@@ -640,11 +640,9 @@ def insertNode(root, key, value, cmpfunction):
         cmp = cmpfunction(key, root['key'])
 
         if (cmp < 0):     # La llave a insertar es menor que la raiz
-            root['left'] = insertNode(root['left'],  key, value,
-                                      cmpfunction)
+            root['left'] = insertNode(root['left'], key, value, cmpfunction)
         elif (cmp > 0):    # La llave a insertar es mayor que la raíz
-            root['right'] = insertNode(root['right'], key, value,
-                                       cmpfunction)
+            root['right'] = insertNode(root['right'], key, value, cmpfunction)
         else:              # La llave ya se encuentra en la tabla
             root['value'] = value
 
