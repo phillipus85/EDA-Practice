@@ -54,7 +54,7 @@ def new_rbt_node(k: object,
         left=None,
         right=None,
         color=color,
-        _type="RBT"
+        _type="LLRBT"
     )
     return _new_node
 

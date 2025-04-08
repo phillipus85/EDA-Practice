@@ -37,7 +37,7 @@ def dflt_tree_node_cmp(key1: Any, key2: Any) -> int:
         return 1
 
 
-def new_tree(cmp_func=dflt_tree_node_cmp) -> dict:
+def new_tree(cmp_func: Callable[[Any, Any], int] = None) -> dict:
     """new_tree _crea un nuevo árbol binario de búsqueda (BST) y lo retorna.
 
     Args:
