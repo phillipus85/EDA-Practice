@@ -20,7 +20,7 @@ def in_order(tree: dict) -> object:
     Returns:
         object: lista encadada (sllt) con los elementos del árbol en in-orden.
     """
-    _cmp = tree["cmp_function"]
+    _cmp = tree["cmp_func"]
     _xvers = lt.new_list(cmp_function=_cmp)
     if tree is not None:
         _xvers = _in_order(tree["root"], _xvers)
@@ -46,6 +46,41 @@ def _in_order(node: dict, _xvers: object) -> object:
     return _xvers
 
 
+def in_order_reverse(tree: dict) -> object:
+    """in_order_reverse recorrido en in-orden inverso de un árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST).
+
+    Returns:
+        object: lista encadada (sllt) con los elementos del árbol en in-orden inverso.
+    """
+    _cmp = tree["cmp_func"]
+    _xvers = lt.new_list(cmp_function=_cmp)
+    if tree is not None:
+        _xvers = _in_order_reverse(tree["root"], _xvers)
+    return _xvers
+
+
+def _in_order_reverse(node: dict, _xvers: object) -> object:
+    """_in_order_reverse función recursiva que realiza el recorrido en in-orden inverso de un árbol binario de búsqueda (BST) y agrega los elementos a una lista encadenada (sllt).
+
+    Args:
+        node (dict): nodo actual del árbol binario de búsqueda (BST).
+        _xvers (object): lista encadenada (sllt) donde se almacenan los elementos del árbol. Mantiene el estado del recorrido.
+
+    Returns:
+        object: lista encadenada (sllt) con los elementos del árbol en in-orden inverso.
+    """
+    if node is None:
+        return None
+    else:
+        _in_order_reverse(node["right"], _xvers)
+        lt.add_last(_xvers, node["value"])
+        _in_order_reverse(node["left"], _xvers)
+    return _xvers
+
+
 def pre_order(tree: dict) -> object:
     """pre_order recorrido en pre-orden de un árbol binario de búsqueda (BST) y lo retorna.
 
@@ -55,7 +90,7 @@ def pre_order(tree: dict) -> object:
     Returns:
         object: lista encadada (sllt) con los elementos del árbol en pre-orden.
     """
-    _cmp = tree["cmp_function"]
+    _cmp = tree["cmp_func"]
     _xvers = lt.new_list(cmp_function=_cmp)
     if tree is not None:
         _xvers = _pre_order(tree["root"], _xvers)
@@ -81,6 +116,41 @@ def _pre_order(node: dict, _xvers: object) -> object:
     return _xvers
 
 
+def pre_order_reverse(tree: dict) -> object:
+    """pre_order_reverse recorrido en pre-orden inverso de un árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST).
+
+    Returns:
+        object: lista encadada (sllt) con los elementos del árbol en pre-orden inverso.
+    """
+    _cmp = tree["cmp_func"]
+    _xvers = lt.new_list(cmp_function=_cmp)
+    if tree is not None:
+        _xvers = _pre_order_reverse(tree["root"], _xvers)
+    return _xvers
+
+
+def _pre_order_reverse(node: dict, _xvers: object) -> object:
+    """_pre_order_reverse función recursiva que realiza el recorrido en pre-orden inverso de un árbol binario de búsqueda (BST) y agrega los elementos a una lista encadenada (sllt).
+
+    Args:
+        node (dict): nodo actual del árbol binario de búsqueda (BST).
+        _xvers (object): lista encadenada (sllt) donde se almacenan los elementos del árbol. Mantiene el estado del recorrido.
+
+    Returns:
+        object: lista encadenada (sllt) con los elementos del árbol en pre-orden inverso.
+    """
+    if node is None:
+        return None
+    else:
+        lt.add_last(_xvers, node["value"])
+        _pre_order_reverse(node["right"], _xvers)
+        _pre_order_reverse(node["left"], _xvers)
+    return _xvers
+
+
 def post_order(tree: dict) -> object:
     """post_order recorrido en post-orden de un árbol binario de búsqueda (BST) y lo retorna.
 
@@ -90,7 +160,7 @@ def post_order(tree: dict) -> object:
     Returns:
         object: lista encadada (sllt) con los elementos del árbol en post-orden.
     """
-    _cmp = tree["cmp_function"]
+    _cmp = tree["cmp_func"]
     _xvers = lt.new_list(cmp_function=_cmp)
     if tree is not None:
         _xvers = _post_order(tree["root"], _xvers)
@@ -113,4 +183,39 @@ def _post_order(node: dict, _xvers: object) -> object:
         _post_order(node["left"], _xvers)
         _post_order(node["right"], _xvers)
         lt.add_last(_xvers, node["value"])
+    return _xvers
+
+
+def post_order_reverse(tree: dict) -> object:
+    """post_order_reverse recorrido en post-orden inverso de un árbol binario de búsqueda (BST) y lo retorna.
+
+    Args:
+        tree (dict): diccionario que representa el árbol binario de búsqueda (BST).
+
+    Returns:
+        object: lista encadada (sllt) con los elementos del árbol en post-orden inverso.
+    """
+    _cmp = tree["cmp_func"]
+    _xvers = lt.new_list(cmp_function=_cmp)
+    if tree is not None:
+        _xvers = _post_order_reverse(tree["root"], _xvers)
+    return _xvers
+
+
+def _post_order_reverse(node: dict, _xvers: object) -> object:
+    """_post_order_reverse función recursiva que realiza el recorrido en post-orden inverso de un árbol binario de búsqueda (BST) y agrega los elementos a una lista encadenada (sllt).
+
+    Args:
+        node (dict): nodo actual del árbol binario de búsqueda (BST).
+        _xvers (object): lista encadenada (sllt) donde se almacenan los elementos del árbol. Mantiene el estado del recorrido.
+
+    Returns:
+        object: lista encadenada (sllt) con los elementos del árbol en post-orden inverso.
+    """
+    if node is None:
+        return None
+    else:
+        lt.add_last(_xvers, node["value"])
+        _post_order_reverse(node["right"], _xvers)
+        _post_order_reverse(node["left"], _xvers)
     return _xvers

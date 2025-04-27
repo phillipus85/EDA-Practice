@@ -231,7 +231,7 @@ def _remove(node: dict, k: Any, cmp_func: Callable) -> dict:
                 else:
                     _node = node
                     # encontrar el nodo minimo del subarbol derecho
-                    node = _min(node["right"])
+                    node = _minimum(node["right"])
                     # reemplazar el nodo por el nodo minimo
                     node["right"] = _delete_min(_node["right"])
                     node["left"] = _node["left"]
@@ -346,8 +346,8 @@ def is_empty(tree: dict) -> bool:
         err("bst", "is_empty()", exp)
 
 
-def min(tree: dict) -> dict:
-    """min recupera el nodo con la llave mínima del árbol binario de búsqueda (BST) y lo retorna.
+def minimum(tree: dict) -> dict:
+    """minimum recupera el nodo con la llave mínima del árbol binario de búsqueda (BST) y lo retorna.
 
     Args:
         tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
@@ -356,7 +356,7 @@ def min(tree: dict) -> dict:
         dict: diccionario con el nodo minimo
     """
     try:
-        _min_node = _min(tree["root"])
+        _min_node = _minimum(tree["root"])
         if _min_node is not None:
             return _min_node["key"]
         return None
@@ -364,8 +364,8 @@ def min(tree: dict) -> dict:
         err("bst", "min()", exp)
 
 
-def _min(node: dict) -> dict:
-    """_min funcion recursiva que recupera el nodo con la llave mínima del árbol binario de búsqueda (BST) y lo retorna.
+def _minimum(node: dict) -> dict:
+    """_minimum funcion recursiva que recupera el nodo con la llave mínima del árbol binario de búsqueda (BST) y lo retorna.
 
     Args:
         node (dict): diccionario que representa el nodo actual del árbol
@@ -379,10 +379,10 @@ def _min(node: dict) -> dict:
             if node["left"] is not None:
                 __min__ = node
             else:
-                __min__ = _min(node["left"])
+                __min__ = _minimum(node["left"])
         return __min__
     except Exception as exp:
-        err("bst", "_min()", exp)
+        err("bst", "_minimum()", exp)
 
 
 def delete_min(tree: dict) -> dict:
@@ -421,8 +421,8 @@ def _delete_min(node: dict) -> dict:
         err("bst", "_delete_min()", exp)
 
 
-def max(tree: dict) -> dict:
-    """max recupera el nodo con la llave máxima del árbol binario de búsqueda (BST) y lo retorna.
+def maximum(tree: dict) -> dict:
+    """maximum recupera el nodo con la llave máxima del árbol binario de búsqueda (BST) y lo retorna.
 
     Args:
         tree (dict): diccionario que representa el árbol binario de búsqueda (BST)
@@ -431,7 +431,7 @@ def max(tree: dict) -> dict:
         dict: diccionario con el nodo maximo
     """
     try:
-        _max_node = _max(tree["root"])
+        _max_node = _maximum(tree["root"])
         if _max_node is not None:
             return _max_node["key"]
         return None
@@ -439,8 +439,8 @@ def max(tree: dict) -> dict:
         err("bst", "max()", exp)
 
 
-def _max(node: dict) -> dict:
-    """_max funcion recursiva que recupera el nodo con la llave máxima del árbol binario de búsqueda (BST) y lo retorna.
+def _maximum(node: dict) -> dict:
+    """_maximum funcion recursiva que recupera el nodo con la llave máxima del árbol binario de búsqueda (BST) y lo retorna.
 
     Args:
         node (dict): diccionario que representa el nodo actual del árbol
@@ -454,10 +454,10 @@ def _max(node: dict) -> dict:
             if node["right"] is not None:
                 __max__ = node
             else:
-                __max__ = _max(node["right"])
+                __max__ = _maximum(node["right"])
         return __max__
     except Exception as exp:
-        err("bst", "_max()", exp)
+        err("bst", "_maximum()", exp)
 
 
 def delete_max(tree: dict) -> dict:
@@ -721,7 +721,7 @@ def _height(node: dict) -> int:
         else:
             left_h = _height(node["left"])
             right_h = _height(node["right"])
-            return max(left_h, right_h) + 1
+            return 1 + max(left_h, right_h)
     except Exception as exp:
         err("bst", "_height()", exp)
 
