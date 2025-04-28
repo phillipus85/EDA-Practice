@@ -391,7 +391,6 @@ def adjacents(graph, vertex):
             lst = element['value']
             for edge in lt.iterator(lst):
                 lt.addLast(lstresp, e.other(edge, vertex))
-            
         return lstresp
     except Exception as exp:
         error.reraise(exp, 'ajlist:adjacents')

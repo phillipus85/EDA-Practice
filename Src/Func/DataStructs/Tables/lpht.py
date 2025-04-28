@@ -24,12 +24,12 @@ def default_mp_entry_cmp(key: Any, entry: Any) -> int:
     return -1
 
 
-def new_probing_mp(entries: int = 17,
-                   prime: int = 109345121,
-                   alpha: float = 0.5,
-                   cmp_function=None,
-                   key: str = None,
-                   rehashable: bool = True) -> dict:
+def new_mp(entries: int = 17,
+           prime: int = 109345121,
+           alpha: float = 0.5,
+           cmp_function=None,
+           key: str = None,
+           rehashable: bool = True) -> dict:
     try:
         capacity = num.next_prime(entries // alpha)
         scale = rd.randint(1, prime - 1)
