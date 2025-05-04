@@ -32,7 +32,7 @@ def default_lt_elm_cmp(id1: Any, id2: Any) -> int:
     return 0
 
 
-def new_double_lt(cmp_function=None, key: str = "id") -> dict:
+def new_list(cmp_function=None, key: str = "id") -> dict:
     return dict()
 
 

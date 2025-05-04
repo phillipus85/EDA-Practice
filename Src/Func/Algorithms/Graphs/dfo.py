@@ -5,12 +5,11 @@ This code is based on the implementation proposed by the following authors/books
     #. Algorithms, 4th Edition, Robert Sedgewick and Kevin Wayne.
     #. Data Structure and Algorithms in Python, M.T. Goodrich, R. Tamassia, M.H. Goldwasser.
 """
-from typing import Callable, Any
-
-from Src.Func.DataStructs.Graphs import edge as e
+from typing import Any
+# from Src.Func.DataStructs.Graphs import edge as e
 from Src.Func.DataStructs.Graphs import adjlt as g
 from Src.Func.DataStructs.List import sllt as lt
-from Src.Func.DataStructs.List import stack as st
+from Src.Func.DataStructs.List import stack as stk
 from Src.Func.DataStructs.List import queue as q
 from Src.Func.DataStructs.Tables import lpht as mp
 from Src.Func.Utils.error import error_handler as err
@@ -35,7 +34,7 @@ def dfo(grf: dict) -> dict:
             _type=grf["_type"],)
         _search["pre"] = q.new_queue()
         _search["post"] = q.new_queue()
-        _search["reversepost"] = st.new_stack()
+        _search["reversepost"] = stk.new_stack()
         _search["marked"] = mp.new_mp(g.size(grf), grf["cmp_func"])
         vxt_lt = g.vertices(grf)
         for v in lt.iterator(vxt_lt):
@@ -65,7 +64,7 @@ def _dfo(grf: dict, vtx: Any, search: dict) -> dict:
             if not mp.contains(search["marked"], w):
                 _dfo(grf, w, search)
         q.enqueue(search["post"], vtx)
-        st.push(search["reversepost"], vtx)
+        stk.push(search["reversepost"], vtx)
         return search
     except Exception as exp:
         err("DFSort", "_dfo", exp)

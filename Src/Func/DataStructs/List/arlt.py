@@ -1,5 +1,5 @@
 # import python libs
-from typing import Any
+from typing import Any, Callable
 # import csv
 # import project libs
 # from Src.Func.DataStructs.List import arl
@@ -32,7 +32,7 @@ def dflt_elm_cmp_lt(id1: Any, id2: Any) -> int:
     return 0
 
 
-def new_list(cmp_function=None, key: str = "id") -> dict:
+def new_list(cmp_function: Callable = None, key: str = "id") -> dict:
     """new_list creates a new array list.
 
     Args:
