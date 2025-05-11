@@ -52,9 +52,9 @@ def _prim_mst(grf: dict, search: dict, v: Any) -> dict:
     try:
         mp.put(search["distTo"], v, 0.0)
         mp.put(search["pq"], v, 0.0)
-        while not mp.is_empty(search["pq"]):
-            min = mp.del_min(search["pq"])
-            _scan(grf, search, min)
+        while not pq.is_empty(search["pq"]):
+            _min = pq.del_min(search["pq"])
+            _scan(grf, search, _min)
         return search
     except Exception as exp:
         err("Prim", "_prim_mst", exp)

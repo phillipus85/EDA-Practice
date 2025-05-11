@@ -11,8 +11,8 @@ from typing import Any, Callable
 
 # import modules for data structures lists + maps
 # sllt y lpht ahorran espacio y tiempo en la busqueda de elementos
-from Src.Func.DataStructs.List import sllt
-from Src.Func.DataStructs.Tables import lpht
+from Src.Func.DataStructs.List import sllt as lt
+from Src.Func.DataStructs.Tables import lpht as mp
 
 # import error handler
 from Src.Func.Utils.error import error_handler as err
@@ -42,50 +42,116 @@ def dflt_graph_edge_cmp(key1: Any, key2: Any) -> int:
 def new_graph(cmp_func: Callable = dflt_graph_edge_cmp,
               directed: bool = False,
               size: int = 10) -> dict:
+    """new_graph _summary_
+
+    Args:
+        cmp_func (Callable, optional): _description_. Defaults to dflt_graph_edge_cmp.
+        directed (bool, optional): _description_. Defaults to False.
+        size (int, optional): _description_. Defaults to 10.
+
+    Returns:
+        dict: _description_
+    """
     try:
         _new_al = dict(
-            vertices=lpht.new_lpht(size, cmp_func),
-            edges=sllt.new_sllt(size, cmp_func),
+            vertices=mp.new_mp(size, cmp_func),
+            edges=lt.new_list(size, cmp_func),
             size=0,     # number of vertices
             order=0,    # number of edges
             directed=directed,  # directed or undirected graph
             cmp_func=cmp_func,
             _type="adj_lt",
         )
+        # if graph is undirected, create degree list
         if not directed:
-            _new_al["degrees"] = lpht.new_lpht(size, cmp_func)
+            _new_al["deg"] = mp.new_mp(size, cmp_func)
+        # if graph is directed, create indegree and outdegree lists
         elif directed:
-            _new_al["indegrees"] = lpht.new_lpht(size, cmp_func)
-            _new_al["outdegrees"] = lpht.new_lpht(size, cmp_func)
+            _new_al["indeg"] = mp.new_mp(size, cmp_func)
+            _new_al["outdeg"] = mp.new_mp(size, cmp_func)
         return _new_al
     except Exception as exp:
         err("AL", "new_graph()", exp)
 
 
 def add_vertex(grf: dict, vtx: Any) -> None:
+    """add_vertex _summary_
+
+    Args:
+        grf (dict): _description_
+        vtx (Any): _description_
+    """
     try:
-        pass
+        if not contain_vertex(grf, vtx):
+            _edges = lt.new_list(edg.cmp_edges)
+            mp.put(grf["vertices"], vtx, _edges)
+        grf["size"] += 1
+        if not grf["directed"]:
+            mp.put(grf["deg"], vtx, 0)
+        else:
+            mp.put(grf["indeg"], vtx, 0)
+            mp.put(grf["outdeg"], vtx, 0)
     except Exception as exp:
         err("AL", "add_vertex()", exp)
 
 
 def remove_vertex(grf: dict, vtx: Any) -> None:
+    """remove_vertex _summary_
+
+    Args:
+        grf (dict): _description_
+        vtx (Any): _description_
+    """
     try:
-        pass
+        if contain_vertex(grf, vtx):
+            _edges = mp.get(grf["vertices"], vtx)
+            for e in lt.iterator(_edges):
+                remove_edge(grf, edg.either(e), edg.other(e, vtx))
+            mp.remove(grf["vertices"], vtx)
+            grf["size"] -= 1
+            if not grf["directed"]:
+                mp.remove(grf["deg"], vtx)
+            else:
+                mp.remove(grf["indeg"], vtx)
+                mp.remove(grf["outdeg"], vtx)
     except Exception as exp:
         err("AL", "remove_vertex()", exp)
 
 
 def get_vertex(grf: dict, vtx: Any) -> dict:
+    """get_vertex _summary_
+
+    Args:
+        grf (dict): _description_
+        vtx (Any): _description_
+
+    Returns:
+        dict: _description_
+    """
     try:
-        return lpht.get(grf["vertices"], vtx)
+        return mp.get(grf["vertices"], vtx)
     except Exception as exp:
         err("AL", "get_vertex()", exp)
 
 
 def add_edge(grf: dict, vtx_a: Any, vtx_b: Any, weight: int = 0) -> None:
     try:
-        pass
+        _vtx_a = mp.get(grf["vertices"], vtx_a)
+        _vtx_b = mp.get(grf["vertices"], vtx_b)
+        if _vtx_a is None or _vtx_b is None:
+            raise Exception("One of the vertices does not exist")
+        _edge = get_edge(grf, vtx_a, vtx_b)
+        if _edge is None:
+            _edge = edg.new_edge(vtx_a, vtx_b, weight)
+            lt.add_last(_vtx_a, _edge)
+            lt.add_last(_vtx_b, _edge)
+            grf["order"] += 1
+            if not grf["directed"]:
+                mp.put(grf["deg"], vtx_a, mp.get(grf["deg"], vtx_a) + 1)
+                mp.put(grf["deg"], vtx_b, mp.get(grf["deg"], vtx_b) + 1)
+            else:
+                mp.put(grf["indeg"], vtx_b, mp.get(grf["indeg"], vtx_b) + 1)
+                mp.put(grf["outdeg"], vtx_a, mp.get(grf["outdeg"], vtx_a) + 1)
     except Exception as exp:
         err("AL", "add_edge()", exp)
 
@@ -169,7 +235,7 @@ def contain_edge(grf: dict, vtx_a: Any, vtx_b: Any) -> bool:
 
 def contain_vertex(grf: dict, vtx: Any) -> bool:
     try:
-        return lpht.contains(grf["vertices"], vtx)
+        return mp.contains(grf["vertices"], vtx)
     except Exception as exp:
         err("AL", "contain_vertex()", exp)
 

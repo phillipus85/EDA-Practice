@@ -73,7 +73,7 @@ def set_weight(edge, weight):
     edge["weight"] = weight
 
 
-def compare_edges(edge1, edge2):
+def cmp_edges(edge1, edge2):
     """
     Compara dos arcos.
 
