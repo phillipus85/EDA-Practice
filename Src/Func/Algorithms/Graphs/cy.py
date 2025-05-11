@@ -10,7 +10,7 @@ from Src.Func.DataStructs.Graphs import adjlt as g
 from Src.Func.DataStructs.Graphs import edge as edg
 from Src.Func.DataStructs.List import sllt as lt
 from Src.Func.DataStructs.List import stack as stk
-from Src.Func.DataStructs.List import queue as q
+# from Src.Func.DataStructs.List import queue as q
 from Src.Func.DataStructs.Tables import lpht as mp
 from Src.Func.Utils.error import error_handler as err
 

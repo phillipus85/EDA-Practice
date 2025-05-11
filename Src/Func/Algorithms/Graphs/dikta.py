@@ -27,7 +27,7 @@ def dijkstra(grf: dict, src: Any) -> dict:
         dict: estructura (linear probing HT) con el mapa de los vertices del arbol de expansion minima
     """
     try:
-        _search = _cfg_search(grf)
+        _search = _cfg_search(grf, src)
         while not pq.is_empty(_search["minpq"]):
             v = pq.del_min(_search["minpq"])
             edges = g.adjacent_edges(grf, v)
@@ -36,7 +36,7 @@ def dijkstra(grf: dict, src: Any) -> dict:
                     _relax(e, _search)
         return _search
     except Exception as exp:
-        err("Dijkstra", "dijkstra", exp)
+        err("DKS", "dijkstra", exp)
 
 
 def _relax(e: Any, search: dict) -> None:
@@ -64,7 +64,7 @@ def _relax(e: Any, search: dict) -> None:
                 pq.insert(search["minpq"], w, dist_w)
         return search
     except Exception as exp:
-        err("Dijkstra", "_relax", exp)
+        err("DKS", "_relax", exp)
 
 
 def dist_to(vtx: Any, search: dict) -> float:
@@ -84,7 +84,7 @@ def dist_to(vtx: Any, search: dict) -> float:
             _dist = _v_vtx["value"]["dist_to"]
         return _dist
     except Exception as exp:
-        err("Dijkstra", "dist_to", exp)
+        err("DKS", "dist_to", exp)
 
 
 def has_path_to(vtx: Any, search: dict) -> bool:
@@ -104,7 +104,7 @@ def has_path_to(vtx: Any, search: dict) -> bool:
             has_path = True
         return has_path
     except Exception as exp:
-        err("Dijkstra", "has_path_to", exp)
+        err("DKS", "has_path_to", exp)
 
 
 def path_to(vtx: Any, search: dict) -> list:
@@ -128,7 +128,7 @@ def path_to(vtx: Any, search: dict) -> list:
                 vtx = edg.either(e)
         return path
     except Exception as exp:
-        err("Dijkstra", "path_to", exp)
+        err("DKS", "path_to", exp)
 
 
 # ----------------------------------------------
@@ -165,4 +165,4 @@ def _cfg_search(grf: dict, src: Any) -> dict:
         pq.insert(_search["minpq"], src, 0)
         return _search
     except Exception as exp:
-        err("Dijkstra", "_cfg_search", exp)
+        err("DKS", "_cfg_search", exp)
