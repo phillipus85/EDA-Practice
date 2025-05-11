@@ -1,5 +1,5 @@
 ﻿"""
-Module to execute a depth-first search (DFS) in a graph represented as an adjacency list.
+Module to execute a depth-first search (Dijkstra) in a graph represented as an adjacency list.
 
 This code is based on the implementation proposed by the following authors/books:
     #. Algorithms, 4th Edition, Robert Sedgewick and Kevin Wayne.
@@ -19,12 +19,12 @@ from Src.Func.DataStructs.List import stack as stk
 
 
 def dijkstra(grf: dict, src: Any) -> dict:
-    """*dijkstra()* funcion para construir un arbol de expansion minima (MST) en un grafo
+    """*dijkstra()* encontrar el camino mas corto desde un vertice a todos los demas vertices
     Args:
         grf (dict): diccionario que representa el grafo
-        src (Any): vertice de inicio del recorrido DFS
+        src (Any): vertice de inicio del recorrido Dijkstra
     Returns:
-        dict: estructura (linear probing HT) con el mapa de los vertices del arbol de expansion minima
+        dict: estructura (linear probing HT) con el mapa de los vertices de ruta mas corta.
     """
     try:
         _search = _cfg_search(grf, src)
@@ -40,11 +40,11 @@ def dijkstra(grf: dict, src: Any) -> dict:
 
 
 def _relax(e: Any, search: dict) -> None:
-    """_relax funcion auxiliar para relajar un arco en el algoritmo de Dijkstra
+    """*_relax()* funcion auxiliar para relajar un arco en el algoritmo de Dijkstra
 
     Args:
         e (Any): arco a relajar
-        search (dict): estructura (linear probing HT) para almacenar el recorrido DFS
+        search (dict): estructura (linear probing HT) de la memoria del algoritmo
     """
     try:
         v = edg.either(e)
@@ -68,14 +68,14 @@ def _relax(e: Any, search: dict) -> None:
 
 
 def dist_to(vtx: Any, search: dict) -> float:
-    """dist_to funcion auxiliar para obtener la distancia minima a un vertice
+    """dist_to funcion auxiliar para obtener la distancia a un vertice
 
     Args:
-        vertex (Any): vertice de inicio del recorrido DFS
-        search (dict): estructura (linear probing HT) para almacenar el recorrido DFS
+        vertex (Any): vertice de inicio del recorrido Dijkstra
+        search (dict): estructura (linear probing HT) de la memoria del algoritmo
 
     Returns:
-        float: distancia minima al vertice
+        float: distancia al vertice
     """
     try:
         _dist = math.inf
@@ -91,8 +91,8 @@ def has_path_to(vtx: Any, search: dict) -> bool:
     """has_path_to funcion auxiliar para verificar si existe un camino a un vertice
 
     Args:
-        vertex (Any): vertice de inicio del recorrido DFS
-        search (dict): estructura (linear probing HT) para almacenar el recorrido DFS
+        vertex (Any): vertice de inicio del recorrido Dijkstra
+        search (dict): estructura (linear probing HT) de la memoria del algoritmo
 
     Returns:
         bool: True si existe un camino al vertice, False en caso contrario
@@ -111,8 +111,8 @@ def path_to(vtx: Any, search: dict) -> list:
     """path_to funcion auxiliar para obtener el camino a un vertice
 
     Args:
-        vertex (Any): vertice de inicio del recorrido DFS
-        search (dict): estructura (linear probing HT) para almacenar el recorrido DFS
+        vertex (Any): vertice de inicio del recorrido Dijkstra
+        search (dict): estructura (linear probing HT) de la memoria del algoritmo
 
     Returns:
         list: lista con el camino al vertice
