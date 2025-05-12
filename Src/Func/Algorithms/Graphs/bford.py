@@ -7,24 +7,24 @@ This code is based on the implementation proposed by the following authors/books
 """
 
 from typing import Any
+import math
 from Src.Func.DataStructs.Graphs import adjlt as g
 from Src.Func.DataStructs.Graphs import edge as edg
 from Src.Func.DataStructs.List import sllt as lt
 from Src.Func.DataStructs.Tables import lpht as mp
 from Src.Func.Utils.error import error_handler as err
-import math
 from Src.Func.DataStructs.List import stack as stk
 from Src.Func.DataStructs.List import queue as q
 from Src.Func.Algorithms.Graphs import cy as c
 
 
 def bellman_ford(grf: dict, src: Any) -> dict:
-    """*bellman_ford()* funcion para construir un arbol de expansion minima (MST) en un grafo
+    """*bellman_ford()* funcion principal para encontrar el camino mas corto desde un vertice a todos los demas vertices con el algoritmo de Bellman-Ford
     Args:
         grf (dict): diccionario que representa el grafo
-        src (Any): vertice de inicio del recorrido DFS
+        src (Any): vertice de inicio del recorrido
     Returns:
-        dict: estructura (linear probing HT) con el mapa de los vertices del arbol de expansion minima
+        dict: estructura (linear probing HT) con el mapa de los vertices del algoritmo de Bellman-Ford
     """
     try:
         _search = _cfg_search(grf)
@@ -41,12 +41,12 @@ def bellman_ford(grf: dict, src: Any) -> dict:
 
 
 def _relax(grf: dict, vtx: Any, search: dict) -> None:
-    """_relax funcion auxiliar para relajar un arco en el algoritmo de Bellman-Ford
+    """*_relax()* funcion auxiliar para relajar un arco en el algoritmo de Bellman-Ford
 
     Args:
         grf (dict): grafo representado como un diccionario
         v (Any): vertice a relajar
-        search (dict): estructura (linear probing HT) para almacenar el recorrido DFS
+        search (dict): estructura (linear probing HT) para almacenar el recorrido del algoritmo de Bellman-Ford
     """
     try:
         edges = g.adjacent_edges(grf, vtx)
@@ -75,7 +75,7 @@ def _relax(grf: dict, vtx: Any, search: dict) -> None:
 
 
 def dist_to(vtx: Any, search: dict) -> float:
-    """dist_to funcion auxiliar para obtener la distancia minima a un vertice
+    """*dist_to()* funcion auxiliar para obtener la distancia minima a un vertice
 
     Args:
         vertex (Any): vertice de inicio del recorrido DFS
