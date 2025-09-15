@@ -2,22 +2,26 @@
 from Src.Func.DataStructs.List import sllt as lt
 
 # a = lt.new_array_lt()
-a = lt.new_single_lt()
-print(a)
+a = lt.new_list()
+# print(a)
 lt.add_last(a, {"id": 1, "name": "a"})
-print(a)
+# print(a)
 lt.add_last(a, {"id": 2, "name": "b"})
-print(a)
+# print(a)
 lt.add_first(a, {"id": 3, "name": "c"})
-cmp = lt.cmp_elements(a, lt.get_first(a), lt.get_last(a))
+cmp = lt.compare(a, lt.get_first(a), lt.get_last(a))
 print(cmp)
 
 for elm in lt.iterator(a):
-    print(elm)
+    print("Element:", elm)
+print("Size:", lt.size(a))
+print("Is empty:", lt.is_empty(a))
 lt.exchange(a, 0, 2)
-print(a)
+for elm in lt.iterator(a):
+    print("Element:", elm)
+# print(a)
 
-present = lt.is_present(a, {"id": 1, "name": "a"})
+present = lt.find(a, {"id": 1, "name": "a"})
 print(present)
 print(a)
 
