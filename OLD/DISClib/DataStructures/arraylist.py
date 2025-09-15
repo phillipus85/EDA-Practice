@@ -60,7 +60,7 @@ def newList(cmpfunction, module, key, filename, delim):
                'datastructure': module
                }
 
-    if(cmpfunction is None):
+    if (cmpfunction is None):
         newlist['cmpfunction'] = defaultfunction
     else:
         newlist['cmpfunction'] = cmpfunction

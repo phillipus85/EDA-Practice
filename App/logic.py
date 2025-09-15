@@ -117,3 +117,29 @@ def load_book_tags(catalog, booktagsfile):
     print("Book tags loaded successfully")
     print("Total book tags loaded: ", book_tag_lt.size())
     return catalog
+
+
+def load_catalog(catalog, booksfile, tagsfile, booktagsfile):
+    catalog = load_books(catalog, booksfile)
+    catalog = load_tags(catalog, tagsfile)
+    catalog = load_book_tags(catalog, booktagsfile)
+    return catalog
+
+
+def find_book_by_title(catalog, title):
+    """
+    Finds a book by its title in the catalog.
+
+    Args:
+        catalog (dict): The catalog containing the books.
+        title (str): The title of the book to search for.
+
+    Returns:
+        dict or None: The book dictionary if found, otherwise None.
+    """
+    books = catalog.get("books")
+    for i in range(books.size()):
+        book = books.get_element(i)
+        if book["title"].lower() == title.lower():
+            return book
+    return None
