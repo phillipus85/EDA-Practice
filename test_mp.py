@@ -3,7 +3,7 @@
 from Src.Func.DataStructs.Tables import lpht as mp
 
 # a = mp.new_chaining_mp(10, rehashable=True)
-a = mp.new_probing_mp(50, rehashable=False)
+a = mp.new_mp(50, rehashable=False)
 print(a)
 
 map_lt = (
