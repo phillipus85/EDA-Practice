@@ -11,7 +11,7 @@ from Src.Dataclass.DataStructs.Lists.sllt import Singlelinked
 
 # import functional programing sorting algorithms
 from Src.Func.Algorithms.Sorts.mgst import sort as mgst
-from Src.Func.Algorithms.Sorts.inst import sort2 as inst
+from Src.Func.Algorithms.Sorts.inst import sort as inst
 # TODO add other sorting algorithms imports as needed
 from Src.Func.Algorithms.Sorts.qkst import sort as qkst
 from Src.Func.Algorithms.Sorts.sest import sort as sest
@@ -25,10 +25,13 @@ from Src.Dataclass.Algorithms.Sorts.mgst import sort as dcmgst
 from Src.Dataclass.Algorithms.Sorts.inst import sort as dcinst
 from Src.Dataclass.Algorithms.Sorts.shst import sort as dcshst
 
+# recursive implementation of insertion sort
+from Src.Func.Algorithms.Sorts.inst import sort_r as instr
 
-def sort_crit_by_idx(a: dict, b: dict) -> bool:
+
+def sort_crit_by_points(a: dict, b: dict) -> bool:
     # print(a, b)
-    if a["idx"] < b["idx"]:
+    if a["points"] < b["points"]:
         return True
     else:
         return False
@@ -43,61 +46,79 @@ def sort_crit_by_rating(book1: dict, book2: dict) -> bool:
         return False
 
 
-a = arlt.new_list()
-b = sllt.new_list()
-adc = Arraylist()
-bdc = Singlelinked()
+if __name__ == "__main__":
+    # create lists
 
-for i in range(1, 27):
-    idx = random.randint(13 * i, 42 * (i + 1))
-    temp = {"id": i,
-            "idx": idx,
-            "name": chr(96 + i)}
-    arlt.add_last(a, temp)
-    adc.add_last(temp)
-    sllt.add_last(b, temp)
-    bdc.add_last(temp)
+    a_lt = arlt.new_list()
+    b_lt = sllt.new_list()
+    adc_lt = Arraylist()
+    bdc_lt = Singlelinked()
 
-c = arlt.clone(a)
-d = sllt.clone(b)
-e = arlt.clone(a)
-cdc = adc.clone()
-ddc = bdc.clone()
+    for i in range(1, 27):
+        points = random.randint(13 * i, 42 * (i + 1))
+        temp = {"id": i,
+                "points": points,
+                "name": chr(96 + i)}
+        arlt.add_last(a_lt, temp)
+        adc_lt.add_last(temp)
+        sllt.add_last(b_lt, temp)
+        bdc_lt.add_last(temp)
 
-print("before sorting")
-print("functional implementation")
+    c_lt = arlt.clone(a_lt)
+    d_lt = sllt.clone(b_lt)
+    e_lt = arlt.clone(a_lt)
+    f_lt = sllt.clone(b_lt)
+    cdc_lt = adc_lt.clone()
+    ddc_lt = bdc_lt.clone()
 
-zipped = zip(arlt.iterator(a),
-             sllt.iterator(b),
-             arlt.iterator(c),
-             sllt.iterator(d))
-for ta, tb, tc, td in zipped:
-    print(f"'a': {ta}, \t'b': {tb}, \t'c': {tc}, \t'd': {td}")
+    print("before sorting")
+    print("functional implementation")
 
-print("dataclass implementation")
-zipped = zip(adc, bdc, cdc, ddc)
-for ta, tb, tc, td in zipped:
-    print(f"'a': {ta}, \t'b': {tb}, \t'c': {tc}, \t'd': {td}")
+    zipped = zip(arlt.iterator(a_lt),
+                 sllt.iterator(b_lt),
+                 arlt.iterator(c_lt),
+                 sllt.iterator(d_lt))
+    for ta, tb, tc, td in zipped:
+        print(f"'a': {ta}, \t'b': {tb}, \t'c': {tc}, \t'd': {td}")
 
-# a = mgst(a, sort_crit_by_idx)
-b = inst(b, sort_crit_by_idx)
-c = qkst(c, sort_crit_by_idx)
-d = shst(d, sort_crit_by_idx)
-# asc = dcmgst(adc, sort_crit_by_idx)
-# bsc = dcinst(bdc, sort_crit_by_idx)
-csc = dcsest(cdc, sort_crit_by_idx)
-dsc = dcshst(ddc, sort_crit_by_idx)
+    print("dataclass implementation")
+    zipped = zip(adc_lt, bdc_lt, cdc_lt, ddc_lt)
+    for ta, tb, tc, td in zipped:
+        print(f"'a': {ta}, \t'b': {tb}, \t'c': {tc}, \t'd': {td}")
 
-print("after sorting")
-print("functional implementation")
-zipped = zip(arlt.iterator(a),
-             sllt.iterator(b),
-             arlt.iterator(c),
-             sllt.iterator(d))
-for ta, tb, tc, td in zipped:
-    print(f"'a': {ta}, \t'b': {tb}, \t'c': {tc}, \t'd': {td}")
+    # a = mgst(a, sort_crit_by_points)
+    # b = inst(b, sort_crit_by_points)
+    c_lt = qkst(c_lt, sort_crit_by_points)
+    d_lt = shst(d_lt, sort_crit_by_points)
+    # asc = dcmgst(adc, sort_crit_by_points)
+    # bsc = dcinst(bdc, sort_crit_by_points)
+    csc_lt = dcsest(cdc_lt, sort_crit_by_points)
+    dsc_lt = dcshst(ddc_lt, sort_crit_by_points)
 
-print("dataclass implementation")
-zipped = zip(adc, bdc, cdc, ddc)
-for ta, tb, tc, td in zipped:
-    print(f"'a': {ta}, \t'b': {tb}, \t'c': {tc}, \t'd': {td}")
+    print("after sorting")
+    # print("functional implementation")
+    # zipped = zip(arlt.iterator(a_lt),
+    #              sllt.iterator(b_lt),
+    #              arlt.iterator(c),
+    #              sllt.iterator(d))
+    # for ta, tb, tc, td in zipped:
+    #     print(f"'a': {ta}, \t'b': {tb}, \t'c': {tc}, \t'd': {td}")
+
+    print("dataclass implementation")
+    zipped = zip(adc_lt, bdc_lt, cdc_lt, ddc_lt)
+    for ta, tb, tc, td in zipped:
+        print(f"'a': {ta}, \t'b': {tb}, \t'c': {tc}, \t'd': {td}")
+
+    # print("recursive insertion sort")
+    # f_lt = sllt.clone(b_lt)
+    # g_lt = sllt.clone(b_lt)
+    # f_lt = inst(f_lt, sort_crit_by_points)
+    # g_lt = instr(g_lt, sort_crit_by_points)
+
+    # print("after sorting")
+    # print("functional implementation")
+    # zipped = zip(sllt.iterator(b_lt),
+    #              sllt.iterator(f_lt),
+    #              sllt.iterator(g_lt))
+    # for tb, tf, tg in zipped:
+    #     print(f"'b': {tb}, \t'f': {tf}, \t'g': {tg}")
