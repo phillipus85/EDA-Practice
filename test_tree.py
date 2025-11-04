@@ -15,7 +15,7 @@ elm_lt = (
     {"id": -23, "data": "H"},     # 7
     {"id": 17, "data": "I"},     # 8
     {"id": -1, "data": "J"},    # 9
-    {"id": 27, "data": "K"},     # 10
+    # {"id": 27, "data": "K"},     # 10
 )
 
 for elm in elm_lt:
@@ -52,8 +52,8 @@ print(f"\tTrans: {trans_str}\n")
 
 print("==== Level-order: ====")
 trans_str = ""
-# for elm in lt.iterator(transv.level_order(t)):
-for elm in transv.level_order(t):
+# for elm in transv.level_order(t):
+for elm in lt.iterator(transv.level_order(t)):
     trans_str += f"[{elm['id']}, {elm['data']}], "
 print(f"\tTrans: {trans_str}\n")
 

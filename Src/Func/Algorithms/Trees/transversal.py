@@ -1,7 +1,8 @@
 ﻿"""
-Module to handle the transversal of a binary search tree (bst) data structure. Includes the in-order, pre-order, and post-order transversal methods.
+Modulo de algoritmos de recorrido (transversal) en árboles binarios de búsqueda (BST). Incluye funciones para realizar recorridos en in-orden, pre-orden, post-orden y nivel.
 
-This code is based on the implementation proposed by the following authors/books:
+Codigo basado en la implementación propuesta por los siguientes autores/libros:
+
     #. Algorithms, 4th Edition, Robert Sedgewick and Kevin Wayne.
     #. Data Structure and Algorithms in Python, M.T. Goodrich, R. Tamassia, M.H. Goldwasser.
 """
@@ -234,12 +235,11 @@ def level_order(tree: dict) -> object:
     """
     _cmp = tree["cmp_func"]
     _xvers = lt.new_list(cmp_function=_cmp)
-    # _alt = list()
     if tree is not None:
         _level = 0
         # max lvl = height + 1
         while _level < te.height(tree) + 1:
-            _level_order(tree["root"], _xvers, _level)
+            _xvers = _level_order(tree["root"], _xvers, _level)
             _level += 1
     return _xvers
 
@@ -260,7 +260,6 @@ def _level_order(node: dict, _xvers: object, tgt_lvl: int) -> object:
 
     if tgt_lvl == 0:
         lt.add_last(_xvers, node["value"])
-        # _xvers.append(node["value"])
 
     else:
         _level_order(node["left"], _xvers, tgt_lvl - 1)
