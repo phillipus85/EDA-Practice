@@ -1,8 +1,10 @@
 # import python libs
-from typing import Any, Callable
-# import csv
+from collections.abc import Callable
+from typing import Any
+
 # import project libs
 # from Src.Func.DataStructs.List import arl
+
 # import project errors
 from Src.Func.Utils.error import error_handler as err
 
